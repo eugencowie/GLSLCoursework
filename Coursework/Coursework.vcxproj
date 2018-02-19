@@ -180,10 +180,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="deps\glad\src\glad.c" />
+    <ClCompile Include="src\engine\window.cpp" />
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\engine\util.inl" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\engine\window.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

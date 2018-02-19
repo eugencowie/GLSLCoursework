@@ -16,6 +16,9 @@
     <Filter Include="Header Files\engine">
       <UniqueIdentifier>{84dc700c-8d93-4331-9a97-40170f28fe97}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\engine">
+      <UniqueIdentifier>{55878d52-89c3-4289-8fdb-b3c86daaf279}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -24,10 +27,18 @@
     <ClCompile Include="deps\glad\src\glad.c">
       <Filter>Resource Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\engine\window.cpp">
+      <Filter>Source Files\engine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\engine\util.inl">
       <Filter>Header Files\engine</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\engine\window.hpp">
+      <Filter>Header Files\engine</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
