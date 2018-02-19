@@ -1,0 +1,9 @@
+/cmake
+/doc
+/test
+/util
+/.appveyor.yml
+/.travis.yml
+/CMakeLists.txt
+/glm/CMakeLists.txt
+/readme.md
