@@ -9,5 +9,8 @@ public:
 	void run();
 
 private:
+	void update();
+	void render();
+
 	Window m_window;
 };

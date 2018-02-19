@@ -15,13 +15,23 @@ void Game::run()
 {
 	while (!m_window.shouldClose())
 	{
-		// Process window events
-		m_window.processEvents();
-
-		// Clear the back buffer
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-		// Swap front and back buffers
-		m_window.swapBuffers();
+		// Update and render
+		update();
+		render();
 	}
+}
+
+void Game::update()
+{
+	// Process window events
+	m_window.processEvents();
+}
+
+void Game::render()
+{
+	// Clear the back buffer
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	// Swap front and back buffers
+	m_window.swapBuffers();
 }
