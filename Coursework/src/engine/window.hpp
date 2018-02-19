@@ -2,6 +2,7 @@
 
 #include <SDL.h>
 #include <string>
+#include <vector>
 #include <glm/glm.hpp>
 
 using namespace std;
@@ -26,15 +27,28 @@ public:
 		SDL_GL_SetSwapInterval(vsync ? 1 : 0);
 	}
 
+	void close()
+	{
+		// The window should close
+		m_shouldClose = true;
+	}
+
 	bool shouldClose() const
 	{
 		// Get whether the window should close
 		return m_shouldClose;
 	}
 
+	vector<SDL_Event> events() const
+	{
+		// Get SDL events
+		return m_events;
+	}
+
 private:
 	SDL_Window* m_window;
 	bool m_shouldClose;
+	vector<SDL_Event> m_events;
 
 	// Rule of five
 	Window(Window&&) = delete;

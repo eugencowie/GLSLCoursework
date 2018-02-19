@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../engine/window.hpp"
+#include "../engine/input.hpp"
 
 class Game
 {
@@ -13,4 +14,5 @@ private:
 	void render();
 
 	Window m_window;
+	Input m_input;
 };

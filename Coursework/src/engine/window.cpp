@@ -40,9 +40,15 @@ void Window::processEvents()
 {
 	SDL_Event e;
 
+	// Clear events list
+	m_events.clear();
+
 	// Poll for window events
 	while (SDL_PollEvent(&e))
 	{
+		// Add event to events list
+		m_events.push_back(e);
+
 		if (e.type == SDL_QUIT)
 			m_shouldClose = true;
 	}

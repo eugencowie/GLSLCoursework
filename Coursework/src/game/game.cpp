@@ -25,6 +25,13 @@ void Game::update()
 {
 	// Process window events
 	m_window.processEvents();
+
+	// Process input events
+	m_input.processEvents(m_window.events());
+
+	// Check input
+	if (m_input.keyJustReleased(SDLK_ESCAPE))
+		m_window.close();
 }
 
 void Game::render()

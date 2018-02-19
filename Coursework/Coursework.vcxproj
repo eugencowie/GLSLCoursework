@@ -180,6 +180,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="deps\glad\src\glad.c" />
+    <ClCompile Include="src\engine\input.cpp" />
     <ClCompile Include="src\engine\window.cpp" />
     <ClCompile Include="src\game\game.cpp" />
     <ClCompile Include="src\main.cpp" />
@@ -188,6 +189,7 @@
     <None Include="src\engine\util.inl" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\engine\input.hpp" />
     <ClInclude Include="src\engine\window.hpp" />
     <ClInclude Include="src\game\game.hpp" />
   </ItemGroup>
