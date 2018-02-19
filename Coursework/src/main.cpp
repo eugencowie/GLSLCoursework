@@ -1,8 +1,10 @@
+#include <glad/glad.h>
+#include <SDL.h>
+
 #include <iostream>
 #include <cassert>
 #include <cstdlib>
 #include <string>
-#include <SDL.h>
 
 using namespace std;
 
@@ -36,8 +38,19 @@ int main(int argc, char** argv)
 	SDL_GLContext context = SDL_GL_CreateContext(window);
 	if (!context) panic("Failed to create OpenGL context");
 
+	// Load OpenGL functions
+	int glad = gladLoadGLLoader((GLADloadproc)SDL_GL_GetProcAddress);
+	if (!glad) panic("Failed to load OpenGL functions");
+
+	// Check for minimum requirements
+	if (!GLAD_GL_VERSION_2_1 || !GLAD_GL_ARB_vertex_array_object)
+		panic("Unsupported OpenGL version");
+
 	// Enable vertical synchronisation
 	SDL_GL_SetSwapInterval(1);
+
+	// Set up OpenGL
+	glClearColor(0.4f, 0.6f, 0.9f, 1.0f);
 
 	bool shouldClose = false;
 	while (!shouldClose)
@@ -53,6 +66,9 @@ int main(int argc, char** argv)
 				break;
 			}
 		}
+
+		// Clear the back buffer
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		// Swap front and back buffers
 		SDL_GL_SwapWindow(window);
