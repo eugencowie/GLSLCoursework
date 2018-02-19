@@ -42,6 +42,9 @@
     <ClCompile Include="src\engine\input.cpp">
       <Filter>Source Files\engine</Filter>
     </ClCompile>
+    <ClCompile Include="src\engine\mesh.cpp">
+      <Filter>Source Files\engine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\engine\util.inl">
@@ -71,6 +74,9 @@
       <Filter>Header Files\game</Filter>
     </ClInclude>
     <ClInclude Include="src\engine\input.hpp">
+      <Filter>Header Files\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\mesh.hpp">
       <Filter>Header Files\engine</Filter>
     </ClInclude>
   </ItemGroup>

@@ -3,8 +3,7 @@
 #include "../engine/window.hpp"
 #include "../engine/input.hpp"
 #include "../engine/program.inl"
-#include "../engine/vertex_array.inl"
-#include "../engine/buffer.inl"
+#include "../engine/mesh.hpp"
 
 class Game
 {
@@ -20,9 +19,5 @@ private:
 	Input m_input;
 
 	Program m_shader;
-
-	VertexArray m_vertexArray;
-	Buffer m_vertexBuffer;
-	Buffer m_elementBuffer;
-	GLsizei m_drawCount;
+	Mesh m_mesh;
 };

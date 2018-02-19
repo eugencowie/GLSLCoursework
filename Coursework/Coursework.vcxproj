@@ -181,6 +181,7 @@
   <ItemGroup>
     <ClCompile Include="deps\glad\src\glad.c" />
     <ClCompile Include="src\engine\input.cpp" />
+    <ClCompile Include="src\engine\mesh.cpp" />
     <ClCompile Include="src\engine\window.cpp" />
     <ClCompile Include="src\game\game.cpp" />
     <ClCompile Include="src\main.cpp" />
@@ -195,6 +196,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\input.hpp" />
+    <ClInclude Include="src\engine\mesh.hpp" />
     <ClInclude Include="src\engine\window.hpp" />
     <ClInclude Include="src\game\game.hpp" />
   </ItemGroup>
