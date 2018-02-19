@@ -181,6 +181,7 @@
   <ItemGroup>
     <ClCompile Include="deps\glad\src\glad.c" />
     <ClCompile Include="src\engine\window.cpp" />
+    <ClCompile Include="src\game\game.cpp" />
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -188,6 +189,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\window.hpp" />
+    <ClInclude Include="src\game\game.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

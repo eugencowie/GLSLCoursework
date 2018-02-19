@@ -1,28 +1,14 @@
-#include "engine/window.hpp"
-#include <glad/glad.h>
+#include "game/game.hpp"
+#include <cstdlib>
 
 int main(int argc, char** argv)
 {
-	// Create window
-	Window window("GFX Coursework", 1280, 720);
+	// Create a new instance of the game
+	Game game;
 
-	// Enable vertical synchronisation
-	window.verticalSync(true);
+	// Run the game
+	game.run();
 
-	// Set up OpenGL
-	glClearColor(0.4f, 0.6f, 0.9f, 1.0f);
-
-	while (!window.shouldClose())
-	{
-		// Process window events
-		window.processEvents();
-
-		// Clear the back buffer
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-		// Swap front and back buffers
-		window.swapBuffers();
-	}
-
+	// Indicate successful completion
 	return EXIT_SUCCESS;
 }

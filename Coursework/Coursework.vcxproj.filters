@@ -19,6 +19,12 @@
     <Filter Include="Source Files\engine">
       <UniqueIdentifier>{55878d52-89c3-4289-8fdb-b3c86daaf279}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\game">
+      <UniqueIdentifier>{2134dea3-6a60-4c9e-ad3e-d7a63f4982ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\game">
+      <UniqueIdentifier>{e8786cb0-9064-451f-b69e-0f834680ece9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -30,6 +36,9 @@
     <ClCompile Include="src\engine\window.cpp">
       <Filter>Source Files\engine</Filter>
     </ClCompile>
+    <ClCompile Include="src\game\game.cpp">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\engine\util.inl">
@@ -39,6 +48,9 @@
   <ItemGroup>
     <ClInclude Include="src\engine\window.hpp">
       <Filter>Header Files\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\game.hpp">
+      <Filter>Header Files\game</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
