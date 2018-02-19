@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include <fstream>
 #include <cassert>
 #include <cstdlib>
 #include <string>
@@ -19,5 +20,11 @@ namespace util
 
 		// Exit indicating failure
 		exit(EXIT_FAILURE);
+	}
+
+	inline string readFile(const string& path)
+	{
+		// Construct string from file stream
+		return {istreambuf_iterator<char>(ifstream(path)), istreambuf_iterator<char>()};
 	}
 }
