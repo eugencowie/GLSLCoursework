@@ -50,6 +50,9 @@
     <None Include="src\engine\shader.inl">
       <Filter>Header Files\engine</Filter>
     </None>
+    <None Include="src\engine\program.inl">
+      <Filter>Header Files\engine</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\window.hpp">

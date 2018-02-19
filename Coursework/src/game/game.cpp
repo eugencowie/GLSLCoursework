@@ -3,8 +3,7 @@
 
 Game::Game() :
 	m_window("GFX Coursework", {1280, 720}), // Create window
-	m_vertexShader(GL_VERTEX_SHADER, util::readFile("res/shaders/colored.vert")),    // Create vertex shader
-	m_fragmentShader(GL_FRAGMENT_SHADER, util::readFile("res/shaders/colored.frag")) // Create fragment shader
+	m_shader("res/shaders/colored")          // Create shader
 {
 	// Enable vertical synchronisation
 	m_window.verticalSync(true);

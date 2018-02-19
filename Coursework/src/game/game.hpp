@@ -2,7 +2,7 @@
 
 #include "../engine/window.hpp"
 #include "../engine/input.hpp"
-#include "../engine/shader.inl"
+#include "../engine/program.inl"
 
 class Game
 {
@@ -17,6 +17,5 @@ private:
 	Window m_window;
 	Input m_input;
 
-	Shader m_vertexShader;
-	Shader m_fragmentShader;
+	Program m_shader;
 };
