@@ -2,7 +2,7 @@
 #include "util.inl"
 #include <glad/glad.h>
 
-Window::Window(const string& title, int width, int height)
+Window::Window(const string& title, ivec2 size)
 {
 	// Initialise SDL
 	int sdl = SDL_Init(SDL_INIT_EVERYTHING);
@@ -13,7 +13,7 @@ Window::Window(const string& title, int width, int height)
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
 
 	// Create window
-	m_window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, SDL_WINDOW_OPENGL);
+	m_window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, size.x, size.y, SDL_WINDOW_OPENGL);
 	if (!m_window) util::panic("Failed to create SDL window");
 
 	// Create OpenGL context

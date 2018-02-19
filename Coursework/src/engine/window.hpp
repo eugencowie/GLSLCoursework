@@ -2,13 +2,15 @@
 
 #include <SDL.h>
 #include <string>
+#include <glm/glm.hpp>
 
 using namespace std;
+using namespace glm;
 
 class Window
 {
 public:
-	Window(const string& title, int width, int height);
+	Window(const string& title, ivec2 size);
 	~Window();
 	void processEvents();
 

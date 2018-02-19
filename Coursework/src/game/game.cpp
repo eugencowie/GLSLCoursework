@@ -2,7 +2,7 @@
 #include <glad/glad.h>
 
 Game::Game() :
-	m_window("GFX Coursework", 1280, 720) // Create window
+	m_window("GFX Coursework", {1280, 720}) // Create window
 {
 	// Enable vertical synchronisation
 	m_window.verticalSync(true);
