@@ -1,9 +1,10 @@
 #include "mesh.hpp"
 
-Mesh::Mesh(Program& shader, const vector<Vertex>& vertices, const vector<uvec3>& indices) :
+Mesh::Mesh(Program& shader, const vector<Vertex>& vertices, const vector<uvec3>& indices, const vector<shared_ptr<Texture>>& textures) :
 	m_shader(shader),
 	m_vertexBuffer(GL_ARRAY_BUFFER),
 	m_elementBuffer(GL_ELEMENT_ARRAY_BUFFER),
+	m_textures(textures),
 	m_drawCount((GLsizei)vertices.size())
 {
 	// Bind vertex array
@@ -36,6 +37,26 @@ void Mesh::draw(const mat4& model, const mat4& view, const mat4& projection)
 {
 	// Use the associated shader program
 	m_shader.bind();
+
+	// Use the associated textures
+	int textureCount = 0;
+	for (unsigned int i = 0; i < m_textures.size(); i++)
+	{
+		// Activate texture unit
+		glActiveTexture(GL_TEXTURE0 + i);
+
+		// Bind the texture to this texture unit
+		m_textures[i]->bind(GL_TEXTURE_2D);
+
+		// Set texture uniform to this texture unit
+		string name = "texture" + to_string(textureCount++);
+		m_shader.uniform(name, i);
+
+#ifdef _DEBUG
+		// Unbind texture unit
+		glActiveTexture(GL_TEXTURE0);
+#endif
+	}
 
 	// Set model, view and projection uniforms to the associated matrices
 	m_shader.uniform("modelViewProjection", projection * view * model);

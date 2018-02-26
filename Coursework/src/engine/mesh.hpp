@@ -2,11 +2,13 @@
 
 #include "program.inl"
 #include "vertex.inl"
+#include "texture.inl"
 #include "vertex_array.inl"
 #include "buffer.inl"
 #include <glad/glad.h>
 #include <glm/glm.hpp>
 #include <vector>
+#include <memory>
 
 using namespace std;
 using namespace glm;
@@ -14,7 +16,7 @@ using namespace glm;
 class Mesh
 {
 public:
-	Mesh(Program& shader, const vector<Vertex>& vertices, const vector<uvec3>& indices = {});
+	Mesh(Program& shader, const vector<Vertex>& vertices, const vector<uvec3>& indices = {}, const vector<shared_ptr<Texture>>& textures = {});
 	void draw(const mat4& model = {}, const mat4& view = {}, const mat4& projection = {});
 
 private:
@@ -22,6 +24,7 @@ private:
 	VertexArray m_vertexArray;
 	Buffer m_vertexBuffer;
 	Buffer m_elementBuffer;
+	vector<shared_ptr<Texture>> m_textures;
 	GLsizei m_drawCount;
 	bool m_hasIndices;
 
