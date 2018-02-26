@@ -48,6 +48,9 @@
     <ClCompile Include="deps\stb\stb_image.c">
       <Filter>Resource Files</Filter>
     </ClCompile>
+    <ClCompile Include="deps\tinyobjloader\tiny_obj_loader.cc">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\engine\util.inl">
