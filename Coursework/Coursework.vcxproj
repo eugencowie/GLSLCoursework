@@ -184,6 +184,7 @@
     <ClCompile Include="deps\tinyobjloader\tiny_obj_loader.cc" />
     <ClCompile Include="src\engine\input.cpp" />
     <ClCompile Include="src\engine\mesh.cpp" />
+    <ClCompile Include="src\engine\model.cpp" />
     <ClCompile Include="src\engine\window.cpp" />
     <ClCompile Include="src\game\game.cpp" />
     <ClCompile Include="src\main.cpp" />
@@ -200,6 +201,7 @@
   <ItemGroup>
     <ClInclude Include="src\engine\input.hpp" />
     <ClInclude Include="src\engine\mesh.hpp" />
+    <ClInclude Include="src\engine\model.hpp" />
     <ClInclude Include="src\engine\window.hpp" />
     <ClInclude Include="src\game\game.hpp" />
   </ItemGroup>
