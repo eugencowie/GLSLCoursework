@@ -45,7 +45,13 @@
     <ClCompile Include="src\engine\mesh.cpp">
       <Filter>Source Files\engine</Filter>
     </ClCompile>
+    <ClCompile Include="src\engine\model.cpp">
+      <Filter>Source Files\engine</Filter>
+    </ClCompile>
     <ClCompile Include="deps\stb\stb_image.c">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
+    <ClCompile Include="deps\tinyobjloader\tiny_obj_loader.cc">
       <Filter>Resource Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -83,6 +89,9 @@
       <Filter>Header Files\engine</Filter>
     </ClInclude>
     <ClInclude Include="src\engine\mesh.hpp">
+      <Filter>Header Files\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\model.hpp">
       <Filter>Header Files\engine</Filter>
     </ClInclude>
   </ItemGroup>

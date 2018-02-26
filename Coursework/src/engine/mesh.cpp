@@ -5,7 +5,8 @@ Mesh::Mesh(Program& shader, const vector<Vertex>& vertices, const vector<uvec3>&
 	m_vertexBuffer(GL_ARRAY_BUFFER),
 	m_elementBuffer(GL_ELEMENT_ARRAY_BUFFER),
 	m_textures(textures),
-	m_drawCount((GLsizei)vertices.size())
+	m_drawCount((GLsizei)vertices.size()),
+	m_hasIndices(false)
 {
 	// Bind vertex array
 	m_vertexArray.bind();

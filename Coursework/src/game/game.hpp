@@ -3,7 +3,7 @@
 #include "../engine/window.hpp"
 #include "../engine/input.hpp"
 #include "../engine/program.inl"
-#include "../engine/mesh.hpp"
+#include "../engine/model.hpp"
 
 class Game
 {
@@ -19,5 +19,5 @@ private:
 	Input m_input;
 
 	Program m_shader;
-	Mesh m_mesh;
+	Model m_model;
 };
