@@ -180,6 +180,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="deps\glad\src\glad.c" />
+    <ClCompile Include="deps\stb\stb_image.c" />
     <ClCompile Include="src\engine\input.cpp" />
     <ClCompile Include="src\engine\mesh.cpp" />
     <ClCompile Include="src\engine\window.cpp" />
