@@ -14,7 +14,7 @@ using namespace glm;
 class Mesh
 {
 public:
-	Mesh(Program& shader, const vector<Vertex>& vertices, const vector<uvec3>& indices);
+	Mesh(Program& shader, const vector<Vertex>& vertices, const vector<uvec3>& indices = {});
 	void draw(const mat4& model = {}, const mat4& view = {}, const mat4& projection = {});
 
 private:
@@ -23,6 +23,7 @@ private:
 	Buffer m_vertexBuffer;
 	Buffer m_elementBuffer;
 	GLsizei m_drawCount;
+	bool m_hasIndices;
 
 	// Rule of five
 	Mesh(Mesh&&) = delete;
