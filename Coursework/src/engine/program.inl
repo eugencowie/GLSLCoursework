@@ -95,8 +95,10 @@ public:
 
 	void unbind()
 	{
+#ifdef _DEBUG
 		// Unbind shader program
-		glUseProgram(m_program);
+		glUseProgram(0);
+#endif
 	}
 
 	void uniform(const string& name, int value)

@@ -25,8 +25,10 @@ public:
 
 	void unbind()
 	{
+#ifdef _DEBUG
 		// Unbind vertex array
 		glBindVertexArray(0);
+#endif
 	}
 
 private:
