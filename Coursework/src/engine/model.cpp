@@ -5,12 +5,14 @@
 
 Model::Model(Program& shader, const string& path)
 {
+	string baseDir = path.substr(0, path.find_last_of('/')) + '/';
+
 	attrib_t attrib;
 	vector<shape_t> shapes;
 	vector<material_t> materials;
 	string err;
 
-	bool obj = LoadObj(&attrib, &shapes, &materials, &err, path.c_str());
+	bool obj = LoadObj(&attrib, &shapes, &materials, &err, path.c_str(), baseDir.c_str());
 	if (!obj) util::panic("Failed to load model: " + path, err);
 
 	for (const shape_t& shape : shapes)
@@ -19,8 +21,9 @@ Model::Model(Program& shader, const string& path)
 
 		vector<Vertex> vertices = extractVertices(attrib, shape.mesh.indices, &indexArray);
 		vector<uvec3> indices = transformIndices(indexArray);
+		vector<shared_ptr<Texture>> textures = extractTextures(materials, shape.mesh.material_ids, baseDir);
 
-		m_meshes.push_back(make_shared<Mesh>(shader, vertices, indices));
+		m_meshes.push_back(make_shared<Mesh>(shader, vertices, indices, textures));
 	}
 }
 
@@ -96,6 +99,25 @@ vector<uvec3> Model::transformIndices(vector<size_t> indices)
 
 		// Add index to result
 		result.push_back(index);
+	}
+
+	return result;
+}
+
+vector<shared_ptr<Texture>> Model::extractTextures(const vector<material_t>& materials, const vector<int>& materialIds, const string& baseDir)
+{
+	vector<shared_ptr<Texture>> result;
+
+	for (int i : materialIds)
+	{
+		if (i < materials.size())
+		{
+			// Get texture path
+			string path = baseDir + materials[i].diffuse_texname;
+
+			// Create texture and add it to result
+			result.push_back(make_shared<Texture>(path));
+		}
 	}
 
 	return result;

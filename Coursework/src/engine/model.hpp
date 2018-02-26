@@ -20,6 +20,7 @@ public:
 private:
 	static vector<Vertex> extractVertices(const attrib_t& attrib, const vector<index_t>& attribIds, vector<size_t>* indices = nullptr);
 	static vector<uvec3> transformIndices(vector<size_t> indices);
+	static vector<shared_ptr<Texture>> extractTextures(const vector<material_t>& materials, const vector<int>& materialIds, const string& baseDir = "");
 
 	vector<shared_ptr<Mesh>> m_meshes;
 };

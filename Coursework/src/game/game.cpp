@@ -5,7 +5,7 @@
 
 Game::Game() :
 	m_window("GFX Coursework", {1280, 720}),        // Create window
-	m_shader("res/shaders/colored"),                // Create shader
+	m_shader("res/shaders/textured"),               // Create shader
 	m_model(m_shader, "res/models/plane/plane.obj") // Create model
 {
 	// Enable vertical synchronisation
