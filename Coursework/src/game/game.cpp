@@ -7,10 +7,10 @@ Game::Game() :
 	m_window("GFX Coursework", {1280, 720}), // Create window
 	m_shader("res/shaders/colored"),         // Create shader
 	m_mesh(m_shader, {
-		{{-0.5f,  0.5f, 0},{0, 0, 0, 1}}, // Top left
-		{{-0.5f, -0.5f, 0},{1, 0, 0, 1}}, // Bottom left
-		{{0.5f,  0.5f, 0},{0, 1, 0, 1}}, // Top right
-		{{0.5f, -0.5f, 0},{0, 0, 1, 1}}  // Bottom right
+		{{-0.5f,  0.5f, 0}, {}, {0, 0, 0, 1}, {}}, // Top left
+		{{-0.5f, -0.5f, 0}, {}, {1, 0, 0, 1}, {}}, // Bottom left
+		{{ 0.5f,  0.5f, 0}, {}, {0, 1, 0, 1}, {}}, // Top right
+		{{ 0.5f, -0.5f, 0}, {}, {0, 0, 1, 1}, {}}  // Bottom right
 	}, {
 		{0, 1, 2},
 		{3, 2, 1}

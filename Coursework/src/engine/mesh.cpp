@@ -15,7 +15,9 @@ Mesh::Mesh(Program& shader, const vector<Vertex>& vertices, const vector<uvec3>&
 
 	// Set vertex attributes to point to the correct set of vertex data
 	m_shader.vertexAttribPointer("vertexPosition", 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)offsetof(Vertex, position));
+	m_shader.vertexAttribPointer("vertexNormal", 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)offsetof(Vertex, normal));
 	m_shader.vertexAttribPointer("vertexColor", 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)offsetof(Vertex, color));
+	m_shader.vertexAttribPointer("vertexTexCoord", 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)offsetof(Vertex, texCoord));
 
 	// Bind element buffer and set element buffer data
 	m_elementBuffer.bind();
