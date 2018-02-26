@@ -28,8 +28,10 @@ public:
 
 	void unbind()
 	{
+#ifdef _DEBUG
 		// Unbind buffer from target
 		glBindBuffer(m_target, 0);
+#endif
 	}
 
 	template<typename T>
