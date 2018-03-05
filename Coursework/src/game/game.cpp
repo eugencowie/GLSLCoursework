@@ -3,11 +3,11 @@
 #include <glad/glad.h>
 
 Game::Game() :
-	m_window("GFX Coursework", {1280, 720}),        // Create window
-	m_viewport(m_window.size()),                    // Create viewport
-	m_camera({0, 0, -2.5f}),                        // Create camera
-	m_shader("res/shaders/textured"),               // Create shader
-	m_model(m_shader, "res/models/plane/plane.obj") // Create model
+	m_window("GFX Coursework", {1280, 720}),          // Create window
+	m_viewport(m_window.size()),                      // Create viewport
+	m_camera({-50, 25, 50}),                          // Create camera
+	m_shader("res/shaders/textured"),                 // Create shader
+	m_model(m_shader, "res/models/street/street.obj") // Create model
 {
 	// Enable vertical synchronisation
 	m_window.verticalSync(true);
