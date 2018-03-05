@@ -2,6 +2,8 @@
 
 #include "../engine/window.hpp"
 #include "../engine/input.hpp"
+#include "../engine/viewport.inl"
+#include "../engine/camera.inl"
 #include "../engine/program.inl"
 #include "../engine/model.hpp"
 
@@ -17,6 +19,9 @@ private:
 
 	Window m_window;
 	Input m_input;
+
+	Viewport m_viewport;
+	Camera m_camera;
 
 	Program m_shader;
 	Model m_model;

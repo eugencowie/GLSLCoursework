@@ -127,5 +127,5 @@ void Model::draw(const mat4& model, const mat4& view, const mat4& projection)
 {
 	// Draw all meshes
 	for (shared_ptr<Mesh>& mesh : m_meshes)
-		mesh->draw();
+		mesh->draw(model, view, projection);
 }

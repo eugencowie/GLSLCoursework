@@ -27,6 +27,14 @@ public:
 		SDL_GL_SetSwapInterval(vsync ? 1 : 0);
 	}
 
+	ivec2 size() const
+	{
+		// Get window dimensions
+		int width, height;
+		SDL_GetWindowSize(m_window, &width, &height);
+		return {width, height};
+	}
+
 	void close()
 	{
 		// The window should close

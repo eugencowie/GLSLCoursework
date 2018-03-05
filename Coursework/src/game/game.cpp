@@ -1,10 +1,11 @@
 #include "game.hpp"
-#include "../engine/vertex.inl"
+
 #include <glad/glad.h>
-#include <vector>
 
 Game::Game() :
 	m_window("GFX Coursework", {1280, 720}),        // Create window
+	m_viewport(m_window.size()),                    // Create viewport
+	m_camera({0, 0, -2.5f}),                        // Create camera
 	m_shader("res/shaders/textured"),               // Create shader
 	m_model(m_shader, "res/models/plane/plane.obj") // Create model
 {
@@ -44,7 +45,7 @@ void Game::render()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	// Draw the model
-	m_model.draw();
+	m_model.draw({}, m_camera.view(), m_viewport.projection());
 
 	// Swap front and back buffers
 	m_window.swapBuffers();

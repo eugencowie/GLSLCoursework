@@ -191,12 +191,14 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="src\engine\buffer.inl" />
+    <None Include="src\engine\camera.inl" />
     <None Include="src\engine\program.inl" />
     <None Include="src\engine\shader.inl" />
     <None Include="src\engine\texture.inl" />
     <None Include="src\engine\util.inl" />
     <None Include="src\engine\vertex.inl" />
     <None Include="src\engine\vertex_array.inl" />
+    <None Include="src\engine\viewport.inl" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\input.hpp" />
