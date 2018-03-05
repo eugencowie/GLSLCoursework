@@ -10,9 +10,18 @@ Game::Game() :
 	m_streetModel(m_shader, "res/models/street/street.obj"), // Create street model
 	m_lampModel(m_shader, "res/models/lamp/lamp.obj"),       // Create lamp model
 	m_houseModel(m_shader, "res/models/house/house.obj"),    // Create house model
-	m_buildingModel1(m_shader, "res/models/buildings/building12.obj"), // Create building model 1
-	m_buildingModel2(m_shader, "res/models/buildings/building07.obj"), // Create building model 2
-	m_buildingModel3(m_shader, "res/models/buildings/building03.obj")  // Create building model 3
+	m_building1Model(m_shader, "res/models/buildings/building12.obj"), // Create building model 1
+	m_building2Model(m_shader, "res/models/buildings/building07.obj"), // Create building model 2
+	m_building3Model(m_shader, "res/models/buildings/building03.obj"), // Create building model 3
+	m_streetTransform(rotate(radians(270.f), vec3{0,1,0}) * scale(vec3{-0.5f, 0.5f, 0.5f})),
+	m_lampTransform1(translate(vec3{-1.5f, 0, -5}) * rotate(radians(90.f), vec3{0,1,0}) * scale(vec3(1, 2, 1))),
+	m_lampTransform2(translate(vec3{-7.5f, 0, -5}) * rotate(radians(90.f), vec3{0,1,0}) * scale(vec3(1, 2, 1))),
+	m_lampTransform3(translate(vec3{-13, 0, -5}) * rotate(radians(90.f), vec3{0,1,0}) * scale(vec3(1, 2, 1))),
+	m_houseTransform(translate(vec3{3.25f, 0, -10}) * rotate(radians(180.f), vec3{0,1,0}) * scale(vec3(0.05f))),
+	m_building1Transform(translate(vec3{-3.25f, 0, -11})),
+	m_building2Transform(translate(vec3{-13.25f, 0, -13.25f})),
+	m_building3Transform1(translate(vec3{22.5f, 0, -9})),
+	m_building3Transform2(translate(vec3{22.5f, 0, -27}))
 {
 	// Enable vertical synchronisation
 	m_window.verticalSync(true);
@@ -51,34 +60,25 @@ void Game::render()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	// Draw the street model
-	mat4 streetTransform = rotate(radians(270.f), vec3{0,1,0}) * scale(vec3{-0.5f, 0.5f, 0.5f});
-	m_streetModel.draw(streetTransform, m_camera.view(), m_viewport.projection());
+	m_streetModel.draw(m_streetTransform, m_camera.view(), m_viewport.projection());
 
 	// Draw the lamp model
-	mat4 lampTransform1 = translate(vec3{-1.5f, 0, -5}) * rotate(radians(90.f), vec3{0,1,0}) * scale(vec3(1, 2, 1));
-	mat4 lampTransform2 = translate(vec3{-7.5f, 0, -5}) * rotate(radians(90.f), vec3{0,1,0}) * scale(vec3(1, 2, 1));
-	mat4 lampTransform3 = translate(vec3{-13, 0, -5}) * rotate(radians(90.f), vec3{0,1,0}) * scale(vec3(1, 2, 1));
-	m_lampModel.draw(lampTransform1, m_camera.view(), m_viewport.projection());
-	m_lampModel.draw(lampTransform2, m_camera.view(), m_viewport.projection());
-	m_lampModel.draw(lampTransform3, m_camera.view(), m_viewport.projection());
+	m_lampModel.draw(m_lampTransform1, m_camera.view(), m_viewport.projection());
+	m_lampModel.draw(m_lampTransform2, m_camera.view(), m_viewport.projection());
+	m_lampModel.draw(m_lampTransform3, m_camera.view(), m_viewport.projection());
 
 	// Draw the house model
-	mat4 houseTransform = translate(vec3{3.25f, 0, -10}) * rotate(radians(180.f), vec3{0,1,0}) * scale(vec3(0.05f));
-	m_houseModel.draw(houseTransform, m_camera.view(), m_viewport.projection());
+	m_houseModel.draw(m_houseTransform, m_camera.view(), m_viewport.projection());
 
 	// Draw the building model 1
-	mat4 buildingTransform1 = translate(vec3{-3.25f, 0, -11});
-	m_buildingModel1.draw(buildingTransform1, m_camera.view(), m_viewport.projection());
+	m_building1Model.draw(m_building1Transform, m_camera.view(), m_viewport.projection());
 
 	// Draw the building model 2
-	mat4 buildingTransform2 = translate(vec3{-13.25f, 0, -13.25f});
-	m_buildingModel2.draw(buildingTransform2, m_camera.view(), m_viewport.projection());
+	m_building2Model.draw(m_building2Transform, m_camera.view(), m_viewport.projection());
 
 	// Draw the building model 3
-	mat4 buildingTransform3 = translate(vec3{22.5f, 0, -9});
-	mat4 buildingTransform4 = translate(vec3{22.5f, 0, -27});
-	m_buildingModel3.draw(buildingTransform3, m_camera.view(), m_viewport.projection());
-	m_buildingModel3.draw(buildingTransform4, m_camera.view(), m_viewport.projection());
+	m_building3Model.draw(m_building3Transform1, m_camera.view(), m_viewport.projection());
+	m_building3Model.draw(m_building3Transform2, m_camera.view(), m_viewport.projection());
 
 	// Swap front and back buffers
 	m_window.swapBuffers();
