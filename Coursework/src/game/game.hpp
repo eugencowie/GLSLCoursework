@@ -24,5 +24,6 @@ private:
 	Camera m_camera;
 
 	Program m_shader;
-	Model m_model;
+	Model m_streetModel;
+	Model m_houseModel;
 };
