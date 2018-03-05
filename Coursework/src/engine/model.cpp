@@ -110,7 +110,7 @@ vector<shared_ptr<Texture>> Model::extractTextures(const vector<material_t>& mat
 
 	for (int i : materialIds)
 	{
-		if (i < materials.size())
+		if (i < materials.size() && !materials[i].diffuse_texname.empty())
 		{
 			// Get texture path
 			string path = baseDir + materials[i].diffuse_texname;

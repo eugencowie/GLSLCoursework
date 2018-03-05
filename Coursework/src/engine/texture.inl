@@ -57,7 +57,7 @@ public:
 
 		// Load image data from file
 		unsigned char* data = stbi_load(path.c_str(), &m_size.x, &m_size.y, nullptr, STBI_rgb_alpha);
-		if (!data) util::panic("Failed to load texture image");
+		if (!data) util::panic("Failed to load texture image", path);
 
 		// Set image data
 		texture(GL_TEXTURE_2D, data);
