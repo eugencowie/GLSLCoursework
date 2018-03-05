@@ -27,7 +27,6 @@ Game::Game() :
 	m_window.verticalSync(true);
 
 	// Set up OpenGL
-	glClearColor(0.4f, 0.6f, 0.9f, 1.0f);
 	glEnable(GL_DEPTH_TEST);
 }
 
