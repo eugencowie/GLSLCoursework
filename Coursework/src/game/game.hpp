@@ -28,4 +28,5 @@ private:
 	Model m_houseModel;
 	Model m_buildingModel1;
 	Model m_buildingModel2;
+	Model m_buildingModel3;
 };

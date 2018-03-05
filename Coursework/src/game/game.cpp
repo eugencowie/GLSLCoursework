@@ -5,12 +5,13 @@
 Game::Game() :
 	m_window("GFX Coursework", {1280, 720}), // Create window
 	m_viewport(m_window.size()),             // Create viewport
-	m_camera({-35, 10, 20}, {-15,5,0}),      // Create camera
+	m_camera({-15, 3, 5}, {-5, 3, -5}),      // Create camera
 	m_shader("res/shaders/textured"),        // Create shader
 	m_streetModel(m_shader, "res/models/street/street.obj"), // Create street model
 	m_houseModel(m_shader, "res/models/house/house.obj"),    // Create house model
 	m_buildingModel1(m_shader, "res/models/buildings/building12.obj"), // Create building model 1
-	m_buildingModel2(m_shader, "res/models/buildings/building07.obj")  // Create building model 2
+	m_buildingModel2(m_shader, "res/models/buildings/building07.obj"), // Create building model 2
+	m_buildingModel3(m_shader, "res/models/buildings/building03.obj")  // Create building model 3
 {
 	// Enable vertical synchronisation
 	m_window.verticalSync(true);
@@ -49,20 +50,28 @@ void Game::render()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	// Draw the street model
-	mat4 streetTransform = rotate(radians(270.f), vec3{0,1,0}) * scale(vec3{-1,1,1});
+	mat4 streetTransform = rotate(radians(270.f), vec3{0,1,0}) * scale(vec3{-0.5f, 0.5f, 0.5f});
 	m_streetModel.draw(streetTransform, m_camera.view(), m_viewport.projection());
 
 	// Draw the house model
-	mat4 houseTransform = translate(vec3{7.5f, 0, -20}) * rotate(radians(180.f), vec3{0,1,0}) * scale(vec3(0.1f));
+	mat4 houseTransform = translate(vec3{3.25f, 0, -10}) * rotate(radians(180.f), vec3{0,1,0}) * scale(vec3(0.05f));
 	m_houseModel.draw(houseTransform, m_camera.view(), m_viewport.projection());
 
 	// Draw the building model 1
-	mat4 buildingTransform1 = translate(vec3{-6.5f, 0, -22}) *  scale(vec3(2));
+	mat4 buildingTransform1 = translate(vec3{-3.25f, 0, -11});
 	m_buildingModel1.draw(buildingTransform1, m_camera.view(), m_viewport.projection());
 
 	// Draw the building model 2
-	mat4 buildingTransform2 = translate(vec3{-26.5f, 0, -26.5f}) *  scale(vec3(2));
+	mat4 buildingTransform2 = translate(vec3{-13.25f, 0, -13.25f});
 	m_buildingModel2.draw(buildingTransform2, m_camera.view(), m_viewport.projection());
+
+	// Draw the building model 3
+	mat4 buildingTransform3 = translate(vec3{22.5f, 0, -9});
+	m_buildingModel3.draw(buildingTransform3, m_camera.view(), m_viewport.projection());
+
+	// Draw the building model 4
+	mat4 buildingTransform4 = translate(vec3{22.5f, 0, -27});
+	m_buildingModel3.draw(buildingTransform4, m_camera.view(), m_viewport.projection());
 
 	// Swap front and back buffers
 	m_window.swapBuffers();
