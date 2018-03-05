@@ -47,7 +47,7 @@ public:
 #endif
 	}
 
-	void load(const string& path, bool flipUVs = false)
+	void load(const string& path, bool flipUVs = true)
 	{
 		// Set image file path
 		this->m_path = path;

@@ -3,7 +3,7 @@
 
 #include <unordered_map>
 
-Model::Model(Program& shader, const string& path)
+Model::Model(Program& shader, const string& path, bool flipUVs)
 {
 	string baseDir = path.substr(0, path.find_last_of('/')) + '/';
 
@@ -21,7 +21,7 @@ Model::Model(Program& shader, const string& path)
 
 		vector<Vertex> vertices = extractVertices(attrib, shape.mesh.indices, &indexArray);
 		vector<uvec3> indices = transformIndices(indexArray);
-		vector<shared_ptr<Texture>> textures = extractTextures(materials, shape.mesh.material_ids, baseDir);
+		vector<shared_ptr<Texture>> textures = extractTextures(materials, shape.mesh.material_ids, baseDir, flipUVs);
 
 		m_meshes.push_back(make_shared<Mesh>(shader, vertices, indices, textures));
 	}
@@ -104,7 +104,7 @@ vector<uvec3> Model::transformIndices(vector<size_t> indices)
 	return result;
 }
 
-vector<shared_ptr<Texture>> Model::extractTextures(const vector<material_t>& materials, const vector<int>& materialIds, const string& baseDir)
+vector<shared_ptr<Texture>> Model::extractTextures(const vector<material_t>& materials, const vector<int>& materialIds, const string& baseDir, bool flipUVs)
 {
 	map<string, shared_ptr<Texture>> map;
 
@@ -119,7 +119,7 @@ vector<shared_ptr<Texture>> Model::extractTextures(const vector<material_t>& mat
 			if (!map.count(path))
 			{
 				// Create texture and add it to result
-				map[path] = make_shared<Texture>(path);
+				map[path] = make_shared<Texture>(path, flipUVs);
 			}
 		}
 	}
