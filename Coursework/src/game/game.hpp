@@ -26,5 +26,6 @@ private:
 	Program m_shader;
 	Model m_streetModel;
 	Model m_houseModel;
-	Model m_buildingModel;
+	Model m_buildingModel1;
+	Model m_buildingModel2;
 };
