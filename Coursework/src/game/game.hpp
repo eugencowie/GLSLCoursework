@@ -6,10 +6,7 @@
 #include "../engine/camera.inl"
 #include "../engine/program.inl"
 #include "../engine/model.hpp"
-
-#include <glm/glm.hpp>
-
-using namespace glm;
+#include "../engine/transform.inl"
 
 class Game
 {
@@ -35,13 +32,13 @@ private:
 	Model m_building2Model;
 	Model m_building3Model;
 
-	mat4 m_streetTransform;
-	mat4 m_lampTransform1;
-	mat4 m_lampTransform2;
-	mat4 m_lampTransform3;
-	mat4 m_houseTransform;
-	mat4 m_building1Transform;
-	mat4 m_building2Transform;
-	mat4 m_building3Transform1;
-	mat4 m_building3Transform2;
+	Transform m_streetTransform;
+	Transform m_lampTransform1;
+	Transform m_lampTransform2;
+	Transform m_lampTransform3;
+	Transform m_houseTransform;
+	Transform m_building1Transform;
+	Transform m_building2Transform;
+	Transform m_building3Transform1;
+	Transform m_building3Transform2;
 };

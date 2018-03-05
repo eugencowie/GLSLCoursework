@@ -13,15 +13,15 @@ Game::Game() :
 	m_building1Model(m_shader, "res/models/buildings/building12.obj"), // Create building model 1
 	m_building2Model(m_shader, "res/models/buildings/building07.obj"), // Create building model 2
 	m_building3Model(m_shader, "res/models/buildings/building03.obj"), // Create building model 3
-	m_streetTransform(rotate(radians(270.f), vec3{0,1,0}) * scale(vec3{-0.5f, 0.5f, 0.5f})),
-	m_lampTransform1(translate(vec3{-1.5f, 0, -5}) * rotate(radians(90.f), vec3{0,1,0}) * scale(vec3(1, 2, 1))),
-	m_lampTransform2(translate(vec3{-7.5f, 0, -5}) * rotate(radians(90.f), vec3{0,1,0}) * scale(vec3(1, 2, 1))),
-	m_lampTransform3(translate(vec3{-13, 0, -5}) * rotate(radians(90.f), vec3{0,1,0}) * scale(vec3(1, 2, 1))),
-	m_houseTransform(translate(vec3{3.25f, 0, -10}) * rotate(radians(180.f), vec3{0,1,0}) * scale(vec3(0.05f))),
-	m_building1Transform(translate(vec3{-3.25f, 0, -11})),
-	m_building2Transform(translate(vec3{-13.25f, 0, -13.25f})),
-	m_building3Transform1(translate(vec3{22.5f, 0, -9})),
-	m_building3Transform2(translate(vec3{22.5f, 0, -27}))
+	m_streetTransform({}, {-0.5f, 0.5f, 0.5f}, {{270}}),
+	m_lampTransform1({-1.5f, 0, -5}, {1,2,1}, {{90}}),
+	m_lampTransform2({-7.5f, 0, -5}, {1,2,1}, {{90}}),
+	m_lampTransform3({-13.f, 0, -5}, {1,2,1}, {{90}}),
+	m_houseTransform({3.25f, 0, -10}, vec3(0.05f), {{180}}),
+	m_building1Transform({-3.25f, 0, -11}),
+	m_building2Transform({-13.25f, 0, -13.25f}),
+	m_building3Transform1({22.5f, 0, -9}),
+	m_building3Transform2({22.5f, 0, -27})
 {
 	// Enable vertical synchronisation
 	m_window.verticalSync(true);
@@ -60,25 +60,25 @@ void Game::render()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	// Draw the street model
-	m_streetModel.draw(m_streetTransform, m_camera.view(), m_viewport.projection());
+	m_streetModel.draw(m_streetTransform.model(), m_camera.view(), m_viewport.projection());
 
 	// Draw the lamp model
-	m_lampModel.draw(m_lampTransform1, m_camera.view(), m_viewport.projection());
-	m_lampModel.draw(m_lampTransform2, m_camera.view(), m_viewport.projection());
-	m_lampModel.draw(m_lampTransform3, m_camera.view(), m_viewport.projection());
+	m_lampModel.draw(m_lampTransform1.model(), m_camera.view(), m_viewport.projection());
+	m_lampModel.draw(m_lampTransform2.model(), m_camera.view(), m_viewport.projection());
+	m_lampModel.draw(m_lampTransform3.model(), m_camera.view(), m_viewport.projection());
 
 	// Draw the house model
-	m_houseModel.draw(m_houseTransform, m_camera.view(), m_viewport.projection());
+	m_houseModel.draw(m_houseTransform.model(), m_camera.view(), m_viewport.projection());
 
 	// Draw the building model 1
-	m_building1Model.draw(m_building1Transform, m_camera.view(), m_viewport.projection());
+	m_building1Model.draw(m_building1Transform.model(), m_camera.view(), m_viewport.projection());
 
 	// Draw the building model 2
-	m_building2Model.draw(m_building2Transform, m_camera.view(), m_viewport.projection());
+	m_building2Model.draw(m_building2Transform.model(), m_camera.view(), m_viewport.projection());
 
 	// Draw the building model 3
-	m_building3Model.draw(m_building3Transform1, m_camera.view(), m_viewport.projection());
-	m_building3Model.draw(m_building3Transform2, m_camera.view(), m_viewport.projection());
+	m_building3Model.draw(m_building3Transform1.model(), m_camera.view(), m_viewport.projection());
+	m_building3Model.draw(m_building3Transform2.model(), m_camera.view(), m_viewport.projection());
 
 	// Swap front and back buffers
 	m_window.swapBuffers();

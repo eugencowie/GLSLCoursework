@@ -83,6 +83,9 @@
     <None Include="src\engine\camera.inl">
       <Filter>Header Files\engine</Filter>
     </None>
+    <None Include="src\engine\transform.inl">
+      <Filter>Header Files\engine</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\window.hpp">

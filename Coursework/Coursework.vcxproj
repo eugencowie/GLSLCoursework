@@ -195,6 +195,7 @@
     <None Include="src\engine\program.inl" />
     <None Include="src\engine\shader.inl" />
     <None Include="src\engine\texture.inl" />
+    <None Include="src\engine\transform.inl" />
     <None Include="src\engine\util.inl" />
     <None Include="src\engine\vertex.inl" />
     <None Include="src\engine\vertex_array.inl" />
