@@ -106,7 +106,7 @@ vector<uvec3> Model::transformIndices(vector<size_t> indices)
 
 vector<shared_ptr<Texture>> Model::extractTextures(const vector<material_t>& materials, const vector<int>& materialIds, const string& baseDir)
 {
-	vector<shared_ptr<Texture>> result;
+	map<string, shared_ptr<Texture>> map;
 
 	for (int i : materialIds)
 	{
@@ -115,10 +115,19 @@ vector<shared_ptr<Texture>> Model::extractTextures(const vector<material_t>& mat
 			// Get texture path
 			string path = baseDir + materials[i].diffuse_texname;
 
-			// Create texture and add it to result
-			result.push_back(make_shared<Texture>(path));
+			// Check if texture has already been loaded
+			if (!map.count(path))
+			{
+				// Create texture and add it to result
+				map[path] = make_shared<Texture>(path);
+			}
 		}
 	}
+
+	vector<shared_ptr<Texture>> result;
+
+	for (const auto &s : map)
+		result.push_back(s.second);
 
 	return result;
 }

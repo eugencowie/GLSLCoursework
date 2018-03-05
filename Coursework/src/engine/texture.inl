@@ -27,7 +27,7 @@ public:
 		glDeleteTextures(1, &m_texture);
 	}
 
-	Texture(const string& path, bool flipUVs = false) : Texture()
+	Texture(const string& path, bool flipUVs = true) : Texture()
 	{
 		// Load texture from file
 		load(path, flipUVs);
