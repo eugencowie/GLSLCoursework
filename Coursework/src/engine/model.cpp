@@ -132,9 +132,9 @@ vector<shared_ptr<Texture>> Model::extractTextures(const vector<material_t>& mat
 	return result;
 }
 
-void Model::draw(const mat4& model, const mat4& view, const mat4& projection)
+void Model::draw(const mat4& model, const mat4& view, const mat4& projection, const vector<PointLight>& pointLights)
 {
 	// Draw all meshes
 	for (shared_ptr<Mesh>& mesh : m_meshes)
-		mesh->draw(model, view, projection);
+		mesh->draw(model, view, projection, pointLights);
 }

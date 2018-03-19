@@ -5,6 +5,7 @@
 #include "texture.inl"
 #include "vertex_array.inl"
 #include "buffer.inl"
+#include "light.inl"
 #include <glad/glad.h>
 #include <glm/glm.hpp>
 #include <vector>
@@ -17,7 +18,7 @@ class Mesh
 {
 public:
 	Mesh(Program& shader, const vector<Vertex>& vertices, const vector<uvec3>& indices = {}, const vector<shared_ptr<Texture>>& textures = {});
-	void draw(const mat4& model = {}, const mat4& view = {}, const mat4& projection = {});
+	void draw(const mat4& model = {}, const mat4& view = {}, const mat4& projection = {}, const vector<PointLight>& pointLights = {});
 
 private:
 	Program& m_shader;

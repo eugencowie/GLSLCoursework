@@ -34,7 +34,7 @@ Mesh::Mesh(Program& shader, const vector<Vertex>& vertices, const vector<uvec3>&
 	m_vertexArray.unbind();
 }
 
-void Mesh::draw(const mat4& model, const mat4& view, const mat4& projection)
+void Mesh::draw(const mat4& model, const mat4& view, const mat4& projection, const vector<PointLight>& pointLights)
 {
 	// Use the associated shader program
 	m_shader.bind();
@@ -51,6 +51,16 @@ void Mesh::draw(const mat4& model, const mat4& view, const mat4& projection)
 	m_shader.uniform("modelView", modelView);
 	m_shader.uniform("modelViewProjection", modelViewProjection);
 	m_shader.uniform("normal", normal);
+
+	for (unsigned int i = 0; i < pointLights.size(); i++)
+	{
+		string lightName = "pointLight" + to_string(i);
+
+		m_shader.uniform(lightName + ".position", pointLights[i].position);
+		m_shader.uniform(lightName + ".ambient", pointLights[i].ambient);
+		m_shader.uniform(lightName + ".diffuse", pointLights[i].diffuse);
+		m_shader.uniform(lightName + ".specular", pointLights[i].specular);
+	}
 
 	// Use the associated textures
 	int textureCount = 0;

@@ -7,6 +7,7 @@
 #include "../engine/program.inl"
 #include "../engine/model.hpp"
 #include "../engine/transform.inl"
+#include "../engine/light.inl"
 
 class Game
 {
@@ -41,4 +42,6 @@ private:
 	Transform m_building2Transform;
 	Transform m_building3Transform1;
 	Transform m_building3Transform2;
+
+	PointLight m_light;
 };
