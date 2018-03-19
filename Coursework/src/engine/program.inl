@@ -107,6 +107,12 @@ public:
 		glUniform1i(glGetUniformLocation(m_program, name.c_str()), value);
 	}
 
+	void uniform(const string& name, vec3 value)
+	{
+		// Set vec3 uniform
+		glUniform3fv(glGetUniformLocation(m_program, name.c_str()), 1, value_ptr(value));
+	}
+
 	void uniform(const string& name, mat4 value, bool transpose = false)
 	{
 		// Set 4x4 matrix uniform

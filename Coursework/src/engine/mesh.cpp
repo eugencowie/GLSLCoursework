@@ -39,6 +39,19 @@ void Mesh::draw(const mat4& model, const mat4& view, const mat4& projection)
 	// Use the associated shader program
 	m_shader.bind();
 
+	// Calculate matrices
+	mat4 modelView = view * model;
+	mat4 modelViewProjection = projection * modelView;
+	mat4 normal = transpose(inverse(modelView));
+
+	// Set model, view and projection uniforms to the associated matrices
+	m_shader.uniform("model", model);
+	m_shader.uniform("view", view);
+	m_shader.uniform("projection", projection);
+	m_shader.uniform("modelView", modelView);
+	m_shader.uniform("modelViewProjection", modelViewProjection);
+	m_shader.uniform("normal", normal);
+
 	// Use the associated textures
 	int textureCount = 0;
 	for (unsigned int i = 0; i < m_textures.size(); i++)
@@ -58,12 +71,6 @@ void Mesh::draw(const mat4& model, const mat4& view, const mat4& projection)
 		glActiveTexture(GL_TEXTURE0);
 #endif
 	}
-
-	// Set model, view and projection uniforms to the associated matrices
-	m_shader.uniform("modelViewProjection", projection * view * model);
-	m_shader.uniform("projection", projection);
-	m_shader.uniform("view", view);
-	m_shader.uniform("model", model);
 
 	// Bind vertex array
 	m_vertexArray.bind();
