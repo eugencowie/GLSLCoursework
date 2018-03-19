@@ -16,10 +16,10 @@ Mesh::Mesh(Program& shader, const vector<Vertex>& vertices, const vector<uvec3>&
 	m_vertexBuffer.data(vertices, GL_STATIC_DRAW);
 
 	// Set vertex attributes to point to the correct set of vertex data
-	m_shader.vertexAttribPointer("vertexPosition", 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)offsetof(Vertex, position));
-	m_shader.vertexAttribPointer("vertexNormal", 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)offsetof(Vertex, normal));
-	m_shader.vertexAttribPointer("vertexColor", 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)offsetof(Vertex, color));
-	m_shader.vertexAttribPointer("vertexTexCoord", 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)offsetof(Vertex, texCoord));
+	m_shader.vertexAttribPointer("v_Position", 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)offsetof(Vertex, position));
+	m_shader.vertexAttribPointer("v_Normal", 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)offsetof(Vertex, normal));
+	m_shader.vertexAttribPointer("v_Color", 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)offsetof(Vertex, color));
+	m_shader.vertexAttribPointer("v_TexCoord", 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)offsetof(Vertex, texCoord));
 
 	// Bind element buffer and set element buffer data
 	if (indices.size() > 0)
