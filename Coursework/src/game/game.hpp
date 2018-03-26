@@ -43,5 +43,5 @@ private:
 	Transform m_building3Transform1;
 	Transform m_building3Transform2;
 
-	PointLight m_light;
+	PointLight m_pointLight;
 };

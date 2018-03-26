@@ -55,8 +55,10 @@ void Mesh::draw(const mat4& model, const mat4& view, const mat4& projection, con
 	for (unsigned int i = 0; i < pointLights.size(); i++)
 	{
 		string lightName = "pointLight" + to_string(i);
-
 		m_shader.uniform(lightName + ".position", pointLights[i].position);
+		m_shader.uniform(lightName + ".constant", pointLights[i].constant);
+		m_shader.uniform(lightName + ".linear", pointLights[i].linear);
+		m_shader.uniform(lightName + ".quadratic", pointLights[i].quadratic);
 		m_shader.uniform(lightName + ".ambient", pointLights[i].ambient);
 		m_shader.uniform(lightName + ".diffuse", pointLights[i].diffuse);
 		m_shader.uniform(lightName + ".specular", pointLights[i].specular);

@@ -107,6 +107,12 @@ public:
 		glUniform1i(glGetUniformLocation(m_program, name.c_str()), value);
 	}
 
+	void uniform(const string& name, float value)
+	{
+		// Set float uniform
+		glUniform1f(glGetUniformLocation(m_program, name.c_str()), value);
+	}
+
 	void uniform(const string& name, vec3 value)
 	{
 		// Set vec3 uniform

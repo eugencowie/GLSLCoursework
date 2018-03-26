@@ -2,6 +2,9 @@
 
 struct PointLight {
 	vec3 position;
+	float linear;
+	float quadratic;
+	float constant;
 	vec3 ambient;
 	vec3 diffuse;
 	vec3 specular;

@@ -22,7 +22,7 @@ Game::Game() :
 	m_building2Transform({-13.25f, 0, -13.25f}),
 	m_building3Transform1({22.5f, 0, -9}),
 	m_building3Transform2({22.5f, 0, -27}),
-	m_light({0, 1, 0})
+	m_pointLight({{0, 1, 0}, 0.7f, 1.8f})
 {
 	// Enable vertical synchronisation
 	m_window.verticalSync(true);
@@ -60,25 +60,25 @@ void Game::render()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	// Draw the street model
-	m_streetModel.draw(m_streetTransform.model(), m_camera.view(), m_viewport.projection(), {m_light});
+	m_streetModel.draw(m_streetTransform.model(), m_camera.view(), m_viewport.projection(), {m_pointLight});
 
 	// Draw the lamp model
-	m_lampModel.draw(m_lampTransform1.model(), m_camera.view(), m_viewport.projection(), {m_light});
-	m_lampModel.draw(m_lampTransform2.model(), m_camera.view(), m_viewport.projection(), {m_light});
-	m_lampModel.draw(m_lampTransform3.model(), m_camera.view(), m_viewport.projection(), {m_light});
+	m_lampModel.draw(m_lampTransform1.model(), m_camera.view(), m_viewport.projection(), {m_pointLight});
+	m_lampModel.draw(m_lampTransform2.model(), m_camera.view(), m_viewport.projection(), {m_pointLight});
+	m_lampModel.draw(m_lampTransform3.model(), m_camera.view(), m_viewport.projection(), {m_pointLight});
 
 	// Draw the house model
-	m_houseModel.draw(m_houseTransform.model(), m_camera.view(), m_viewport.projection(), {m_light});
+	m_houseModel.draw(m_houseTransform.model(), m_camera.view(), m_viewport.projection(), {m_pointLight});
 
 	// Draw the building model 1
-	m_building1Model.draw(m_building1Transform.model(), m_camera.view(), m_viewport.projection(), {m_light});
+	m_building1Model.draw(m_building1Transform.model(), m_camera.view(), m_viewport.projection(), {m_pointLight});
 
 	// Draw the building model 2
-	m_building2Model.draw(m_building2Transform.model(), m_camera.view(), m_viewport.projection(), {m_light});
+	m_building2Model.draw(m_building2Transform.model(), m_camera.view(), m_viewport.projection(), {m_pointLight});
 
 	// Draw the building model 3
-	m_building3Model.draw(m_building3Transform1.model(), m_camera.view(), m_viewport.projection(), {m_light});
-	m_building3Model.draw(m_building3Transform2.model(), m_camera.view(), m_viewport.projection(), {m_light});
+	m_building3Model.draw(m_building3Transform1.model(), m_camera.view(), m_viewport.projection(), {m_pointLight});
+	m_building3Model.draw(m_building3Transform2.model(), m_camera.view(), m_viewport.projection(), {m_pointLight});
 
 	// Swap front and back buffers
 	m_window.swapBuffers();
