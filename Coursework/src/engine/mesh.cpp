@@ -89,8 +89,7 @@ void Mesh::draw(const mat4& model, const mat4& view, const mat4& projection, con
 	// Use the associated point lights
 	for (unsigned int i = 0; i < pointLights.size(); i++)
 	{
-		string name = "pointLight";
-		if (i > 0) name += to_string(i);
+		string name = "pointLights[" + to_string(i) + "]";
 		m_shader.uniform(name + ".position", pointLights[i].position);
 		m_shader.uniform(name + ".constant", pointLights[i].constant);
 		m_shader.uniform(name + ".linear", pointLights[i].linear);
@@ -98,6 +97,7 @@ void Mesh::draw(const mat4& model, const mat4& view, const mat4& projection, con
 		m_shader.uniform(name + ".ambient", pointLights[i].ambient);
 		m_shader.uniform(name + ".diffuse", pointLights[i].diffuse);
 		m_shader.uniform(name + ".specular", pointLights[i].specular);
+		m_shader.uniform("numPointLights", (int)(i+1));
 	}
 
 	// Bind vertex array

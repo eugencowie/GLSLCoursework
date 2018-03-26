@@ -1,5 +1,9 @@
 #version 330
 
+#define MAX_DIR_LIGHTS   1
+#define MAX_POINT_LIGHTS 16
+#define MAX_SPOT_LIGHTS  16
+
 struct Material {
 	float shininess;
 };
@@ -45,9 +49,12 @@ out vec4 p_Color;
 uniform mat4 view;
 uniform Material material;
 uniform vec3 ambientLight;
-uniform DirectionalLight directionalLight;
-uniform PointLight pointLight;
-uniform SpotLight spotLight;
+uniform DirectionalLight directionalLights[MAX_DIR_LIGHTS];
+uniform PointLight pointLights[MAX_POINT_LIGHTS];
+uniform SpotLight spotLights[MAX_SPOT_LIGHTS];
+uniform int numDirectionalLights;
+uniform int numPointLights;
+uniform int numSpotLights;
 
 vec3 calculateDirectionalLight(DirectionalLight light, vec3 normal, vec3 viewDir)
 {
@@ -103,8 +110,15 @@ void main()
 	vec3 viewDir = normalize(-f_Position);
 
 	vec3 result = ambientLight;
-	
-	result += calculatePointLight(pointLight, normal, viewDir);
+
+	for (int i = 0; i < numDirectionalLights; i++)
+		result += calculateDirectionalLight(directionalLights[i], normal, viewDir);
+
+	for (int i = 0; i < numPointLights; i++)
+		result += calculatePointLight(pointLights[i], normal, viewDir);
+
+	for (int i = 0; i < numSpotLights; i++)
+		result += calculateSpotLight(spotLights[i], normal, viewDir);
 
 	// Set the fragment colour
 	p_Color = vec4(result, 1);
