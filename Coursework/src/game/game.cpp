@@ -6,7 +6,7 @@ Game::Game() :
 	m_window("GFX Coursework", {1280, 720}), // Create window
 	m_viewport(m_window.size()),             // Create viewport
 	m_camera({-15, 3, 5}, {-5, 3, -5}),      // Create camera
-	m_shader("res/shaders/lit"),             // Create shader
+	m_shader("res/shaders/compound/textured-lit"),           // Create shader
 	m_streetModel(m_shader, "res/models/street/street.obj"), // Create street model
 	m_lampModel(m_shader, "res/models/lamp/lamp.obj"),       // Create lamp model
 	m_houseModel(m_shader, "res/models/house/house.obj"),    // Create house model
