@@ -1,10 +1,10 @@
 #include "mesh.hpp"
 
-Mesh::Mesh(Program& shader, const vector<Vertex>& vertices, const vector<uvec3>& indices, const vector<shared_ptr<Texture>>& textures) :
+Mesh::Mesh(Program& shader, const vector<Vertex>& vertices, const vector<uvec3>& indices, const vector<Material>& materials) :
 	m_shader(shader),
 	m_vertexBuffer(GL_ARRAY_BUFFER),
 	m_elementBuffer(GL_ELEMENT_ARRAY_BUFFER),
-	m_textures(textures),
+	m_materials(materials),
 	m_drawCount((GLsizei)vertices.size()),
 	m_hasIndices(false)
 {
@@ -52,36 +52,50 @@ void Mesh::draw(const mat4& model, const mat4& view, const mat4& projection, con
 	m_shader.uniform("modelViewProjection", modelViewProjection);
 	m_shader.uniform("normal", normal);
 
+	// Use the associated point lights
 	for (unsigned int i = 0; i < pointLights.size(); i++)
 	{
-		string lightName = "pointLight" + to_string(i);
-		m_shader.uniform(lightName + ".position", pointLights[i].position);
-		m_shader.uniform(lightName + ".constant", pointLights[i].constant);
-		m_shader.uniform(lightName + ".linear", pointLights[i].linear);
-		m_shader.uniform(lightName + ".quadratic", pointLights[i].quadratic);
-		m_shader.uniform(lightName + ".ambient", pointLights[i].ambient);
-		m_shader.uniform(lightName + ".diffuse", pointLights[i].diffuse);
-		m_shader.uniform(lightName + ".specular", pointLights[i].specular);
+		string name = "pointLight" + to_string(i);
+		m_shader.uniform(name + ".position", pointLights[i].position);
+		m_shader.uniform(name + ".constant", pointLights[i].constant);
+		m_shader.uniform(name + ".linear", pointLights[i].linear);
+		m_shader.uniform(name + ".quadratic", pointLights[i].quadratic);
+		m_shader.uniform(name + ".ambient", pointLights[i].ambient);
+		m_shader.uniform(name + ".diffuse", pointLights[i].diffuse);
+		m_shader.uniform(name + ".specular", pointLights[i].specular);
 	}
 
-	// Use the associated textures
+	// Keep track of number of used texture units
 	int textureCount = 0;
-	for (unsigned int i = 0; i < m_textures.size(); i++)
+
+	// Use the associated materials
+	for (unsigned int i = 0; i < m_materials.size(); i++)
 	{
-		// Activate texture unit
-		glActiveTexture(GL_TEXTURE0 + i);
+		string name = "material" + to_string(i);
 
-		// Bind the texture to this texture unit
-		m_textures[i]->bind(GL_TEXTURE_2D);
-
-		// Set texture uniform to this texture unit
-		string name = "texture" + to_string(textureCount++);
-		m_shader.uniform(name, i);
-
+		if (m_materials[i].diffuse != nullptr)
+		{
+			glActiveTexture(GL_TEXTURE0 + textureCount);
+			m_materials[i].diffuse->bind(GL_TEXTURE_2D);
+			m_shader.uniform(name + ".diffuse", textureCount);
+			textureCount++;
 #ifdef _DEBUG
-		// Unbind texture unit
-		glActiveTexture(GL_TEXTURE0);
+			glActiveTexture(GL_TEXTURE0);
 #endif
+		}
+
+		if (m_materials[i].specular != nullptr)
+		{
+			glActiveTexture(GL_TEXTURE0 + textureCount);
+			m_materials[i].diffuse->bind(GL_TEXTURE_2D);
+			m_shader.uniform(name + ".specular", textureCount);
+			textureCount++;
+#ifdef _DEBUG
+			glActiveTexture(GL_TEXTURE0);
+#endif
+		}
+
+		m_shader.uniform(name + ".shininess", m_materials[i].shininess);
 	}
 
 	// Bind vertex array

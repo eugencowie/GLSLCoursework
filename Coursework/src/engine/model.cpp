@@ -21,9 +21,9 @@ Model::Model(Program& shader, const string& path, bool flipUVs)
 
 		vector<Vertex> vertices = extractVertices(attrib, shape.mesh.indices, &indexArray);
 		vector<uvec3> indices = transformIndices(indexArray);
-		vector<shared_ptr<Texture>> textures = extractTextures(materials, shape.mesh.material_ids, baseDir, flipUVs);
+		vector<Material> mats = extractMaterials(materials, shape.mesh.material_ids, baseDir, flipUVs);
 
-		m_meshes.push_back(make_shared<Mesh>(shader, vertices, indices, textures));
+		m_meshes.push_back(make_shared<Mesh>(shader, vertices, indices, mats));
 	}
 }
 
@@ -104,30 +104,52 @@ vector<uvec3> Model::transformIndices(vector<size_t> indices)
 	return result;
 }
 
-vector<shared_ptr<Texture>> Model::extractTextures(const vector<material_t>& materials, const vector<int>& materialIds, const string& baseDir, bool flipUVs)
+vector<Material> Model::extractMaterials(const vector<material_t>& materials, const vector<int>& materialIds, const string& baseDir, bool flipUVs)
 {
-	map<string, shared_ptr<Texture>> map;
+	map<string, shared_ptr<Texture>> textures;
+	vector<Material> result;
 
 	for (int i : materialIds)
 	{
-		if (i < materials.size() && !materials[i].diffuse_texname.empty())
+		if (i < materials.size())
 		{
-			// Get texture path
-			string path = baseDir + materials[i].diffuse_texname;
+			Material mat;
 
-			// Check if texture has already been loaded
-			if (!map.count(path))
+			if (!materials[i].diffuse_texname.empty())
 			{
-				// Create texture and add it to result
-				map[path] = make_shared<Texture>(path, flipUVs);
+				// Get texture path
+				string path = baseDir + materials[i].diffuse_texname;
+
+				// Check if texture has already been loaded
+				if (!textures.count(path))
+				{
+					// Create texture and add it to result
+					textures[path] = make_shared<Texture>(path, flipUVs);
+				}
+
+				mat.diffuse = textures[path];
 			}
+
+			if (!materials[i].specular_texname.empty())
+			{
+				// Get texture path
+				string path = baseDir + materials[i].specular_texname;
+
+				// Check if texture has already been loaded
+				if (!textures.count(path))
+				{
+					// Create texture and add it to result
+					textures[path] = make_shared<Texture>(path, flipUVs);
+				}
+
+				mat.specular = textures[path];
+			}
+
+			mat.shininess = materials[i].shininess;
+
+			result.push_back(mat);
 		}
 	}
-
-	vector<shared_ptr<Texture>> result;
-
-	for (const auto &s : map)
-		result.push_back(s.second);
 
 	return result;
 }

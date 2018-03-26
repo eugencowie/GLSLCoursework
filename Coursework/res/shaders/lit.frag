@@ -1,5 +1,9 @@
 #version 330
 
+struct Material {
+	float shininess;
+};
+
 struct PointLight {
 	vec3 position;
 	float linear;
@@ -19,6 +23,7 @@ out vec4 p_Color;
 
 // Uniform
 uniform mat4 view;
+uniform Material material0;
 uniform PointLight pointLight0;
 
 vec3 diffuse(vec3 pos, vec3 color)

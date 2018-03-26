@@ -14,10 +14,17 @@
 using namespace std;
 using namespace glm;
 
+struct Material
+{
+	shared_ptr<Texture> diffuse;
+	shared_ptr<Texture> specular;
+	float shininess;
+};
+
 class Mesh
 {
 public:
-	Mesh(Program& shader, const vector<Vertex>& vertices, const vector<uvec3>& indices = {}, const vector<shared_ptr<Texture>>& textures = {});
+	Mesh(Program& shader, const vector<Vertex>& vertices, const vector<uvec3>& indices = {}, const vector<Material>& materials = {});
 	void draw(const mat4& model = {}, const mat4& view = {}, const mat4& projection = {}, const vector<PointLight>& pointLights = {});
 
 private:
@@ -25,7 +32,7 @@ private:
 	VertexArray m_vertexArray;
 	Buffer m_vertexBuffer;
 	Buffer m_elementBuffer;
-	vector<shared_ptr<Texture>> m_textures;
+	vector<Material> m_materials;
 	GLsizei m_drawCount;
 	bool m_hasIndices;
 
