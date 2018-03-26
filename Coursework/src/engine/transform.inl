@@ -36,6 +36,11 @@ public:
 		return model;
 	}
 
+	vec3 position() const
+	{
+		return m_position;
+	}
+
 private:
 	vec3 m_position;
 	vec3 m_scale;

@@ -9,6 +9,22 @@
 #include "../engine/transform.inl"
 #include "../engine/light.inl"
 
+struct Streetlight
+{
+	shared_ptr<Model> model;
+	Transform transform;
+	PointLight pointLight;
+	SpotLight spotLight;
+
+	Streetlight(shared_ptr<Model> model, Transform transform) :
+		model(model),
+		transform(transform),
+		pointLight({transform.position() + vec3{0, 5.75f, -0.05f}}, 0.7f, 1.8f, 1, vec3(0), {1, 1, 0.5f}),
+		spotLight({transform.position() + vec3{0, 5.75f, -0.05f}}, {0, -1, 0}, cos(radians(27.5f)), cos(radians(35.f)), 0.045f, 0.0075f, 1, vec3(0), {1, 1, 0.5f})
+	{
+	}
+};
+
 class Game
 {
 public:
@@ -27,17 +43,13 @@ private:
 
 	Program m_shader;
 	Model m_streetModel;
-	Model m_lampModel;
+	shared_ptr<Model> m_lampModel;
 	Model m_houseModel;
 	Model m_building1Model;
 	Model m_building2Model;
 	Model m_building3Model;
 
 	Transform m_streetTransform;
-	Transform m_lampTransform1;
-	Transform m_lampTransform2;
-	Transform m_lampTransform3;
-	Transform m_lampTransform4;
 	Transform m_houseTransform;
 	Transform m_building1Transform;
 	Transform m_building2Transform;
@@ -45,12 +57,6 @@ private:
 	Transform m_building3Transform2;
 
 	DirectionalLight m_moonLight;
-	PointLight m_pointLight1;
-	PointLight m_pointLight2;
-	PointLight m_pointLight3;
-	PointLight m_pointLight4;
-	SpotLight m_spotLight1;
-	SpotLight m_spotLight2;
-	SpotLight m_spotLight3;
-	SpotLight m_spotLight4;
+
+	vector<Streetlight> m_streetlights;
 };
