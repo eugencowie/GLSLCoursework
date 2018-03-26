@@ -13,7 +13,7 @@ struct DirectionalLight
 
 	DirectionalLight(
 		vec3 direction = {0, -1, 0},
-		vec3 ambient = vec3(1),
+		vec3 ambient = vec3(0),
 		vec3 diffuse = vec3(1),
 		vec3 specular = vec3(1)
 	) :
@@ -40,7 +40,7 @@ struct PointLight
 		float linear = 0.7f,
 		float quadratic = 1.8f,
 		float constant = 1,
-		vec3 ambient = vec3(1),
+		vec3 ambient = vec3(0),
 		vec3 diffuse = vec3(1),
 		vec3 specular = vec3(1)
 	) :
@@ -76,7 +76,7 @@ struct SpotLight
 		float linear = 0.7f,
 		float quadratic = 1.8f,
 		float constant = 1,
-		vec3 ambient = vec3(1),
+		vec3 ambient = vec3(0),
 		vec3 diffuse = vec3(1),
 		vec3 specular = vec3(1)
 	) :
