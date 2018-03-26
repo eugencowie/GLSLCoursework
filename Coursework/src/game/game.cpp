@@ -69,25 +69,25 @@ void Game::render()
 	vector<PointLight> pointLights = { m_pointLight1, m_pointLight2, m_pointLight3 };
 
 	// Draw the street model
-	m_streetModel.draw(m_streetTransform.model(), m_camera.view(), m_viewport.projection(), pointLights);
+	m_streetModel.draw(m_streetTransform.model(), m_camera.view(), m_viewport.projection(), {}, pointLights, {});
 
 	// Draw the lamp model
-	m_lampModel.draw(m_lampTransform1.model(), m_camera.view(), m_viewport.projection(), pointLights);
-	m_lampModel.draw(m_lampTransform2.model(), m_camera.view(), m_viewport.projection(), pointLights);
-	m_lampModel.draw(m_lampTransform3.model(), m_camera.view(), m_viewport.projection(), pointLights);
+	m_lampModel.draw(m_lampTransform1.model(), m_camera.view(), m_viewport.projection(), {}, pointLights, {});
+	m_lampModel.draw(m_lampTransform2.model(), m_camera.view(), m_viewport.projection(), {}, pointLights, {});
+	m_lampModel.draw(m_lampTransform3.model(), m_camera.view(), m_viewport.projection(), {}, pointLights, {});
 
 	// Draw the house model
-	m_houseModel.draw(m_houseTransform.model(), m_camera.view(), m_viewport.projection(), pointLights);
+	m_houseModel.draw(m_houseTransform.model(), m_camera.view(), m_viewport.projection(), {}, pointLights, {});
 
 	// Draw the building model 1
-	m_building1Model.draw(m_building1Transform.model(), m_camera.view(), m_viewport.projection(), pointLights);
+	m_building1Model.draw(m_building1Transform.model(), m_camera.view(), m_viewport.projection(), {}, pointLights, {});
 
 	// Draw the building model 2
-	m_building2Model.draw(m_building2Transform.model(), m_camera.view(), m_viewport.projection(), pointLights);
+	m_building2Model.draw(m_building2Transform.model(), m_camera.view(), m_viewport.projection(), {}, pointLights, {});
 
 	// Draw the building model 3
-	m_building3Model.draw(m_building3Transform1.model(), m_camera.view(), m_viewport.projection(), pointLights);
-	m_building3Model.draw(m_building3Transform2.model(), m_camera.view(), m_viewport.projection(), pointLights);
+	m_building3Model.draw(m_building3Transform1.model(), m_camera.view(), m_viewport.projection(), {}, pointLights, {});
+	m_building3Model.draw(m_building3Transform2.model(), m_camera.view(), m_viewport.projection(), {}, pointLights, {});
 
 	// Swap front and back buffers
 	m_window.swapBuffers();
