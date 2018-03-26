@@ -1,13 +1,13 @@
-#version 120
+#version 330
 
-// Vertex attributes
-attribute vec3 v_Position;
-attribute vec4 v_Color;
-attribute vec2 v_TexCoord;
+// Inputs
+in vec3 v_Position;
+in vec4 v_Color;
+in vec2 v_TexCoord;
 
-// Fragment attributes
-varying vec4 f_Color;
-varying vec2 f_TexCoord;
+// Outputs
+out vec4 f_Color;
+out vec2 f_TexCoord;
 
 // Uniforms
 uniform mat4 modelViewProjection;

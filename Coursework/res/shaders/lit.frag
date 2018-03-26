@@ -7,12 +7,12 @@ struct PointLight {
 	vec3 specular;
 };
 
-// Fragment attributes
+// Inputs
 in vec3 f_Position;
 in vec3 f_Normal;
 in PointLight f_PointLight0;
 
-// Fragment output
+// Outputs
 out vec4 p_Color;
 
 vec3 diffuse(vec3 pos, vec3 color)

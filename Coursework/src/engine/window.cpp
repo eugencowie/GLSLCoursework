@@ -9,8 +9,10 @@ Window::Window(const string& title, ivec2 size)
 	if (sdl != 0) util::panic("Failed to initialise SDL");
 
 	// Set OpenGL attributes
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG);
 
 	// Create window
 	m_window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, size.x, size.y, SDL_WINDOW_OPENGL);
@@ -25,7 +27,7 @@ Window::Window(const string& title, ivec2 size)
 	if (!glad) util::panic("Failed to load OpenGL functions");
 
 	// Check for minimum requirements
-	if (!GLAD_GL_VERSION_2_1 || !GLAD_GL_ARB_vertex_array_object)
+	if (!GLAD_GL_VERSION_3_3)
 		util::panic("Unsupported OpenGL version");
 }
 

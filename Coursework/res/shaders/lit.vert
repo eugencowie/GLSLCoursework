@@ -7,11 +7,11 @@ struct PointLight {
 	vec3 specular;
 };
 
-// Vertex attributes
+// Inputs
 in vec3 v_Position;
 in vec3 v_Normal;
 
-// Fragment attributes
+// Outputs
 out vec3 f_Position;
 out vec3 f_Normal;
 out PointLight f_PointLight0;

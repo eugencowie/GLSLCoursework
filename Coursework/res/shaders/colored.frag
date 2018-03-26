@@ -1,10 +1,13 @@
-#version 120
+#version 330
 
-// Fragment attributes
-varying vec4 f_Color;
+// Inputs
+in vec4 f_Color;
+
+// Outputs
+out vec3 p_Color;
 
 void main()
 {
 	// Set the fragment colour
-	gl_FragColor = f_Color;
+	p_Color = f_Color;
 }

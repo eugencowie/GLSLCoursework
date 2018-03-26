@@ -1,7 +1,10 @@
-#version 120
+#version 330
 
-// Fragment attributes
-varying vec2 f_TexCoord;
+// Inputs
+in vec2 f_TexCoord;
+
+// Outputs
+out vec3 p_Color;
 
 // Uniforms
 uniform sampler2D texture0;
@@ -9,5 +12,5 @@ uniform sampler2D texture0;
 void main()
 {
 	// Set the fragment colour
-	gl_FragColor = texture2D(texture0, f_TexCoord);
+	p_Color = texture(texture0, f_TexCoord);
 }

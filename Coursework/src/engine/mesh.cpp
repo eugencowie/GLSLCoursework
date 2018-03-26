@@ -85,12 +85,6 @@ void Mesh::draw(const mat4& model, const mat4& view, const mat4& projection, con
 	// Bind vertex array
 	m_vertexArray.bind();
 
-	// Bind buffer (not needed on OpenGL 3+)
-	if (m_hasIndices)
-		m_elementBuffer.bind();
-	else
-		m_vertexBuffer.bind();
-
 	// Draw elements
 	if (m_hasIndices)
 		glDrawElements(GL_TRIANGLES, m_drawCount, GL_UNSIGNED_INT, nullptr);
