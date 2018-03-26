@@ -10,10 +10,13 @@ struct PointLight {
 // Inputs
 in vec3 f_Position;
 in vec3 f_Normal;
-in PointLight f_PointLight0;
 
 // Outputs
 out vec4 p_Color;
+
+// Uniform
+uniform mat4 view;
+uniform PointLight pointLight0;
 
 vec3 diffuse(vec3 pos, vec3 color)
 {
@@ -35,9 +38,11 @@ vec3 specular(vec3 pos, vec3 color)
 
 void main()
 {
-	vec3 ambient = f_PointLight0.ambient;
-	vec3 diffuse = diffuse(f_PointLight0.position, f_PointLight0.diffuse);
-	vec3 specular = specular(f_PointLight0.position, f_PointLight0.specular);
+	vec3 lightPos = vec3(view * vec4(pointLight0.position, 1));
+
+	vec3 ambient = pointLight0.ambient;
+	vec3 diffuse = diffuse(lightPos, pointLight0.diffuse);
+	vec3 specular = specular(lightPos, pointLight0.specular);
 
 	// Set the fragment colour
 	p_Color = vec4(ambient + diffuse + specular, 1);
