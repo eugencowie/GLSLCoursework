@@ -52,26 +52,14 @@ void Mesh::draw(const mat4& model, const mat4& view, const mat4& projection, con
 	m_shader.uniform("modelViewProjection", modelViewProjection);
 	m_shader.uniform("normal", normal);
 
-	// Use the associated point lights
-	for (unsigned int i = 0; i < pointLights.size(); i++)
-	{
-		string name = "pointLight" + to_string(i);
-		m_shader.uniform(name + ".position", pointLights[i].position);
-		m_shader.uniform(name + ".constant", pointLights[i].constant);
-		m_shader.uniform(name + ".linear", pointLights[i].linear);
-		m_shader.uniform(name + ".quadratic", pointLights[i].quadratic);
-		m_shader.uniform(name + ".ambient", pointLights[i].ambient);
-		m_shader.uniform(name + ".diffuse", pointLights[i].diffuse);
-		m_shader.uniform(name + ".specular", pointLights[i].specular);
-	}
-
 	// Keep track of number of used texture units
 	int textureCount = 0;
 
 	// Use the associated materials
 	for (unsigned int i = 0; i < m_materials.size(); i++)
 	{
-		string name = "material" + to_string(i);
+		string name = "material";
+		if (i > 0) name += to_string(i);
 
 		if (m_materials[i].diffuse != nullptr)
 		{
@@ -96,6 +84,20 @@ void Mesh::draw(const mat4& model, const mat4& view, const mat4& projection, con
 		}
 
 		m_shader.uniform(name + ".shininess", m_materials[i].shininess);
+	}
+
+	// Use the associated point lights
+	for (unsigned int i = 0; i < pointLights.size(); i++)
+	{
+		string name = "pointLight";
+		if (i > 0) name += to_string(i);
+		m_shader.uniform(name + ".position", pointLights[i].position);
+		m_shader.uniform(name + ".constant", pointLights[i].constant);
+		m_shader.uniform(name + ".linear", pointLights[i].linear);
+		m_shader.uniform(name + ".quadratic", pointLights[i].quadratic);
+		m_shader.uniform(name + ".ambient", pointLights[i].ambient);
+		m_shader.uniform(name + ".diffuse", pointLights[i].diffuse);
+		m_shader.uniform(name + ".specular", pointLights[i].specular);
 	}
 
 	// Bind vertex array

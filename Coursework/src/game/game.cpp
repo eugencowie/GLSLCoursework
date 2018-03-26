@@ -29,6 +29,11 @@ Game::Game() :
 
 	// Set up OpenGL
 	glEnable(GL_DEPTH_TEST);
+
+	// Set up shader
+	m_shader.bind();
+	m_shader.uniform("ambientLight", vec3(0.25f));
+	m_shader.unbind();
 }
 
 void Game::run()
