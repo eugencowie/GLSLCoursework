@@ -43,7 +43,11 @@ private:
 	Transform m_building3Transform1;
 	Transform m_building3Transform2;
 
+	DirectionalLight m_dirLight;
 	PointLight m_pointLight1;
 	PointLight m_pointLight2;
 	PointLight m_pointLight3;
+	SpotLight m_spotLight1;
+	SpotLight m_spotLight2;
+	SpotLight m_spotLight3;
 };
