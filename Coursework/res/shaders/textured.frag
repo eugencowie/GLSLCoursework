@@ -4,7 +4,7 @@
 in vec2 f_TexCoord;
 
 // Outputs
-out vec3 p_Color;
+out vec4 p_Color;
 
 // Uniforms
 uniform sampler2D texture0;

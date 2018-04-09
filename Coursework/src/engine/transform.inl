@@ -41,6 +41,11 @@ public:
 		return m_position;
 	}
 
+	void move(vec3 offset)
+	{
+		m_position += offset;
+	}
+
 private:
 	vec3 m_position;
 	vec3 m_scale;

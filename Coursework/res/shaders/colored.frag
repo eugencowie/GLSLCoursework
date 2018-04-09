@@ -4,7 +4,7 @@
 in vec4 f_Color;
 
 // Outputs
-out vec3 p_Color;
+out vec4 p_Color;
 
 void main()
 {
