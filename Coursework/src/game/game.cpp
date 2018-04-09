@@ -86,12 +86,11 @@ void Game::render()
 
 	// Draw the street model
 	m_streetModel.draw(m_streetTransform.model(), m_camera.view(), m_viewport.projection(), m_directionalLights, m_pointLights, m_spotLights);
+
+	// Draw the police car model
 	{
 		auto start = std::chrono::high_resolution_clock::now();
-
-		// Draw the police car model
 		m_policecarModel.draw(m_policecarTransform.model(), m_camera.view(), m_viewport.projection(), m_directionalLights, m_pointLights, m_spotLights);
-
 		auto end = std::chrono::high_resolution_clock::now();
 		auto ns = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
 		cout << "car model took " << ns << " ns\n";
@@ -102,13 +101,12 @@ void Game::render()
 
 	// Draw the building model 2
 	m_building2Model.draw(m_building2Transform.model(), m_camera.view(), m_viewport.projection(), m_directionalLights, m_pointLights, m_spotLights);
+
+	// Draw the building model 3
 	{
 		auto start = std::chrono::high_resolution_clock::now();
-
-		// Draw the building model 3
 		m_building3Model.draw(m_building3Transform1.model(), m_camera.view(), m_viewport.projection(), m_directionalLights, m_pointLights, m_spotLights);
 		m_building3Model.draw(m_building3Transform2.model(), m_camera.view(), m_viewport.projection(), m_directionalLights, m_pointLights, m_spotLights);
-
 		auto end = std::chrono::high_resolution_clock::now();
 		auto ns = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
 		cout << "bld3 model took " << ns << " ns\n";
