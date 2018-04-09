@@ -103,14 +103,8 @@ void Game::render()
 	m_building2Model.draw(m_building2Transform.model(), m_camera.view(), m_viewport.projection(), m_directionalLights, m_pointLights, m_spotLights);
 
 	// Draw the building model 3
-	{
-		auto start = std::chrono::high_resolution_clock::now();
-		m_building3Model.draw(m_building3Transform1.model(), m_camera.view(), m_viewport.projection(), m_directionalLights, m_pointLights, m_spotLights);
-		m_building3Model.draw(m_building3Transform2.model(), m_camera.view(), m_viewport.projection(), m_directionalLights, m_pointLights, m_spotLights);
-		auto end = std::chrono::high_resolution_clock::now();
-		auto ns = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
-		cout << "bld3 model took " << ns << " ns\n";
-	}
+	m_building3Model.draw(m_building3Transform1.model(), m_camera.view(), m_viewport.projection(), m_directionalLights, m_pointLights, m_spotLights);
+	m_building3Model.draw(m_building3Transform2.model(), m_camera.view(), m_viewport.projection(), m_directionalLights, m_pointLights, m_spotLights);
 
 	// Draw the lamp model
 	for (Streetlight& light : m_streetlights)
