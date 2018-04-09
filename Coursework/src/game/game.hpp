@@ -16,11 +16,11 @@ struct Streetlight
 	PointLight pointLight;
 	SpotLight spotLight;
 
-	Streetlight(shared_ptr<Model> model, Transform transform) :
+	Streetlight(shared_ptr<Model> model, Transform transform, vec3 lightOffset={0, 5.75f, -0.05f}) :
 		model(model),
 		transform(transform),
-		pointLight({transform.position() + vec3{0, 5.75f, -0.05f}}, 0.7f, 1.8f, 1, vec3(0), {1, 1, 0.5f}),
-		spotLight({transform.position() + vec3{0, 5.75f, -0.05f}}, {0, -1, 0}, cos(radians(27.5f)), cos(radians(35.f)), 0.045f, 0.0075f, 1, vec3(0), {1, 1, 0.5f})
+		pointLight({transform.position() + lightOffset }, 0.7f, 1.8f, 1, vec3(0), {1, 1, 0.5f}),
+		spotLight({transform.position() + lightOffset }, {0, -1, 0}, cos(radians(27.5f)), cos(radians(35.f)), 0.045f, 0.0075f, 1, vec3(0), {1, 1, 0.5f})
 	{
 	}
 };

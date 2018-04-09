@@ -24,7 +24,8 @@ Game::Game() :
 		{m_lampModel, {{ 4.5f, 0, -4.25f}, {1, 2, 1}, {{90}}}},
 		{m_lampModel, {{-1.5f, 0, -4.25f}, {1, 2, 1}, {{90}}}},
 		{m_lampModel, {{-7.5f, 0, -4.25f}, {1, 2, 1}, {{90}}}},
-		{m_lampModel, {{-13.f, 0, -4.25f}, {1, 2, 1}, {{90}}}}
+		{m_lampModel, {{-13.f, 0, -4.25f}, {1, 2, 1}, {{90}}}},
+		{m_lampModel, {{ 10.f, 0, -6.25f}, {1, 2, 1}, {{180}}}, {0.05f, 5.75f, 0}}
 	})
 {
 	// Enable vertical synchronisation
