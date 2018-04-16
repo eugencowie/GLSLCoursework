@@ -88,7 +88,7 @@ void Game::render()
 	m_streetModel.draw(m_streetTransform.model(), m_camera.view(), m_viewport.projection(), m_directionalLights, m_pointLights, m_spotLights);
 
 	// Draw the police car model
-	m_policecarModel.draw(m_policecarTransform.model(), m_camera.view(), m_viewport.projection(), m_directionalLights, m_pointLights, m_spotLights, true);
+	m_policecarModel.draw(m_policecarTransform.model(), m_camera.view(), m_viewport.projection(), m_directionalLights, m_pointLights, m_spotLights);
 
 	// Draw the building model 1
 	m_building1Model.draw(m_building1Transform.model(), m_camera.view(), m_viewport.projection(), m_directionalLights, m_pointLights, m_spotLights);
