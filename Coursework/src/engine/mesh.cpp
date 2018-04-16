@@ -34,7 +34,7 @@ Mesh::Mesh(Program& shader, const vector<Vertex>& vertices, const vector<uvec3>&
 	m_vertexArray.unbind();
 }
 
-void Mesh::draw(const mat4& model, const mat4& view, const mat4& projection, const vector<DirectionalLight>& directionalLights, const vector<PointLight>& pointLights, const vector<SpotLight>& spotLights)
+void Mesh::draw(const mat4& model, const mat4& view, const mat4& projection, const vector<DirectionalLight*>& directionalLights, const vector<PointLight*>& pointLights, const vector<SpotLight*>& spotLights)
 {
 	// Use the associated shader program
 	m_shader.bind();
@@ -90,10 +90,10 @@ void Mesh::draw(const mat4& model, const mat4& view, const mat4& projection, con
 	for (unsigned int i = 0; i < directionalLights.size(); i++)
 	{
 		string name = "directionalLights[" + to_string(i) + "]";
-		m_shader.uniform(name + ".direction", directionalLights[i].direction);
-		m_shader.uniform(name + ".ambient", directionalLights[i].ambient);
-		m_shader.uniform(name + ".diffuse", directionalLights[i].diffuse);
-		m_shader.uniform(name + ".specular", directionalLights[i].specular);
+		m_shader.uniform(name + ".direction", directionalLights[i]->direction);
+		m_shader.uniform(name + ".ambient", directionalLights[i]->ambient);
+		m_shader.uniform(name + ".diffuse", directionalLights[i]->diffuse);
+		m_shader.uniform(name + ".specular", directionalLights[i]->specular);
 		m_shader.uniform("numDirectionalLights", (int)(i + 1));
 	}
 
@@ -101,13 +101,13 @@ void Mesh::draw(const mat4& model, const mat4& view, const mat4& projection, con
 	for (unsigned int i = 0; i < pointLights.size(); i++)
 	{
 		string name = "pointLights[" + to_string(i) + "]";
-		m_shader.uniform(name + ".position", pointLights[i].position);
-		m_shader.uniform(name + ".constant", pointLights[i].constant);
-		m_shader.uniform(name + ".linear", pointLights[i].linear);
-		m_shader.uniform(name + ".quadratic", pointLights[i].quadratic);
-		m_shader.uniform(name + ".ambient", pointLights[i].ambient);
-		m_shader.uniform(name + ".diffuse", pointLights[i].diffuse);
-		m_shader.uniform(name + ".specular", pointLights[i].specular);
+		m_shader.uniform(name + ".position", pointLights[i]->position);
+		m_shader.uniform(name + ".constant", pointLights[i]->constant);
+		m_shader.uniform(name + ".linear", pointLights[i]->linear);
+		m_shader.uniform(name + ".quadratic", pointLights[i]->quadratic);
+		m_shader.uniform(name + ".ambient", pointLights[i]->ambient);
+		m_shader.uniform(name + ".diffuse", pointLights[i]->diffuse);
+		m_shader.uniform(name + ".specular", pointLights[i]->specular);
 		m_shader.uniform("numPointLights", (int)(i + 1));
 	}
 
@@ -115,16 +115,16 @@ void Mesh::draw(const mat4& model, const mat4& view, const mat4& projection, con
 	for (unsigned int i = 0; i < spotLights.size(); i++)
 	{
 		string name = "spotLights[" + to_string(i) + "]";
-		m_shader.uniform(name + ".position", spotLights[i].position);
-		m_shader.uniform(name + ".direction", spotLights[i].direction);
-		m_shader.uniform(name + ".cutOff", spotLights[i].cutOff);
-		m_shader.uniform(name + ".outerCutOff", spotLights[i].outerCutOff);
-		m_shader.uniform(name + ".constant", spotLights[i].constant);
-		m_shader.uniform(name + ".linear", spotLights[i].linear);
-		m_shader.uniform(name + ".quadratic", spotLights[i].quadratic);
-		m_shader.uniform(name + ".ambient", spotLights[i].ambient);
-		m_shader.uniform(name + ".diffuse", spotLights[i].diffuse);
-		m_shader.uniform(name + ".specular", spotLights[i].specular);
+		m_shader.uniform(name + ".position", spotLights[i]->position);
+		m_shader.uniform(name + ".direction", spotLights[i]->direction);
+		m_shader.uniform(name + ".cutOff", spotLights[i]->cutOff);
+		m_shader.uniform(name + ".outerCutOff", spotLights[i]->outerCutOff);
+		m_shader.uniform(name + ".constant", spotLights[i]->constant);
+		m_shader.uniform(name + ".linear", spotLights[i]->linear);
+		m_shader.uniform(name + ".quadratic", spotLights[i]->quadratic);
+		m_shader.uniform(name + ".ambient", spotLights[i]->ambient);
+		m_shader.uniform(name + ".diffuse", spotLights[i]->diffuse);
+		m_shader.uniform(name + ".specular", spotLights[i]->specular);
 		m_shader.uniform("numSpotLights", (int)(i + 1));
 	}
 

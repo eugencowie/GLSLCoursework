@@ -10,13 +10,11 @@ Game::Game() :
 	m_shader("res/shaders/compound/textured-lit"),           // Create shader
 	m_houseModel(m_shader, "res/models/house/house.obj"),    // Create house model
 	m_streetModel(m_shader, "res/models/street/street.obj"), // Create street model
-	m_policecarModel(m_shader, "res/models/policecar/policecar.obj"),  // Create police car model
 	m_building1Model(m_shader, "res/models/buildings/building12.obj"), // Create building model 1
 	m_building2Model(m_shader, "res/models/buildings/building07.obj"), // Create building model 2
 	m_building3Model(m_shader, "res/models/buildings/building03.obj"), // Create building model 3
 	m_houseTransform({3.25f, 0, -10}, vec3(0.05f), {{180}}),
 	m_streetTransform({}, {-0.5f, 0.5f, 0.5f}, {{270}}),
-	m_policecarTransform({-20.f, 0, -2}, vec3(0.0015f)),
 	m_building1Transform({-3.25f, 0, -11}),
 	m_building2Transform({-13.25f, 0, -13.25f}),
 	m_building3Transform1({22.5f, 0, -9}),
@@ -30,7 +28,12 @@ Game::Game() :
 		{m_lampModel, {{-13.f, 0, -4.25f}, {1, 2, 1}, {{90}}}},
 		{m_lampModel, {{ 10.f, 0, -6.25f}, {1, 2, 1}, {{180}}}, {0.05f, 5.75f, 0}}
 	}),
-	m_policecarTurned(false)
+	m_policeCar({
+		make_shared<Model>(m_shader, "res/models/policecar/policecar.obj"),
+		{{-20.f, 0, -2}, vec3(0.0015f)},
+		{{{0, 0, -1}}, {{0, 0, 1}}},
+		false
+	})
 {
 	// Enable vertical synchronisation
 	m_window.verticalSync(true);
@@ -46,8 +49,15 @@ Game::Game() :
 	// Add street lights
 	for (Streetlight& light : m_streetlights)
 	{
-		m_pointLights.push_back(light.pointLight);
-		m_spotLights.push_back(light.spotLight);
+		m_pointLights.push_back(&light.pointLight);
+		m_spotLights.push_back(&light.spotLight);
+	}
+
+	// Add police car headlights
+	for (Headlight& light : m_policeCar.headlights)
+	{
+		m_pointLights.push_back(&light.pointLight);
+		m_spotLights.push_back(&light.spotLight);
 	}
 }
 
@@ -83,24 +93,8 @@ void Game::update(int elapsedTime)
 	if (m_input.keyJustReleased(SDLK_ESCAPE))
 		m_window.close();
 
-	// Move police car
-	if (m_policecarTurned)
-		m_policecarTransform.move({0, 0, -0.005f * elapsedTime});
-	else
-		m_policecarTransform.move({0.005f * elapsedTime, 0, 0});
-
-	if (!m_policecarTurned && m_policecarTransform.position().x > 7)
-	{
-		m_policecarTurned = true;
-		m_policecarTransform.move({8, 0, 0});
-		m_policecarTransform.rotations({{90}});
-	}
-	else if (m_policecarTurned && m_policecarTransform.position().z < -20)
-	{
-		m_policecarTurned = false;
-		m_policecarTransform.position({-20.f, 0, -2});
-		m_policecarTransform.rotations({});
-	}
+	// Update police car
+	m_policeCar.update(elapsedTime);
 }
 
 void Game::render(int elapsedTime)
@@ -115,7 +109,7 @@ void Game::render(int elapsedTime)
 	m_streetModel.draw(m_streetTransform.model(), m_camera.view(), m_viewport.projection(), m_directionalLights, m_pointLights, m_spotLights);
 
 	// Draw the police car model
-	m_policecarModel.draw(m_policecarTransform.model(), m_camera.view(), m_viewport.projection(), m_directionalLights, m_pointLights, m_spotLights);
+	m_policeCar.model->draw(m_policeCar.transform.model(), m_camera.view(), m_viewport.projection(), m_directionalLights, m_pointLights, m_spotLights);
 
 	// Draw the building model 1
 	m_building1Model.draw(m_building1Transform.model(), m_camera.view(), m_viewport.projection(), m_directionalLights, m_pointLights, m_spotLights);

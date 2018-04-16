@@ -158,7 +158,7 @@ vector<Material> Model::extractMaterials(const vector<material_t>& materials, co
 	return result;
 }
 
-void Model::draw(const mat4& model, const mat4& view, const mat4& projection, const vector<DirectionalLight>& directionalLights, const vector<PointLight>& pointLights, const vector<SpotLight>& spotLights)
+void Model::draw(const mat4& model, const mat4& view, const mat4& projection, const vector<DirectionalLight*>& directionalLights, const vector<PointLight*>& pointLights, const vector<SpotLight*>& spotLights)
 {
 	// Draw all meshes
 	for (shared_ptr<Mesh>& mesh : m_meshes)
