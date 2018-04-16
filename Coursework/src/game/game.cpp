@@ -29,7 +29,8 @@ Game::Game() :
 		{m_lampModel, {{-7.5f, 0, -4.25f}, {1, 2, 1}, {{90}}}},
 		{m_lampModel, {{-13.f, 0, -4.25f}, {1, 2, 1}, {{90}}}},
 		{m_lampModel, {{ 10.f, 0, -6.25f}, {1, 2, 1}, {{180}}}, {0.05f, 5.75f, 0}}
-	})
+	}),
+	m_policecarTurned(false)
 {
 	// Enable vertical synchronisation
 	m_window.verticalSync(true);
@@ -83,7 +84,23 @@ void Game::update(int elapsedTime)
 		m_window.close();
 
 	// Move police car
-	m_policecarTransform.move({0.1f, 0, 0});
+	if (m_policecarTurned)
+		m_policecarTransform.move({0, 0, -0.005f * elapsedTime});
+	else
+		m_policecarTransform.move({0.005f * elapsedTime, 0, 0});
+
+	if (!m_policecarTurned && m_policecarTransform.position().x > 7)
+	{
+		m_policecarTurned = true;
+		m_policecarTransform.move({8, 0, 0});
+		m_policecarTransform.rotations({{90}});
+	}
+	else if (m_policecarTurned && m_policecarTransform.position().z < -20)
+	{
+		m_policecarTurned = false;
+		m_policecarTransform.position({-20.f, 0, -2});
+		m_policecarTransform.rotations({});
+	}
 }
 
 void Game::render(int elapsedTime)

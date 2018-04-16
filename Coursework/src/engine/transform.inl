@@ -41,9 +41,19 @@ public:
 		return m_position;
 	}
 
+	void position(vec3 newPosition)
+	{
+		m_position = newPosition;
+	}
+
 	void move(vec3 offset)
 	{
 		m_position += offset;
+	}
+
+	void rotations(const vector<Rotation>& rotations)
+	{
+		m_rotations = rotations;
 	}
 
 private:
