@@ -33,8 +33,8 @@ struct Headlight
 
 	Headlight(vec3 offset) :
 		offset(offset),
-		pointLight(offset, 0.7f, 1.8f, 1, vec3(0), {1, 1, 0.5f}),
-		spotLight(offset, {1, 0, 0}, cos(radians(27.5f)), cos(radians(35.f)), 0.045f, 0.0075f, 1, vec3(0), {1, 1, 0.5f})
+		pointLight(offset, 0.07f, 0.017f, 1, vec3(0), vec3(1), vec3(0)),
+		spotLight(offset, {1, 0, 0}, cos(radians(12.5f)), cos(radians(17.5f)), 0.045f, 0.0075f, 1, vec3(0), vec3(1), vec3(0))
 	{
 	}
 
@@ -72,12 +72,16 @@ struct Car
 			turned = true;
 			transform.move({8, 0, 0});
 			transform.rotations({{90}});
+			for (Headlight& light : headlights)
+				light.offset = vec3(-light.offset.z, light.offset.y, -light.offset.x);
 		}
 		else if (turned && transform.position().z < -20)
 		{
 			turned = false;
 			transform.position({-20.f, 0, -2});
 			transform.rotations({});
+			for (Headlight& light : headlights)
+				light.offset = vec3(-light.offset.z, light.offset.y, -light.offset.x);
 		}
 
 		for (Headlight& light : headlights)
