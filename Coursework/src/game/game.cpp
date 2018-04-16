@@ -28,12 +28,7 @@ Game::Game() :
 		{m_lampModel, {{-13.f, 0, -4.25f}, {1, 2, 1}, {{90}}}},
 		{m_lampModel, {{ 10.f, 0, -6.25f}, {1, 2, 1}, {{180}}}, {0.05f, 5.75f, 0}}
 	}),
-	m_policeCar({
-		make_shared<Model>(m_shader, "res/models/policecar/policecar.obj"),
-		{{-20.f, 0, -2}, vec3(0.0015f)},
-		{{{0, 0, -1}}, {{0, 0, 1}}},
-		false
-	})
+	m_policeCar(m_shader)
 {
 	// Enable vertical synchronisation
 	m_window.verticalSync(true);

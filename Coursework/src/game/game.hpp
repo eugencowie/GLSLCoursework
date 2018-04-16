@@ -34,7 +34,7 @@ struct Headlight
 	Headlight(vec3 offset) :
 		offset(offset),
 		pointLight(offset, 0.7f, 1.8f, 1, vec3(0), {1, 1, 0.5f}),
-		spotLight(offset, {0, -1, 0}, cos(radians(27.5f)), cos(radians(35.f)), 0.045f, 0.0075f, 1, vec3(0), {1, 1, 0.5f})
+		spotLight(offset, {1, 0, 0}, cos(radians(27.5f)), cos(radians(35.f)), 0.045f, 0.0075f, 1, vec3(0), {1, 1, 0.5f})
 	{
 	}
 
@@ -51,6 +51,14 @@ struct Car
 	Transform transform;
 	vector<Headlight> headlights;
 	bool turned;
+
+	Car(Program& shader) :
+		model(make_shared<Model>(shader, "res/models/policecar/policecar.obj")),
+		transform({-20.f, 0, -2 }, vec3(0.0015f)),
+		headlights({{{9, 1, -1}}, {{9, 1, 1}}}),
+		turned(false)
+	{
+	}
 
 	void update(int elapsedTime)
 	{
