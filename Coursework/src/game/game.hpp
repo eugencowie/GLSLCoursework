@@ -32,8 +32,8 @@ public:
 	void run();
 
 private:
-	void update();
-	void render();
+	void update(int elapsedTime);
+	void render(int elapsedTime);
 
 	Window m_window;
 	Input m_input;

@@ -27,6 +27,12 @@ public:
 		SDL_GL_SetSwapInterval(vsync ? 1 : 0);
 	}
 
+	int ticks() const
+	{
+		// Get total running time
+		return SDL_GetTicks();
+	}
+
 	ivec2 size() const
 	{
 		// Get window dimensions

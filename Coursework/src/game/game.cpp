@@ -52,15 +52,25 @@ Game::Game() :
 
 void Game::run()
 {
+	// Initialise previous time
+	int prevTime = m_window.ticks();
+
 	while (!m_window.shouldClose())
 	{
+		// Calculate elapsed time
+		int currentTime = m_window.ticks();
+		int elapsedTime = currentTime - prevTime;
+
 		// Update and render
-		update();
-		render();
+		update(elapsedTime);
+		render(elapsedTime);
+
+		// Set previous time
+		prevTime = currentTime;
 	}
 }
 
-void Game::update()
+void Game::update(int elapsedTime)
 {
 	// Process window events
 	m_window.processEvents();
@@ -76,7 +86,7 @@ void Game::update()
 	m_policecarTransform.move({0.1f, 0, 0});
 }
 
-void Game::render()
+void Game::render(int elapsedTime)
 {
 	// Clear the back buffer
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
