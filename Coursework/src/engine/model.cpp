@@ -147,7 +147,11 @@ vector<Material> Model::extractMaterials(const vector<material_t>& materials, co
 
 			mat.shininess = materials[i].shininess;
 
-			result.push_back(mat);
+			if (mat.diffuse)
+			{
+				result.push_back(mat);
+				return result;
+			}
 		}
 	}
 

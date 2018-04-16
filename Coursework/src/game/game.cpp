@@ -88,13 +88,7 @@ void Game::render()
 	m_streetModel.draw(m_streetTransform.model(), m_camera.view(), m_viewport.projection(), m_directionalLights, m_pointLights, m_spotLights);
 
 	// Draw the police car model
-	{
-		auto start = std::chrono::high_resolution_clock::now();
-		m_policecarModel.draw(m_policecarTransform.model(), m_camera.view(), m_viewport.projection(), m_directionalLights, m_pointLights, m_spotLights);
-		auto end = std::chrono::high_resolution_clock::now();
-		auto ns = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
-		cout << "car model took " << ns << " ns\n";
-	}
+	m_policecarModel.draw(m_policecarTransform.model(), m_camera.view(), m_viewport.projection(), m_directionalLights, m_pointLights, m_spotLights, true);
 
 	// Draw the building model 1
 	m_building1Model.draw(m_building1Transform.model(), m_camera.view(), m_viewport.projection(), m_directionalLights, m_pointLights, m_spotLights);
