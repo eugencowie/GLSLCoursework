@@ -76,6 +76,7 @@ newmtl black
 	Kd 0.1451 0.1451 0.1451
 	Ks 0.0000 0.0000 0.0000
 	Ke 0.0000 0.0000 0.0000
+	map_Kd Map__69_Raytrace.tga
 
 newmtl 24___Default
 	Ns 40.0000

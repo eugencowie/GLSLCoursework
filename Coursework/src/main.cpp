@@ -1,3 +1,7 @@
+#ifdef _DEBUG
+#error Please run in Release mode
+#endif
+
 #include "game/game.hpp"
 #include <cstdlib>
 
