@@ -73,7 +73,7 @@ struct Car
 	vector<Taillight> taillights;
 	bool turned;
 
-	Car(Program& shader) :
+	Car(Program* shader) :
 		model(make_shared<Model>(shader, "res/models/policecar/policecar.obj")),
 		transform({-20.f, 0.05f, -2 }, vec3(0.0015f)),
 		headlights({{{9, 1, -1}}, {{9, 1, 1}}}),
@@ -146,7 +146,14 @@ private:
 	Viewport m_viewport;
 	Camera m_camera;
 
-	Program m_shader;
+	Program m_coloredShader;
+	Program m_texturedShader;
+	Program m_litShader;
+	Program m_coloredTexturedShader;
+	Program m_texturedLitShader;
+	vector<Program*> m_shaders;
+	unsigned int m_currentShader;
+
 	Model m_houseModel;
 	Model m_streetModel;
 	Model m_building1Model;

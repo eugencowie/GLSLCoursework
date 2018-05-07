@@ -126,12 +126,18 @@ public:
 		glUniformMatrix4fv(location, 1, transpose, value_ptr(value));
 	}
 
+	void vertexAttribPointer(GLuint location, GLint size, GLenum type, GLboolean normalised, GLsizei stride, const void* pointer)
+	{
+		// Set vertex attribute pointer and enable vertex attribute array
+		glVertexAttribPointer(location, size, type, normalised, stride, pointer);
+		glEnableVertexAttribArray(location);
+	}
+
 	void vertexAttribPointer(const string& name, GLint size, GLenum type, GLboolean normalised, GLsizei stride, const void* pointer)
 	{
 		// Set vertex attribute pointer and enable vertex attribute array
 		GLuint location = glGetAttribLocation(m_program, name.c_str());
-		glVertexAttribPointer(location, size, type, normalised, stride, pointer);
-		glEnableVertexAttribArray(location);
+		vertexAttribPointer(location, size, type, normalised, stride, pointer);
 	}
 
 	GLint parameter(GLenum pname)

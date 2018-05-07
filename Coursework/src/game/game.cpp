@@ -4,15 +4,27 @@
 #include <chrono>
 
 Game::Game() :
-	m_window("GFX Coursework", {1280, 720}), // Create window
-	m_viewport(m_window.size()),             // Create viewport
-	m_camera({-15, 3, 5}, {-5, 3, -5}),      // Create camera
-	m_shader("res/shaders/compound/textured-lit"),           // Create shader
-	m_houseModel(m_shader, "res/models/house/house.obj"),    // Create house model
-	m_streetModel(m_shader, "res/models/street/street.obj"), // Create street model
-	m_building1Model(m_shader, "res/models/buildings/building12.obj"), // Create building model 1
-	m_building2Model(m_shader, "res/models/buildings/building07.obj"), // Create building model 2
-	m_building3Model(m_shader, "res/models/buildings/building03.obj"), // Create building model 3
+	m_window("GFX Coursework", {1280, 720}),  // Create window
+	m_viewport(m_window.size()),              // Create viewport
+	m_camera({-15, 3, 5}, {-5, 3, -5}),       // Create camera
+	m_coloredShader("res/shaders/colored"),   // Create colored shader
+	m_texturedShader("res/shaders/textured"), // Create textured shader
+	m_litShader("res/shaders/lit"),           // Create lit shader
+	m_coloredTexturedShader("res/shaders/compound/colored-textured"),   // Create colored textured shader
+	m_texturedLitShader("res/shaders/compound/textured-lit"),           // Create textured lit shader
+	m_shaders({
+		&m_coloredShader,
+		&m_texturedShader,
+		&m_litShader,
+		&m_coloredTexturedShader,
+		&m_texturedLitShader
+	}),
+	m_currentShader(4),
+	m_houseModel(&m_texturedLitShader, "res/models/house/house.obj"),    // Create house model
+	m_streetModel(&m_texturedLitShader, "res/models/street/street.obj"), // Create street model
+	m_building1Model(&m_texturedLitShader, "res/models/buildings/building12.obj"), // Create building model 1
+	m_building2Model(&m_texturedLitShader, "res/models/buildings/building07.obj"), // Create building model 2
+	m_building3Model(&m_texturedLitShader, "res/models/buildings/building03.obj"), // Create building model 3
 	m_houseTransform({3.25f, 0, -10}, vec3(0.05f), {{180}}),
 	m_streetTransform({}, {-0.5f, 0.5f, 0.5f}, {{270}}),
 	m_building1Transform({-3.25f, 0, -11}),
@@ -20,7 +32,7 @@ Game::Game() :
 	m_building3Transform1({22.5f, 0, -9}),
 	m_building3Transform2({22.5f, 0, -27}),
 	m_moonLight({0, -1, 0}, vec3(0), {0, 0, 0.2f}),
-	m_lampModel(make_shared<Model>(m_shader, "res/models/lamp/lamp.obj")),
+	m_lampModel(make_shared<Model>(&m_texturedLitShader, "res/models/lamp/lamp.obj")),
 	m_streetlights({
 		{m_lampModel, {{ 4.5f, 0, -4.25f}, {1, 2, 1}, {{90}}}},
 		{m_lampModel, {{-1.5f, 0, -4.25f}, {1, 2, 1}, {{90}}}},
@@ -28,7 +40,7 @@ Game::Game() :
 		{m_lampModel, {{-13.f, 0, -4.25f}, {1, 2, 1}, {{90}}}},
 		{m_lampModel, {{ 10.f, 0, -6.25f}, {1, 2, 1}, {{180}}}, {0.05f, 5.75f, 0}}
 	}),
-	m_policeCar(m_shader)
+	m_policeCar(&m_texturedLitShader)
 {
 	// Enable vertical synchronisation
 	m_window.verticalSync(true);
@@ -37,9 +49,9 @@ Game::Game() :
 	glEnable(GL_DEPTH_TEST);
 
 	// Set up shader
-	m_shader.bind();
-	m_shader.uniform("ambientLight", {0.25f, 0.25f, 0.35f});
-	m_shader.unbind();
+	m_texturedLitShader.bind();
+	m_texturedLitShader.uniform("ambientLight", {0.25f, 0.25f, 0.35f});
+	m_texturedLitShader.unbind();
 
 	// Add street lights
 	for (Streetlight& light : m_streetlights)
@@ -94,6 +106,23 @@ void Game::update(int elapsedTime)
 	// Check input
 	if (m_input.keyJustReleased(SDLK_ESCAPE))
 		m_window.close();
+
+	if (m_input.keyJustReleased(SDLK_SPACE) ||
+		m_input.keyJustReleased(SDLK_RETURN))
+	{
+		m_currentShader++;
+		if (m_currentShader >= m_shaders.size())
+			m_currentShader = 0;
+
+		m_houseModel.shader(m_shaders[m_currentShader]);
+		m_streetModel.shader(m_shaders[m_currentShader]);
+		m_policeCar.model->shader(m_shaders[m_currentShader]);
+		m_building1Model.shader(m_shaders[m_currentShader]);
+		m_building2Model.shader(m_shaders[m_currentShader]);
+		m_building3Model.shader(m_shaders[m_currentShader]);
+		for (Streetlight& light : m_streetlights)
+			light.model->shader(m_shaders[m_currentShader]);
+	}
 
 	// Update police car
 	m_policeCar.update(elapsedTime);

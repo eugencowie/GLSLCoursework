@@ -1,9 +1,9 @@
 #version 330
 
 // Inputs
-in vec3 v_Position;
-in vec4 v_Color;
-in vec2 v_TexCoord;
+layout (location = 0) in vec3 v_Position;
+layout (location = 1) in vec4 v_Color; // our models don't have vertex colours, so normals (layout=1) are used instead
+layout (location = 3) in vec2 v_TexCoord;
 
 // Outputs
 out vec4 f_Color;

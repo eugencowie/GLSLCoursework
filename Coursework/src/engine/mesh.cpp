@@ -1,6 +1,6 @@
 #include "mesh.hpp"
 
-Mesh::Mesh(Program& shader, const vector<Vertex>& vertices, const vector<uvec3>& indices, const vector<Material>& materials) :
+Mesh::Mesh(Program* shader, const vector<Vertex>& vertices, const vector<uvec3>& indices, const vector<Material>& materials) :
 	m_shader(shader),
 	m_vertexBuffer(GL_ARRAY_BUFFER),
 	m_elementBuffer(GL_ELEMENT_ARRAY_BUFFER),
@@ -16,10 +16,10 @@ Mesh::Mesh(Program& shader, const vector<Vertex>& vertices, const vector<uvec3>&
 	m_vertexBuffer.data(vertices, GL_STATIC_DRAW);
 
 	// Set vertex attributes to point to the correct set of vertex data
-	m_shader.vertexAttribPointer("v_Position", 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)offsetof(Vertex, position));
-	m_shader.vertexAttribPointer("v_Normal", 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)offsetof(Vertex, normal));
-	m_shader.vertexAttribPointer("v_Color", 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)offsetof(Vertex, color));
-	m_shader.vertexAttribPointer("v_TexCoord", 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)offsetof(Vertex, texCoord));
+	m_shader->vertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)offsetof(Vertex, position));
+	m_shader->vertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)offsetof(Vertex, normal));
+	m_shader->vertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)offsetof(Vertex, color));
+	m_shader->vertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)offsetof(Vertex, texCoord));
 
 	// Bind element buffer and set element buffer data
 	if (indices.size() > 0)
@@ -37,7 +37,7 @@ Mesh::Mesh(Program& shader, const vector<Vertex>& vertices, const vector<uvec3>&
 void Mesh::draw(const mat4& model, const mat4& view, const mat4& projection, const vector<DirectionalLight*>& directionalLights, const vector<PointLight*>& pointLights, const vector<SpotLight*>& spotLights)
 {
 	// Use the associated shader program
-	m_shader.bind();
+	m_shader->bind();
 
 	// Calculate matrices
 	mat4 modelView = view * model;
@@ -45,12 +45,12 @@ void Mesh::draw(const mat4& model, const mat4& view, const mat4& projection, con
 	mat4 normal = transpose(inverse(modelView));
 
 	// Set model, view and projection uniforms to the associated matrices
-	m_shader.uniform("model", model);
-	m_shader.uniform("view", view);
-	m_shader.uniform("projection", projection);
-	m_shader.uniform("modelView", modelView);
-	m_shader.uniform("modelViewProjection", modelViewProjection);
-	m_shader.uniform("normal", normal);
+	m_shader->uniform("model", model);
+	m_shader->uniform("view", view);
+	m_shader->uniform("projection", projection);
+	m_shader->uniform("modelView", modelView);
+	m_shader->uniform("modelViewProjection", modelViewProjection);
+	m_shader->uniform("normal", normal);
 
 	// Keep track of number of used texture units
 	int textureCount = 0;
@@ -65,7 +65,7 @@ void Mesh::draw(const mat4& model, const mat4& view, const mat4& projection, con
 		{
 			glActiveTexture(GL_TEXTURE0 + textureCount);
 			m_materials[i].diffuse->bind(GL_TEXTURE_2D);
-			m_shader.uniform(name + ".diffuse", textureCount);
+			m_shader->uniform(name + ".diffuse", textureCount);
 			textureCount++;
 #ifdef _DEBUG
 			glActiveTexture(GL_TEXTURE0);
@@ -76,56 +76,56 @@ void Mesh::draw(const mat4& model, const mat4& view, const mat4& projection, con
 		{
 			glActiveTexture(GL_TEXTURE0 + textureCount);
 			m_materials[i].diffuse->bind(GL_TEXTURE_2D);
-			m_shader.uniform(name + ".specular", textureCount);
+			m_shader->uniform(name + ".specular", textureCount);
 			textureCount++;
 #ifdef _DEBUG
 			glActiveTexture(GL_TEXTURE0);
 #endif
 		}
 
-		m_shader.uniform(name + ".shininess", m_materials[i].shininess);
+		m_shader->uniform(name + ".shininess", m_materials[i].shininess);
 	}
 
 	// Use the associated directional lights
 	for (unsigned int i = 0; i < directionalLights.size(); i++)
 	{
 		string name = "directionalLights[" + to_string(i) + "]";
-		m_shader.uniform(name + ".direction", directionalLights[i]->direction);
-		m_shader.uniform(name + ".ambient", directionalLights[i]->ambient);
-		m_shader.uniform(name + ".diffuse", directionalLights[i]->diffuse);
-		m_shader.uniform(name + ".specular", directionalLights[i]->specular);
-		m_shader.uniform("numDirectionalLights", (int)(i + 1));
+		m_shader->uniform(name + ".direction", directionalLights[i]->direction);
+		m_shader->uniform(name + ".ambient", directionalLights[i]->ambient);
+		m_shader->uniform(name + ".diffuse", directionalLights[i]->diffuse);
+		m_shader->uniform(name + ".specular", directionalLights[i]->specular);
+		m_shader->uniform("numDirectionalLights", (int)(i + 1));
 	}
 
 	// Use the associated point lights
 	for (unsigned int i = 0; i < pointLights.size(); i++)
 	{
 		string name = "pointLights[" + to_string(i) + "]";
-		m_shader.uniform(name + ".position", pointLights[i]->position);
-		m_shader.uniform(name + ".constant", pointLights[i]->constant);
-		m_shader.uniform(name + ".linear", pointLights[i]->linear);
-		m_shader.uniform(name + ".quadratic", pointLights[i]->quadratic);
-		m_shader.uniform(name + ".ambient", pointLights[i]->ambient);
-		m_shader.uniform(name + ".diffuse", pointLights[i]->diffuse);
-		m_shader.uniform(name + ".specular", pointLights[i]->specular);
-		m_shader.uniform("numPointLights", (int)(i + 1));
+		m_shader->uniform(name + ".position", pointLights[i]->position);
+		m_shader->uniform(name + ".constant", pointLights[i]->constant);
+		m_shader->uniform(name + ".linear", pointLights[i]->linear);
+		m_shader->uniform(name + ".quadratic", pointLights[i]->quadratic);
+		m_shader->uniform(name + ".ambient", pointLights[i]->ambient);
+		m_shader->uniform(name + ".diffuse", pointLights[i]->diffuse);
+		m_shader->uniform(name + ".specular", pointLights[i]->specular);
+		m_shader->uniform("numPointLights", (int)(i + 1));
 	}
 
 	// Use the associated spot lights
 	for (unsigned int i = 0; i < spotLights.size(); i++)
 	{
 		string name = "spotLights[" + to_string(i) + "]";
-		m_shader.uniform(name + ".position", spotLights[i]->position);
-		m_shader.uniform(name + ".direction", spotLights[i]->direction);
-		m_shader.uniform(name + ".cutOff", spotLights[i]->cutOff);
-		m_shader.uniform(name + ".outerCutOff", spotLights[i]->outerCutOff);
-		m_shader.uniform(name + ".constant", spotLights[i]->constant);
-		m_shader.uniform(name + ".linear", spotLights[i]->linear);
-		m_shader.uniform(name + ".quadratic", spotLights[i]->quadratic);
-		m_shader.uniform(name + ".ambient", spotLights[i]->ambient);
-		m_shader.uniform(name + ".diffuse", spotLights[i]->diffuse);
-		m_shader.uniform(name + ".specular", spotLights[i]->specular);
-		m_shader.uniform("numSpotLights", (int)(i + 1));
+		m_shader->uniform(name + ".position", spotLights[i]->position);
+		m_shader->uniform(name + ".direction", spotLights[i]->direction);
+		m_shader->uniform(name + ".cutOff", spotLights[i]->cutOff);
+		m_shader->uniform(name + ".outerCutOff", spotLights[i]->outerCutOff);
+		m_shader->uniform(name + ".constant", spotLights[i]->constant);
+		m_shader->uniform(name + ".linear", spotLights[i]->linear);
+		m_shader->uniform(name + ".quadratic", spotLights[i]->quadratic);
+		m_shader->uniform(name + ".ambient", spotLights[i]->ambient);
+		m_shader->uniform(name + ".diffuse", spotLights[i]->diffuse);
+		m_shader->uniform(name + ".specular", spotLights[i]->specular);
+		m_shader->uniform("numSpotLights", (int)(i + 1));
 	}
 
 	// Bind vertex array
@@ -141,5 +141,5 @@ void Mesh::draw(const mat4& model, const mat4& view, const mat4& projection, con
 	m_vertexArray.unbind();
 
 	// Unbind the shader
-	m_shader.unbind();
+	m_shader->unbind();
 }

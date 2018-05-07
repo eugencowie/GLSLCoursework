@@ -1,8 +1,8 @@
 #version 330
 
 // Inputs
-in vec3 v_Position;
-in vec2 v_TexCoord;
+layout (location = 0) in vec3 v_Position;
+layout (location = 3) in vec2 v_TexCoord;
 
 // Outputs
 out vec2 f_TexCoord;
