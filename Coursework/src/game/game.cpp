@@ -54,6 +54,13 @@ Game::Game() :
 		m_pointLights.push_back(&light.pointLight);
 		m_spotLights.push_back(&light.spotLight);
 	}
+
+	// Add police car taillights
+	for (Taillight& light : m_policeCar.taillights)
+	{
+		m_pointLights.push_back(&light.pointLight);
+		m_spotLights.push_back(&light.spotLight);
+	}
 }
 
 void Game::run()

@@ -1,5 +1,5 @@
 #ifdef _DEBUG
-#error Please run in Release mode
+#error Please run in Release mode for better framerate
 #endif
 
 #include "game/game.hpp"
