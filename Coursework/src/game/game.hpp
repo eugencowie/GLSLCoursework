@@ -140,6 +140,8 @@ private:
 	void update(int elapsedTime);
 	void render(int elapsedTime);
 
+	void setShaders(int shaderNbr);
+
 	Window m_window;
 	Input m_input;
 
@@ -152,7 +154,7 @@ private:
 	Program m_coloredTexturedShader;
 	Program m_texturedLitShader;
 	vector<Program*> m_shaders;
-	unsigned int m_currentShader;
+	int m_currentShader;
 
 	Model m_houseModel;
 	Model m_streetModel;

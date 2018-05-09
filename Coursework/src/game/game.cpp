@@ -14,12 +14,12 @@ Game::Game() :
 	m_texturedLitShader("res/shaders/compound/textured-lit"),           // Create textured lit shader
 	m_shaders({
 		&m_coloredShader,
-		&m_texturedShader,
-		&m_litShader,
 		&m_coloredTexturedShader,
-		&m_texturedLitShader
+		&m_texturedShader,
+		&m_texturedLitShader,
+		&m_litShader
 	}),
-	m_currentShader(4),
+	m_currentShader(3),
 	m_houseModel(&m_texturedLitShader, "res/models/house/house.obj"),    // Create house model
 	m_streetModel(&m_texturedLitShader, "res/models/street/street.obj"), // Create street model
 	m_building1Model(&m_texturedLitShader, "res/models/buildings/building12.obj"), // Create building model 1
@@ -110,19 +110,14 @@ void Game::update(int elapsedTime)
 	if (m_input.keyJustReleased(SDLK_SPACE) ||
 		m_input.keyJustReleased(SDLK_RETURN))
 	{
-		m_currentShader++;
-		if (m_currentShader >= m_shaders.size())
-			m_currentShader = 0;
-
-		m_houseModel.shader(m_shaders[m_currentShader]);
-		m_streetModel.shader(m_shaders[m_currentShader]);
-		m_policeCar.model->shader(m_shaders[m_currentShader]);
-		m_building1Model.shader(m_shaders[m_currentShader]);
-		m_building2Model.shader(m_shaders[m_currentShader]);
-		m_building3Model.shader(m_shaders[m_currentShader]);
-		for (Streetlight& light : m_streetlights)
-			light.model->shader(m_shaders[m_currentShader]);
+		setShaders(m_currentShader + 1);
 	}
+
+	if (m_input.keyJustReleased(SDLK_1)) setShaders(0);
+	if (m_input.keyJustReleased(SDLK_2)) setShaders(1);
+	if (m_input.keyJustReleased(SDLK_3)) setShaders(2);
+	if (m_input.keyJustReleased(SDLK_4)) setShaders(3);
+	if (m_input.keyJustReleased(SDLK_5)) setShaders(4);
 
 	// Update police car
 	m_policeCar.update(elapsedTime);
@@ -158,4 +153,20 @@ void Game::render(int elapsedTime)
 
 	// Swap front and back buffers
 	m_window.swapBuffers();
+}
+
+void Game::setShaders(int shaderNbr)
+{
+	m_currentShader = shaderNbr;
+	while (m_currentShader >= m_shaders.size())
+		m_currentShader -= (int)m_shaders.size();
+
+	m_houseModel.shader(m_shaders[m_currentShader]);
+	m_streetModel.shader(m_shaders[m_currentShader]);
+	m_policeCar.model->shader(m_shaders[m_currentShader]);
+	m_building1Model.shader(m_shaders[m_currentShader]);
+	m_building2Model.shader(m_shaders[m_currentShader]);
+	m_building3Model.shader(m_shaders[m_currentShader]);
+	for (Streetlight& light : m_streetlights)
+		light.model->shader(m_shaders[m_currentShader]);
 }
