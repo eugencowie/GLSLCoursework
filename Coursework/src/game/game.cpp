@@ -20,17 +20,11 @@ Game::Game() :
 		&m_litShader
 	}),
 	m_currentShader(3),
-	m_houseModel(&m_texturedLitShader, "res/models/house/house.obj"),    // Create house model
-	m_streetModel(&m_texturedLitShader, "res/models/street/street.obj"), // Create street model
-	m_building1Model(&m_texturedLitShader, "res/models/buildings/building12.obj"), // Create building model 1
-	m_building2Model(&m_texturedLitShader, "res/models/buildings/building07.obj"), // Create building model 2
-	m_building3Model(&m_texturedLitShader, "res/models/buildings/building03.obj"), // Create building model 3
-	m_houseTransform({3.25f, 0, -10}, vec3(0.05f), {{180}}),
-	m_streetTransform({}, {-0.5f, 0.5f, 0.5f}, {{270}}),
-	m_building1Transform({-3.25f, 0, -11}),
-	m_building2Transform({-13.25f, 0, -13.25f}),
-	m_building3Transform1({22.5f, 0, -9}),
-	m_building3Transform2({22.5f, 0, -27}),
+	m_house(make_shared<Model>(&m_texturedLitShader, "res/models/house/house.obj"), {{3.25f, 0, -10}, vec3(0.05f), {{180}}}, m_viewport, m_camera),
+	m_street(make_shared<Model>(&m_texturedLitShader, "res/models/street/street.obj"), {{}, {-0.5f, 0.5f, 0.5f}, {{270}}}, m_viewport, m_camera),
+	m_building1(make_shared<Model>(&m_texturedLitShader, "res/models/buildings/building12.obj"), {{-3.25f, 0, -11}}, m_viewport, m_camera),
+	m_building2(make_shared<Model>(&m_texturedLitShader, "res/models/buildings/building07.obj"), {{-13.25f, 0, -13.25f}}, m_viewport, m_camera),
+	m_building3(make_shared<Model>(&m_texturedLitShader, "res/models/buildings/building03.obj"), {{{22.5f, 0, -9}}, {{22.5f, 0, -27}}}, m_viewport, m_camera),
 	m_moonLight({0, -1, 0}, vec3(0), {0, 0, 0.2f}),
 	m_lampModel(make_shared<Model>(&m_texturedLitShader, "res/models/lamp/lamp.obj")),
 	m_streetlights({
@@ -129,23 +123,22 @@ void Game::render(int elapsedTime)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	// Draw the house model
-	m_houseModel.draw(m_houseTransform.model(), m_camera.view(), m_viewport.projection(), m_directionalLights, m_pointLights, m_spotLights);
+	m_house.draw(m_directionalLights, m_pointLights, m_spotLights);
 
 	// Draw the street model
-	m_streetModel.draw(m_streetTransform.model(), m_camera.view(), m_viewport.projection(), m_directionalLights, m_pointLights, m_spotLights);
+	m_street.draw(m_directionalLights, m_pointLights, m_spotLights);
 
 	// Draw the police car model
 	m_policeCar.model->draw(m_policeCar.transform.model(), m_camera.view(), m_viewport.projection(), m_directionalLights, m_pointLights, m_spotLights);
 
 	// Draw the building model 1
-	m_building1Model.draw(m_building1Transform.model(), m_camera.view(), m_viewport.projection(), m_directionalLights, m_pointLights, m_spotLights);
+	m_building1.draw(m_directionalLights, m_pointLights, m_spotLights);
 
 	// Draw the building model 2
-	m_building2Model.draw(m_building2Transform.model(), m_camera.view(), m_viewport.projection(), m_directionalLights, m_pointLights, m_spotLights);
+	m_building2.draw(m_directionalLights, m_pointLights, m_spotLights);
 
 	// Draw the building model 3
-	m_building3Model.draw(m_building3Transform1.model(), m_camera.view(), m_viewport.projection(), m_directionalLights, m_pointLights, m_spotLights);
-	m_building3Model.draw(m_building3Transform2.model(), m_camera.view(), m_viewport.projection(), m_directionalLights, m_pointLights, m_spotLights);
+	m_building3.draw(m_directionalLights, m_pointLights, m_spotLights);
 
 	// Draw the lamp model
 	for (Streetlight& light : m_streetlights)
@@ -161,12 +154,12 @@ void Game::setShaders(int shaderNbr)
 	while (m_currentShader >= m_shaders.size())
 		m_currentShader -= (int)m_shaders.size();
 
-	m_houseModel.shader(m_shaders[m_currentShader]);
-	m_streetModel.shader(m_shaders[m_currentShader]);
+	m_house.model->shader(m_shaders[m_currentShader]);
+	m_street.model->shader(m_shaders[m_currentShader]);
 	m_policeCar.model->shader(m_shaders[m_currentShader]);
-	m_building1Model.shader(m_shaders[m_currentShader]);
-	m_building2Model.shader(m_shaders[m_currentShader]);
-	m_building3Model.shader(m_shaders[m_currentShader]);
+	m_building1.model->shader(m_shaders[m_currentShader]);
+	m_building2.model->shader(m_shaders[m_currentShader]);
+	m_building3.model->shader(m_shaders[m_currentShader]);
 	for (Streetlight& light : m_streetlights)
 		light.model->shader(m_shaders[m_currentShader]);
 }

@@ -35,21 +35,14 @@ private:
 	vector<Program*> m_shaders;
 	int m_currentShader;
 
-	Model m_houseModel;
-	Model m_streetModel;
-	Model m_building1Model;
-	Model m_building2Model;
-	Model m_building3Model;
-	shared_ptr<Model> m_lampModel;
-
-	Transform m_houseTransform;
-	Transform m_streetTransform;
-	Transform m_building1Transform;
-	Transform m_building2Transform;
-	Transform m_building3Transform1;
-	Transform m_building3Transform2;
+	GameObject m_house;
+	GameObject m_street;
+	GameObject m_building1;
+	GameObject m_building2;
+	InstancedGameObject m_building3;
 
 	DirectionalLight m_moonLight;
+	shared_ptr<Model> m_lampModel;
 	vector<Streetlight> m_streetlights;
 
 	Car m_policeCar;

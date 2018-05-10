@@ -18,9 +18,30 @@ struct GameObject
 	{
 	}
 
-	void draw()
+	void draw(const vector<DirectionalLight*>& directionalLights, const vector<PointLight*>& pointLights, const vector<SpotLight*>& spotLights)
 	{
-		model->draw(transform.model(), camera.view(), viewport.projection());
+		model->draw(transform.model(), camera.view(), viewport.projection(), directionalLights, pointLights, spotLights);
+	}
+};
+
+struct InstancedGameObject
+{
+	shared_ptr<Model> model;
+	vector<Transform> transforms;
+	Viewport& viewport;
+	Camera& camera;
+
+	InstancedGameObject(shared_ptr<Model> model, vector<Transform> transforms, Viewport& viewport, Camera& camera) :
+		model(model), transforms(transforms), viewport(viewport), camera(camera)
+	{
+	}
+
+	void draw(const vector<DirectionalLight*>& directionalLights, const vector<PointLight*>& pointLights, const vector<SpotLight*>& spotLights)
+	{
+		for (Transform& transform : transforms)
+		{
+			model->draw(transform.model(), camera.view(), viewport.projection(), directionalLights, pointLights, spotLights);
+		}
 	}
 };
 
