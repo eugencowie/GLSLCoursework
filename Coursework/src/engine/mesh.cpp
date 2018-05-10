@@ -1,6 +1,6 @@
 #include "mesh.hpp"
 
-Mesh::Mesh(Program* shader, const vector<Vertex>& vertices, const vector<uvec3>& indices, const vector<Material>& materials) :
+Mesh::Mesh(shared_ptr<Program> shader, const vector<Vertex>& vertices, const vector<uvec3>& indices, const vector<Material>& materials) :
 	m_shader(shader),
 	m_vertexBuffer(GL_ARRAY_BUFFER),
 	m_elementBuffer(GL_ELEMENT_ARRAY_BUFFER),

@@ -3,7 +3,7 @@
 
 #include <unordered_map>
 
-Model::Model(Program* shader, const string& path, bool flipUVs)
+Model::Model(shared_ptr<Program> shader, const string& path, bool flipUVs)
 {
 	string baseDir = path.substr(0, path.find_last_of('/')) + '/';
 

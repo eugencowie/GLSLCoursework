@@ -7,26 +7,21 @@ Game::Game() :
 	m_window("GFX Coursework", {1280, 720}),  // Create window
 	m_viewport(m_window.size()),              // Create viewport
 	m_camera({-15, 3, 5}, {-5, 3, -5}),       // Create camera
-	m_coloredShader("res/shaders/colored"),   // Create colored shader
-	m_texturedShader("res/shaders/textured"), // Create textured shader
-	m_litShader("res/shaders/lit"),           // Create lit shader
-	m_coloredTexturedShader("res/shaders/compound/colored-textured"),   // Create colored textured shader
-	m_texturedLitShader("res/shaders/compound/textured-lit"),           // Create textured lit shader
 	m_shaders({
-		&m_coloredShader,
-		&m_coloredTexturedShader,
-		&m_texturedShader,
-		&m_texturedLitShader,
-		&m_litShader
+		make_shared<Program>("res/shaders/colored"),
+		make_shared<Program>("res/shaders/compound/colored-textured"),
+		make_shared<Program>("res/shaders/textured"),
+		make_shared<Program>("res/shaders/compound/textured-lit"),
+		make_shared<Program>("res/shaders/lit")
 	}),
 	m_currentShader(3),
-	m_house(make_shared<Model>(&m_texturedLitShader, "res/models/house/house.obj"), {{3.25f, 0, -10}, vec3(0.05f), {{180}}}, m_viewport, m_camera),
-	m_street(make_shared<Model>(&m_texturedLitShader, "res/models/street/street.obj"), {{}, {-0.5f, 0.5f, 0.5f}, {{270}}}, m_viewport, m_camera),
-	m_building1(make_shared<Model>(&m_texturedLitShader, "res/models/buildings/building12.obj"), {{-3.25f, 0, -11}}, m_viewport, m_camera),
-	m_building2(make_shared<Model>(&m_texturedLitShader, "res/models/buildings/building07.obj"), {{-13.25f, 0, -13.25f}}, m_viewport, m_camera),
-	m_building3(make_shared<Model>(&m_texturedLitShader, "res/models/buildings/building03.obj"), {{{22.5f, 0, -9}}, {{22.5f, 0, -27}}}, m_viewport, m_camera),
+	m_house(make_shared<Model>(m_shaders[3], "res/models/house/house.obj"), {{3.25f, 0, -10}, vec3(0.05f), {{180}}}, m_viewport, m_camera),
+	m_street(make_shared<Model>(m_shaders[3], "res/models/street/street.obj"), {{}, {-0.5f, 0.5f, 0.5f}, {{270}}}, m_viewport, m_camera),
+	m_building1(make_shared<Model>(m_shaders[3], "res/models/buildings/building12.obj"), {{-3.25f, 0, -11}}, m_viewport, m_camera),
+	m_building2(make_shared<Model>(m_shaders[3], "res/models/buildings/building07.obj"), {{-13.25f, 0, -13.25f}}, m_viewport, m_camera),
+	m_building3(make_shared<Model>(m_shaders[3], "res/models/buildings/building03.obj"), {{{22.5f, 0, -9}}, {{22.5f, 0, -27}}}, m_viewport, m_camera),
 	m_moonLight({0, -1, 0}, vec3(0), {0, 0, 0.2f}),
-	m_lampModel(make_shared<Model>(&m_texturedLitShader, "res/models/lamp/lamp.obj")),
+	m_lampModel(make_shared<Model>(m_shaders[3], "res/models/lamp/lamp.obj")),
 	m_streetlights({
 		{m_lampModel, {{ 4.5f, 0, -4.25f}, {1, 2, 1}, {{90}}}, m_viewport, m_camera},
 		{m_lampModel, {{-1.5f, 0, -4.25f}, {1, 2, 1}, {{90}}}, m_viewport, m_camera},
@@ -34,7 +29,7 @@ Game::Game() :
 		{m_lampModel, {{-13.f, 0, -4.25f}, {1, 2, 1}, {{90}}}, m_viewport, m_camera},
 		{m_lampModel, {{ 10.f, 0, -6.25f}, {1, 2, 1}, {{180}}}, m_viewport, m_camera, {0.05f, 5.75f, 0}}
 	}),
-	m_policeCar(make_shared<Model>(&m_texturedLitShader, "res/models/policecar/policecar.obj"), {{-20.f, 0.05f, -2}, vec3(0.0015f)}, m_viewport, m_camera)
+	m_policeCar(make_shared<Model>(m_shaders[3], "res/models/policecar/policecar.obj"), {{-20.f, 0.05f, -2}, vec3(0.0015f)}, m_viewport, m_camera)
 {
 	// Enable vertical synchronisation
 	m_window.verticalSync(true);
@@ -43,9 +38,9 @@ Game::Game() :
 	glEnable(GL_DEPTH_TEST);
 
 	// Set up shader
-	m_texturedLitShader.bind();
-	m_texturedLitShader.uniform("ambientLight", {0.25f, 0.25f, 0.35f});
-	m_texturedLitShader.unbind();
+	m_shaders[m_currentShader]->bind();
+	m_shaders[m_currentShader]->uniform("ambientLight", {0.25f, 0.25f, 0.35f});
+	m_shaders[m_currentShader]->unbind();
 
 	// Add street lights
 	for (Streetlight& light : m_streetlights)

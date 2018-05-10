@@ -27,12 +27,7 @@ private:
 	Viewport m_viewport;
 	Camera m_camera;
 
-	Program m_coloredShader;
-	Program m_texturedShader;
-	Program m_litShader;
-	Program m_coloredTexturedShader;
-	Program m_texturedLitShader;
-	vector<Program*> m_shaders;
+	vector<shared_ptr<Program>> m_shaders;
 	int m_currentShader;
 
 	GameObject m_house;
