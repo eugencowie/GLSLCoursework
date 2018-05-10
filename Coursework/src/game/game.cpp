@@ -13,7 +13,8 @@ Game::Game() :
 		make_shared<Program>("res/shaders/textured"),
 		make_shared<Program>("res/shaders/compound/textured-lit"),
 		make_shared<Program>("res/shaders/lit"),
-		make_shared<Program>("res/shaders/toon")
+		make_shared<Program>("res/shaders/toon"),
+		make_shared<Program>("res/shaders/compound/textured-toon")
 	}),
 	m_currentShader(3),
 	m_house(make_shared<Model>(m_shaders[3], "res/models/house/house.obj"), {{3.25f, 0, -10}, vec3(0.05f), {{180}}}, m_viewport, m_camera),
@@ -109,6 +110,7 @@ void Game::update(int elapsedTime)
 	if (m_input.keyJustReleased(SDLK_4)) setShaders(3);
 	if (m_input.keyJustReleased(SDLK_5)) setShaders(4);
 	if (m_input.keyJustReleased(SDLK_6)) setShaders(5);
+	if (m_input.keyJustReleased(SDLK_7)) setShaders(6);
 
 	// Update police car
 	m_policeCar.update(elapsedTime);
