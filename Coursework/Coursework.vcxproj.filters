@@ -106,5 +106,8 @@
     <ClInclude Include="src\engine\model.hpp">
       <Filter>Header Files\engine</Filter>
     </ClInclude>
+    <ClInclude Include="src\game\game_objects.hpp">
+      <Filter>Header Files\game</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

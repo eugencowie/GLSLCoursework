@@ -208,6 +208,7 @@
     <ClInclude Include="src\engine\model.hpp" />
     <ClInclude Include="src\engine\window.hpp" />
     <ClInclude Include="src\game\game.hpp" />
+    <ClInclude Include="src\game\game_objects.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

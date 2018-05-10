@@ -34,13 +34,13 @@ Game::Game() :
 	m_moonLight({0, -1, 0}, vec3(0), {0, 0, 0.2f}),
 	m_lampModel(make_shared<Model>(&m_texturedLitShader, "res/models/lamp/lamp.obj")),
 	m_streetlights({
-		{m_lampModel, {{ 4.5f, 0, -4.25f}, {1, 2, 1}, {{90}}}},
-		{m_lampModel, {{-1.5f, 0, -4.25f}, {1, 2, 1}, {{90}}}},
-		{m_lampModel, {{-7.5f, 0, -4.25f}, {1, 2, 1}, {{90}}}},
-		{m_lampModel, {{-13.f, 0, -4.25f}, {1, 2, 1}, {{90}}}},
-		{m_lampModel, {{ 10.f, 0, -6.25f}, {1, 2, 1}, {{180}}}, {0.05f, 5.75f, 0}}
+		{m_lampModel, {{ 4.5f, 0, -4.25f}, {1, 2, 1}, {{90}}}, m_viewport, m_camera},
+		{m_lampModel, {{-1.5f, 0, -4.25f}, {1, 2, 1}, {{90}}}, m_viewport, m_camera},
+		{m_lampModel, {{-7.5f, 0, -4.25f}, {1, 2, 1}, {{90}}}, m_viewport, m_camera},
+		{m_lampModel, {{-13.f, 0, -4.25f}, {1, 2, 1}, {{90}}}, m_viewport, m_camera},
+		{m_lampModel, {{ 10.f, 0, -6.25f}, {1, 2, 1}, {{180}}}, m_viewport, m_camera, {0.05f, 5.75f, 0}}
 	}),
-	m_policeCar(&m_texturedLitShader)
+	m_policeCar(make_shared<Model>(&m_texturedLitShader, "res/models/policecar/policecar.obj"), {{-20.f, 0.05f, -2}, vec3(0.0015f)}, m_viewport, m_camera)
 {
 	// Enable vertical synchronisation
 	m_window.verticalSync(true);
