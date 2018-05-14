@@ -22,17 +22,15 @@ Game::Game() :
 		make_shared<Streetlight>(m_lampModel, Transform{{ 4.5f, 0, -4.25f}, {1, 2, 1}, {{90}}}, m_viewport, m_camera),
 		make_shared<Car>(make_shared<Model>(m_shaders[0], "res/models/policecar/policecar.obj"), Transform{{-20.f, 0.05f, -2}, vec3(0.0015f)}, m_viewport, m_camera),
 		make_shared<GameObject>(make_shared<Model>(m_shaders[0], "res/models/buildings/building12.obj"), Transform{{-3.25f, 0, -11}}, m_viewport, m_camera),
-		make_shared<GameObject>(make_shared<Model>(m_shaders[0], "res/models/buildings/building07.obj"), Transform{{-13.25f, 0, -13.25f}}, m_viewport, m_camera)
+		make_shared<GameObject>(make_shared<Model>(m_shaders[0], "res/models/buildings/building07.obj"), Transform{{-13.25f, 0, -13.25f}}, m_viewport, m_camera),
+		make_shared<Streetlight>(m_lampModel, Transform{{-1.5f, 0, -4.25f}, {1, 2, 1}, {{90}}}, m_viewport, m_camera),
+		make_shared<Streetlight>(m_lampModel, Transform{{-7.5f, 0, -4.25f}, {1, 2, 1}, {{90}}}, m_viewport, m_camera),
+		make_shared<Streetlight>(m_lampModel, Transform{{-13.f, 0, -4.25f}, {1, 2, 1}, {{90}}}, m_viewport, m_camera),
+		make_shared<Streetlight>(m_lampModel, Transform{{ 10.f, 0, -6.25f}, {1, 2, 1}, {{180}}}, m_viewport, m_camera, vec3{0.05f, 5.75f, 0})
 	}),
 	m_currentShader(m_shaders.size()), // Set initial shader number
 	m_moonLight({0, -1, 0}, vec3(0), {0, 0, 0.2f}),
-	m_lampModel(make_shared<Model>(m_shaders[0], "res/models/lamp/lamp.obj")),
-	m_streetlights({
-		{m_lampModel, {{-1.5f, 0, -4.25f}, {1, 2, 1}, {{90}}}, m_viewport, m_camera},
-		{m_lampModel, {{-7.5f, 0, -4.25f}, {1, 2, 1}, {{90}}}, m_viewport, m_camera},
-		{m_lampModel, {{-13.f, 0, -4.25f}, {1, 2, 1}, {{90}}}, m_viewport, m_camera},
-		{m_lampModel, {{ 10.f, 0, -6.25f}, {1, 2, 1}, {{180}}}, m_viewport, m_camera, {0.05f, 5.75f, 0}}
-	})
+	m_lampModel(make_shared<Model>(m_shaders[0], "res/models/lamp/lamp.obj"))
 {
 	// Enable vertical synchronisation
 	m_window.verticalSync(true);
@@ -49,11 +47,6 @@ Game::Game() :
 	}
 
 	// Add street lights
-	for (Streetlight& light : m_streetlights)
-	{
-		m_lights.push_back(&light.pointLight);
-		m_lights.push_back(&light.spotLight);
-	}
 	for (GameObjectPtr object : m_objects)
 	{
 		if (auto light = dynamic_pointer_cast<Streetlight>(object))
@@ -148,10 +141,6 @@ void Game::render(int elapsedTime)
 	for (GameObjectPtr object : m_objects)
 		object->draw(m_lights);
 
-	// Draw the lamp model
-	for (Streetlight& light : m_streetlights)
-		light.draw(m_lights);
-
 	// Swap front and back buffers
 	m_window.swapBuffers();
 }
@@ -173,8 +162,6 @@ void Game::applyShader(int shaderNbr)
 {
 	for (GameObjectPtr object : m_objects)
 		object->model->shader(m_shaders[shaderNbr]);
-	for (Streetlight& light : m_streetlights)
-		light.model->shader(m_shaders[shaderNbr]);
 }
 
 void Game::mixShaders()
@@ -185,10 +172,6 @@ void Game::mixShaders()
 		object->model->shader(m_shaders[m_currentShader]);
 		setShader(m_currentShader + 1);
 	}
-
-	for (Streetlight& light : m_streetlights)
-		light.model->shader(m_shaders[m_currentShader]);
-	setShader(m_currentShader + 1);
 
 	m_currentShader = m_shaders.size();
 }
