@@ -30,9 +30,10 @@ private:
 
 	vector<ProgramPtr> m_shaders;
 	vector<ILight*> m_lights;
-	vector<GameObjectPtr> m_objects;
 
 	shared_ptr<Model> m_lampModel;
+	vector<GameObjectPtr> m_objects;
+
 	vector<Streetlight> m_streetlights;
 	Car m_policeCar;
 	GameObject m_building1;
