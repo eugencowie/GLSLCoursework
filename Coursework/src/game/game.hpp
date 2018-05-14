@@ -30,19 +30,19 @@ private:
 
 	vector<ProgramPtr> m_shaders;
 	vector<ILight*> m_lights;
+	vector<GameObjectPtr> m_objects;
 
+	shared_ptr<Model> m_lampModel;
 	vector<Streetlight> m_streetlights;
 	Car m_policeCar;
 	GameObject m_house;
 	GameObject m_street;
 	GameObject m_building1;
 	GameObject m_building2;
-	InstancedGameObject m_building3;
 
 	int m_currentShader;
 	int m_timer;
 	bool m_paused;
 
 	DirectionalLight m_moonLight;
-	shared_ptr<Model> m_lampModel;
 };

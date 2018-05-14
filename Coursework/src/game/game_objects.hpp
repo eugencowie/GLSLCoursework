@@ -5,6 +5,11 @@
 #include "../engine/viewport.inl"
 #include "../engine/camera.inl"
 #include "../engine/light.inl"
+#include <memory>
+
+using namespace std;
+
+typedef shared_ptr<struct GameObject> GameObjectPtr;
 
 struct GameObject
 {
