@@ -1,5 +1,4 @@
 #include "game.hpp"
-
 #include <glad/glad.h>
 #include <chrono>
 
@@ -101,16 +100,18 @@ void Game::update(int elapsedTime)
 	if (m_input.keyJustReleased(SDLK_SPACE) ||
 		m_input.keyJustReleased(SDLK_RETURN))
 	{
-		setShaders(m_currentShader + 1);
+		applyShader(m_currentShader + 1);
 	}
 
-	if (m_input.keyJustReleased(SDLK_1)) setShaders(0);
-	if (m_input.keyJustReleased(SDLK_2)) setShaders(1);
-	if (m_input.keyJustReleased(SDLK_3)) setShaders(2);
-	if (m_input.keyJustReleased(SDLK_4)) setShaders(3);
-	if (m_input.keyJustReleased(SDLK_5)) setShaders(4);
-	if (m_input.keyJustReleased(SDLK_6)) setShaders(5);
-	if (m_input.keyJustReleased(SDLK_7)) setShaders(6);
+	if (m_input.keyJustReleased(SDLK_1)) mixShaders(5);
+
+	if (m_input.keyJustReleased(SDLK_2)) applyShader(0);
+	if (m_input.keyJustReleased(SDLK_3)) applyShader(1);
+	if (m_input.keyJustReleased(SDLK_4)) applyShader(2);
+	if (m_input.keyJustReleased(SDLK_5)) applyShader(3);
+	if (m_input.keyJustReleased(SDLK_6)) applyShader(4);
+	if (m_input.keyJustReleased(SDLK_7)) applyShader(5);
+	if (m_input.keyJustReleased(SDLK_8)) applyShader(6);
 
 	// Update police car
 	m_policeCar.update(elapsedTime);
@@ -147,11 +148,17 @@ void Game::render(int elapsedTime)
 	m_window.swapBuffers();
 }
 
-void Game::setShaders(int shaderNbr)
+void Game::setShader(int shaderNbr)
 {
 	m_currentShader = shaderNbr;
+
 	while (m_currentShader >= m_shaders.size())
 		m_currentShader -= (int)m_shaders.size();
+}
+
+void Game::applyShader(int shaderNbr)
+{
+	setShader(shaderNbr);
 
 	m_house.model->shader(m_shaders[m_currentShader]);
 	m_street.model->shader(m_shaders[m_currentShader]);
@@ -159,6 +166,33 @@ void Game::setShaders(int shaderNbr)
 	m_building1.model->shader(m_shaders[m_currentShader]);
 	m_building2.model->shader(m_shaders[m_currentShader]);
 	m_building3.model->shader(m_shaders[m_currentShader]);
+
+	for (Streetlight& light : m_streetlights)
+		light.model->shader(m_shaders[m_currentShader]);
+}
+
+void Game::mixShaders(int startNbr)
+{
+	setShader(startNbr);
+
+	m_house.model->shader(m_shaders[m_currentShader]);
+	setShader(m_currentShader + 1);
+
+	m_street.model->shader(m_shaders[m_currentShader]);
+	setShader(m_currentShader + 1);
+
+	m_policeCar.model->shader(m_shaders[m_currentShader]);
+	setShader(m_currentShader + 1);
+
+	m_building1.model->shader(m_shaders[m_currentShader]);
+	setShader(m_currentShader + 1);
+
+	m_building2.model->shader(m_shaders[m_currentShader]);
+	setShader(m_currentShader + 1);
+
+	m_building3.model->shader(m_shaders[m_currentShader]);
+	setShader(m_currentShader + 1);
+
 	for (Streetlight& light : m_streetlights)
 		light.model->shader(m_shaders[m_currentShader]);
 }

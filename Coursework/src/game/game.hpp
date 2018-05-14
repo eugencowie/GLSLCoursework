@@ -8,6 +8,7 @@
 #include "../engine/model.hpp"
 #include "../engine/transform.inl"
 #include "../engine/light.inl"
+
 #include "game_objects.hpp"
 
 class Game
@@ -19,7 +20,10 @@ public:
 private:
 	void update(int elapsedTime);
 	void render(int elapsedTime);
-	void setShaders(int shaderNbr);
+
+	void setShader(int shaderNbr);
+	void applyShader(int shaderNbr);
+	void mixShaders(int startNbr);
 
 	Window m_window;
 	Input m_input;
