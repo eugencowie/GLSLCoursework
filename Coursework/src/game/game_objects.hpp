@@ -13,12 +13,12 @@ typedef shared_ptr<struct GameObject> GameObjectPtr;
 
 struct GameObject
 {
-	shared_ptr<Model> model;
+	ModelPtr model;
 	Transform transform;
 	Viewport& viewport;
 	Camera& camera;
 
-	GameObject(shared_ptr<Model> model, Transform transform, Viewport& viewport, Camera& camera) :
+	GameObject(ModelPtr model, Transform transform, Viewport& viewport, Camera& camera) :
 		model(model), transform(transform), viewport(viewport), camera(camera)
 	{
 	}
@@ -35,7 +35,7 @@ struct InstancedGameObject : public GameObject
 {
 	vector<Transform> transforms;
 
-	InstancedGameObject(shared_ptr<Model> model, vector<Transform> transforms, Viewport& viewport, Camera& camera) :
+	InstancedGameObject(ModelPtr model, vector<Transform> transforms, Viewport& viewport, Camera& camera) :
 		GameObject(model, transforms[0], viewport, camera),
 		transforms(transforms)
 	{
@@ -56,7 +56,7 @@ struct Streetlight : public GameObject
 	PointLightPtr pointLight;
 	SpotLightPtr spotLight;
 
-	Streetlight(shared_ptr<Model> model, Transform transform, Viewport& viewport, Camera& camera, vec3 lightOffset={0, 5.75f, -0.05f}) :
+	Streetlight(ModelPtr model, Transform transform, Viewport& viewport, Camera& camera, vec3 lightOffset={0, 5.75f, -0.05f}) :
 		GameObject(model, transform, viewport, camera),
 		pointLight(make_shared<PointLight>(transform.position() + lightOffset, 0.7f, 1.8f, 1.f, vec3(0), vec3{1, 1, 0.5f})),
 		spotLight(make_shared<SpotLight>(transform.position() + lightOffset, vec3{0, -1, 0}, cos(radians(27.5f)), cos(radians(35.f)), 0.045f, 0.0075f, 1.f, vec3(0), vec3{1, 1, 0.5f}))
@@ -114,7 +114,7 @@ struct Car : public GameObject
 	vector<Taillight> taillights;
 	bool turned;
 
-	Car(shared_ptr<Model> model, Transform transform, Viewport& viewport, Camera& camera) :
+	Car(ModelPtr model, Transform transform, Viewport& viewport, Camera& camera) :
 		GameObject(model, transform, viewport, camera),
 		headlights({{this, {9, 1, -1}}, {this, {9, 1, 1}}}),
 		taillights({{this, {0, 1, -1}}, {this, {0, 1, 1}}}),

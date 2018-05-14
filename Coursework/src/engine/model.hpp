@@ -10,6 +10,8 @@
 using namespace std;
 using namespace tinyobj;
 
+typedef shared_ptr<class Model> ModelPtr;
+
 class Model
 {
 public:
