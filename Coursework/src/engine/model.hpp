@@ -14,7 +14,7 @@ class Model
 {
 public:
 	Model(ProgramPtr shader, const string& path, bool flipUVs = true);
-	void draw(const mat4& model = {}, const mat4& view = {}, const mat4& projection = {}, const vector<ILight*>& lights = {});
+	void draw(const mat4& model = {}, const mat4& view = {}, const mat4& projection = {}, const vector<ILightPtr>& lights = {});
 
 	void shader(ProgramPtr shader)
 	{

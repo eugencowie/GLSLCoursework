@@ -25,7 +25,7 @@ struct GameObject
 
 	virtual void update(int elapsedTime) { }
 
-	virtual void draw(const vector<ILight*>& lights)
+	virtual void draw(const vector<ILightPtr>& lights)
 	{
 		model->draw(transform.model(), camera.view(), viewport.projection(), lights);
 	}
@@ -41,7 +41,7 @@ struct InstancedGameObject : public GameObject
 	{
 	}
 
-	virtual void draw(const vector<ILight*>& lights) override
+	virtual void draw(const vector<ILightPtr>& lights) override
 	{
 		for (Transform& t : transforms)
 		{
@@ -53,13 +53,13 @@ struct InstancedGameObject : public GameObject
 
 struct Streetlight : public GameObject
 {
-	PointLight pointLight;
-	SpotLight spotLight;
+	PointLightPtr pointLight;
+	SpotLightPtr spotLight;
 
 	Streetlight(shared_ptr<Model> model, Transform transform, Viewport& viewport, Camera& camera, vec3 lightOffset={0, 5.75f, -0.05f}) :
 		GameObject(model, transform, viewport, camera),
-		pointLight(transform.position() + lightOffset, 0.7f, 1.8f, 1, vec3(0), { 1, 1, 0.5f }),
-		spotLight(transform.position() + lightOffset, {0, -1, 0}, cos(radians(27.5f)), cos(radians(35.f)), 0.045f, 0.0075f, 1, vec3(0), {1, 1, 0.5f})
+		pointLight(make_shared<PointLight>(transform.position() + lightOffset, 0.7f, 1.8f, 1.f, vec3(0), vec3{1, 1, 0.5f})),
+		spotLight(make_shared<SpotLight>(transform.position() + lightOffset, vec3{0, -1, 0}, cos(radians(27.5f)), cos(radians(35.f)), 0.045f, 0.0075f, 1.f, vec3(0), vec3{1, 1, 0.5f}))
 	{
 	}
 };
@@ -68,21 +68,21 @@ struct Headlight
 {
 	GameObject* parent;
 	vec3 offset;
-	PointLight pointLight;
-	SpotLight spotLight;
+	PointLightPtr pointLight;
+	SpotLightPtr spotLight;
 
 	Headlight(GameObject* parent, vec3 offset) :
 		parent(parent),
 		offset(offset),
-		pointLight(offset, 0.07f, 0.017f, 1, vec3(0), vec3(1), vec3(0)),
-		spotLight(offset, {1, 0, 0}, cos(radians(12.5f)), cos(radians(17.5f)), 0.045f, 0.0075f, 1, vec3(0), vec3(1), vec3(0))
+		pointLight(make_shared<PointLight>(offset, 0.07f, 0.017f, 1.f, vec3(0), vec3(1), vec3(0))),
+		spotLight(make_shared<SpotLight>(offset, vec3{1, 0, 0}, cos(radians(12.5f)), cos(radians(17.5f)), 0.045f, 0.0075f, 1.f, vec3(0), vec3(1), vec3(0)))
 	{
 	}
 
 	void update()
 	{
-		pointLight.position = parent->transform.position() + offset;
-		spotLight.position = parent->transform.position() + offset;
+		pointLight->position = parent->transform.position() + offset;
+		spotLight->position = parent->transform.position() + offset;
 	}
 };
 
@@ -90,21 +90,21 @@ struct Taillight
 {
 	GameObject* parent;
 	vec3 offset;
-	PointLight pointLight;
-	SpotLight spotLight;
+	PointLightPtr pointLight;
+	SpotLightPtr spotLight;
 
 	Taillight(GameObject* parent, vec3 offset) :
 		parent(parent),
 		offset(offset),
-		pointLight(offset, 0.1525f, 0.45f, 1, vec3(0), vec3(1, 0, 0), vec3(0)),
-		spotLight(offset, { 0, -0.6f, 1 }, cos(radians(12.5f)), cos(radians(17.5f)), 0.045f, 0.0075f, 1, vec3(0), vec3(1, 0, 0), vec3(0))
+		pointLight(make_shared<PointLight>(offset, 0.1525f, 0.45f, 1.f, vec3(0), vec3(1, 0, 0), vec3(0))),
+		spotLight(make_shared<SpotLight>(offset, vec3{0, -0.6f, 1}, cos(radians(12.5f)), cos(radians(17.5f)), 0.045f, 0.0075f, 1.f, vec3(0), vec3(1, 0, 0), vec3(0)))
 	{
 	}
 
 	void update()
 	{
-		pointLight.position = parent->transform.position() + offset;
-		spotLight.position = parent->transform.position() + offset + vec3(2, 0, 0);
+		pointLight->position = parent->transform.position() + offset;
+		spotLight->position = parent->transform.position() + offset + vec3(2, 0, 0);
 	}
 };
 
@@ -137,12 +137,12 @@ struct Car : public GameObject
 			for (Headlight& light : headlights)
 			{
 				light.offset = vec3(-light.offset.z, light.offset.y, -light.offset.x);
-				light.spotLight.direction = vec3(-light.spotLight.direction.z, light.spotLight.direction.y, -light.spotLight.direction.x);
+				light.spotLight->direction = vec3(-light.spotLight->direction.z, light.spotLight->direction.y, -light.spotLight->direction.x);
 			}
 			for (Taillight& light : taillights)
 			{
 				light.offset = vec3(-light.offset.z, light.offset.y, -light.offset.x);
-				light.spotLight.direction = vec3(-light.spotLight.direction.z, light.spotLight.direction.y, -light.spotLight.direction.x);
+				light.spotLight->direction = vec3(-light.spotLight->direction.z, light.spotLight->direction.y, -light.spotLight->direction.x);
 			}
 		}
 		else if (turned && transform.position().z < -20)
@@ -153,12 +153,12 @@ struct Car : public GameObject
 			for (Headlight& light : headlights)
 			{
 				light.offset = vec3(-light.offset.z, light.offset.y, -light.offset.x);
-				light.spotLight.direction = vec3(-light.spotLight.direction.z, light.spotLight.direction.y, -light.spotLight.direction.x);
+				light.spotLight->direction = vec3(-light.spotLight->direction.z, light.spotLight->direction.y, -light.spotLight->direction.x);
 			}
 			for (Taillight& light : taillights)
 			{
 				light.offset = vec3(-light.offset.z, light.offset.y, -light.offset.x);
-				light.spotLight.direction = vec3(-light.spotLight.direction.z, light.spotLight.direction.y, -light.spotLight.direction.x);
+				light.spotLight->direction = vec3(-light.spotLight->direction.z, light.spotLight->direction.y, -light.spotLight->direction.x);
 			}
 		}
 

@@ -29,7 +29,7 @@ private:
 	Camera m_camera;
 
 	vector<ProgramPtr> m_shaders;
-	vector<ILight*> m_lights;
+	vector<ILightPtr> m_lights;
 
 	shared_ptr<Model> m_lampModel;
 	vector<GameObjectPtr> m_objects;
@@ -37,6 +37,4 @@ private:
 	int m_currentShader;
 	int m_timer;
 	bool m_paused;
-
-	DirectionalLight m_moonLight;
 };

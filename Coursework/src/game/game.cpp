@@ -15,6 +15,9 @@ Game::Game() :
 		make_shared<Program>("res/shaders/compound/colored+textured"), // Load colored+textured shader
 		make_shared<Program>("res/shaders/textured")                   // Load textured shader
 	}),
+	m_lights({
+		make_shared<DirectionalLight>(vec3{0, -1, 0}, vec3(0), vec3{0, 0, 0.2f})
+	}),
 	m_objects({
 		make_shared<InstancedGameObject>(make_shared<Model>(m_shaders[0], "res/models/buildings/building03.obj"), vector<Transform>{{{22.5f, 0, -9}}, {{22.5f, 0, -27}}}, m_viewport, m_camera),
 		make_shared<GameObject>(make_shared<Model>(m_shaders[0], "res/models/street/street.obj"), Transform{{}, {-0.5f, 0.5f, 0.5f}, {{270}}}, m_viewport, m_camera),
@@ -28,8 +31,7 @@ Game::Game() :
 		make_shared<Streetlight>(m_lampModel, Transform{{-13.f, 0, -4.25f}, {1, 2, 1}, {{90}}}, m_viewport, m_camera),
 		make_shared<Streetlight>(m_lampModel, Transform{{ 10.f, 0, -6.25f}, {1, 2, 1}, {{180}}}, m_viewport, m_camera, vec3{0.05f, 5.75f, 0})
 	}),
-	m_currentShader(m_shaders.size()), // Set initial shader number
-	m_moonLight({0, -1, 0}, vec3(0), {0, 0, 0.2f}),
+	m_currentShader((int)m_shaders.size()), // Set initial shader number
 	m_lampModel(make_shared<Model>(m_shaders[0], "res/models/lamp/lamp.obj"))
 {
 	// Enable vertical synchronisation
@@ -51,8 +53,8 @@ Game::Game() :
 	{
 		if (auto light = dynamic_pointer_cast<Streetlight>(object))
 		{
-			m_lights.push_back(&light->pointLight);
-			m_lights.push_back(&light->spotLight);
+			m_lights.push_back(light->pointLight);
+			m_lights.push_back(light->spotLight);
 		}
 	}
 
@@ -63,19 +65,17 @@ Game::Game() :
 		{
 			for (Headlight& light : car->headlights)
 			{
-				m_lights.push_back(&light.pointLight);
-				m_lights.push_back(&light.spotLight);
+				m_lights.push_back(light.pointLight);
+				m_lights.push_back(light.spotLight);
 			}
 
 			for (Taillight& light : car->taillights)
 			{
-				m_lights.push_back(&light.pointLight);
-				m_lights.push_back(&light.spotLight);
+				m_lights.push_back(light.pointLight);
+				m_lights.push_back(light.spotLight);
 			}
 		}
 	}
-
-	m_lights.push_back(&m_moonLight);
 
 	// Set initial shader mix
 	mixShaders();
@@ -173,7 +173,7 @@ void Game::mixShaders()
 		setShader(m_currentShader + 1);
 	}
 
-	m_currentShader = m_shaders.size();
+	m_currentShader = (int)m_shaders.size();
 }
 
 void Game::setShader(int shaderNbr)

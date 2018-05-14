@@ -2,6 +2,7 @@
 
 #include "program.inl"
 #include <glm/glm.hpp>
+#include <memory>
 #include <string>
 
 using namespace std;
@@ -9,12 +10,16 @@ using namespace glm;
 
 enum class LightType { DIRECTIONAL, POINT, SPOT };
 
+typedef shared_ptr<struct ILight> ILightPtr;
+
 struct ILight
 {
 	virtual ~ILight() {}
 	virtual LightType type() = 0;
 	virtual void apply(ProgramPtr shader, string name) = 0;
 };
+
+typedef shared_ptr<struct DirectionalLight> DirectionalLightPtr;
 
 struct DirectionalLight : public ILight
 {
@@ -49,6 +54,8 @@ struct DirectionalLight : public ILight
 		shader->uniform(name + ".specular",  specular);
 	}
 };
+
+typedef shared_ptr<struct PointLight> PointLightPtr;
 
 struct PointLight : public ILight
 {
@@ -95,6 +102,8 @@ struct PointLight : public ILight
 		shader->uniform(name + ".specular",  specular);
 	}
 };
+
+typedef shared_ptr<struct SpotLight> SpotLightPtr;
 
 struct SpotLight : public ILight
 {

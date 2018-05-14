@@ -34,7 +34,7 @@ Mesh::Mesh(ProgramPtr shader, const vector<Vertex>& vertices, const vector<uvec3
 	m_vertexArray.unbind();
 }
 
-void Mesh::draw(const mat4& model, const mat4& view, const mat4& projection, const vector<ILight*>& lights)
+void Mesh::draw(const mat4& model, const mat4& view, const mat4& projection, const vector<ILightPtr>& lights)
 {
 	// Use the associated shader program
 	m_shader->bind();
@@ -87,7 +87,7 @@ void Mesh::draw(const mat4& model, const mat4& view, const mat4& projection, con
 	}
 
 	int directionalLights = 0, pointLights = 0, spotLights = 0;
-	for (ILight* light : lights)
+	for (ILightPtr light : lights)
 	{
 		if (light->type() == LightType::DIRECTIONAL) {
 			string name = "directionalLights[" + to_string(directionalLights) + "]";

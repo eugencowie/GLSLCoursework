@@ -27,7 +27,7 @@ Model::Model(ProgramPtr shader, const string& path, bool flipUVs)
 	}
 }
 
-void Model::draw(const mat4& model, const mat4& view, const mat4& projection, const vector<ILight*>& lights)
+void Model::draw(const mat4& model, const mat4& view, const mat4& projection, const vector<ILightPtr>& lights)
 {
 	// Draw all meshes
 	for (shared_ptr<Mesh>& mesh : m_meshes)
