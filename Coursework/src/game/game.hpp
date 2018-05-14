@@ -36,7 +36,6 @@ private:
 	vector<Streetlight> m_streetlights;
 	Car m_policeCar;
 	GameObject m_house;
-	GameObject m_street;
 	GameObject m_building1;
 	GameObject m_building2;
 
