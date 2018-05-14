@@ -17,10 +17,11 @@ public:
 private:
 	void update(int elapsedTime);
 	void render(int elapsedTime);
-	void nextShader();
-	void applyShader(int shaderNbr);
+
 	void mixShaders();
-	void setShader(int shaderNbr);
+	void nextShader();
+	void prevShader();
+	void applyShader(int shaderNbr);
 
 	Window m_window;
 	Input m_input;

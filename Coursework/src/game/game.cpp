@@ -118,6 +118,18 @@ void Game::update(int elapsedTime)
 		m_paused = !m_paused;
 	}
 
+	if (m_input.keyJustReleased(SDLK_LEFT))
+	{
+		m_paused = true;
+		prevShader();
+	}
+
+	if (m_input.keyJustReleased(SDLK_RIGHT))
+	{
+		m_paused = true;
+		nextShader();
+	}
+
 	// Update game objects
 	for (GameObjectPtr object : m_objects)
 		object->update(elapsedTime);
@@ -144,39 +156,40 @@ void Game::render(int elapsedTime)
 	m_window.swapBuffers();
 }
 
-void Game::nextShader()
-{
-	// Increase current shader number
-	m_currentShader += 1;
-
-	// Mix shaders if we have reached the end of the list
-	// Return to beginning of list if we have gone past the end
-	// Otherwise just apply the new shader
-	if      (m_currentShader == m_shaders.size()) mixShaders();
-	else if (m_currentShader >= m_shaders.size()) applyShader(m_currentShader = 0);
-	else                                          applyShader(m_currentShader);
-}
-
-void Game::applyShader(int shaderNbr)
-{
-	for (GameObjectPtr object : m_objects)
-		object->model->shader(m_shaders[shaderNbr]);
-}
-
 void Game::mixShaders()
 {
-	setShader(0);
+	m_currentShader = 0;
 
 	for (GameObjectPtr object : m_objects) {
 		object->model->shader(m_shaders[m_currentShader]);
-		setShader(m_currentShader + 1);
+		m_currentShader = (m_currentShader + 1 < m_shaders.size()) ? (m_currentShader + 1) : (0);
 	}
 
 	m_currentShader = (int)m_shaders.size();
 }
 
-void Game::setShader(int shaderNbr)
+void Game::nextShader()
+{
+	// Mix shaders if we have reached the end of the list
+	// Return to beginning of list if we have gone past the end
+	// Otherwise just apply the new shader
+	if      (m_currentShader + 1 == m_shaders.size()) mixShaders();
+	else if (m_currentShader + 1 >= m_shaders.size()) applyShader(0);
+	else                                              applyShader(m_currentShader + 1);
+}
+
+void Game::prevShader()
+{
+	// Mix shaders if we have reached the start of the list
+	// Otherwise just apply the new shader
+	if (m_currentShader - 1 < 0) mixShaders();
+	else                         applyShader(m_currentShader - 1);
+}
+
+void Game::applyShader(int shaderNbr)
 {
 	m_currentShader = shaderNbr;
-	if (m_currentShader >= m_shaders.size()) m_currentShader = 0;
+
+	for (GameObjectPtr object : m_objects)
+		object->model->shader(m_shaders[m_currentShader]);
 }
