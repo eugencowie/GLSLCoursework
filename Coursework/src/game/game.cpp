@@ -39,7 +39,7 @@ Game::Game() :
 	glEnable(GL_DEPTH_TEST);
 
 	// Set up shaders
-	for (shared_ptr<Program> shader : m_shaders)
+	for (ProgramPtr shader : m_shaders)
 	{
 		shader->bind();
 		shader->uniform("ambientLight", {0.25f, 0.25f, 0.35f});

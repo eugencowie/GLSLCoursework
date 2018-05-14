@@ -13,10 +13,10 @@ using namespace tinyobj;
 class Model
 {
 public:
-	Model(shared_ptr<Program> shader, const string& path, bool flipUVs = true);
+	Model(ProgramPtr shader, const string& path, bool flipUVs = true);
 	void draw(const mat4& model = {}, const mat4& view = {}, const mat4& projection = {}, const vector<ILight*>& lights = {});
 
-	void shader(shared_ptr<Program> shader)
+	void shader(ProgramPtr shader)
 	{
 		for (auto& mesh : m_meshes)
 			mesh->shader(shader);

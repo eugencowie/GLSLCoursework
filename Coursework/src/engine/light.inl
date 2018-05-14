@@ -11,9 +11,9 @@ enum class LightType { DIRECTIONAL, POINT, SPOT };
 
 struct ILight
 {
-	virtual ~ILight() { }
+	virtual ~ILight() {}
 	virtual LightType type() = 0;
-	virtual void apply(shared_ptr<Program> shader, string name) = 0;
+	virtual void apply(ProgramPtr shader, string name) = 0;
 };
 
 struct DirectionalLight : public ILight
@@ -41,7 +41,7 @@ struct DirectionalLight : public ILight
 		return LightType::DIRECTIONAL;
 	}
 
-	virtual void apply(shared_ptr<Program> shader, string name) override
+	virtual void apply(ProgramPtr shader, string name) override
 	{
 		shader->uniform(name + ".direction", direction);
 		shader->uniform(name + ".ambient",   ambient);
@@ -84,7 +84,7 @@ struct PointLight : public ILight
 		return LightType::POINT;
 	}
 
-	virtual void apply(shared_ptr<Program> shader, string name) override
+	virtual void apply(ProgramPtr shader, string name) override
 	{
 		shader->uniform(name + ".position",  position);
 		shader->uniform(name + ".constant",  constant);
@@ -139,7 +139,7 @@ struct SpotLight : public ILight
 		return LightType::SPOT;
 	}
 
-	virtual void apply(shared_ptr<Program> shader, string name) override
+	virtual void apply(ProgramPtr shader, string name) override
 	{
 		shader->uniform(name + ".position",    position);
 		shader->uniform(name + ".direction",   direction);
