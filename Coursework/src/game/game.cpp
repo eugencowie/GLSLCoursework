@@ -110,7 +110,7 @@ void Game::update(int elapsedTime)
 	if (m_input.keyJustReleased(SDLK_SPACE) ||
 		m_input.keyJustReleased(SDLK_RETURN))
 	{
-		nextShader();
+		m_paused = !m_paused;
 	}
 
 	// Update police car
@@ -118,7 +118,7 @@ void Game::update(int elapsedTime)
 
 	// Update timer
 	m_timer += elapsedTime;
-	if (m_timer > 2000)
+	if (!m_paused && m_timer > 2000)
 	{
 		nextShader();
 		m_timer = 0;
@@ -180,7 +180,7 @@ void Game::mixShaders()
 	setShader(0);
 
 	for (GameObjectPtr object : m_objects) {
-		object->draw(m_lights);
+		object->model->shader(m_shaders[m_currentShader]);
 		setShader(m_currentShader + 1);
 	}
 	
