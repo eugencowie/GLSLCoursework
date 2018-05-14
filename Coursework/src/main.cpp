@@ -7,10 +7,10 @@
 
 int main(int argc, char** argv)
 {
-	// Create a new instance of the game
+	// Create new instance of game
 	Game game;
 
-	// Run the game
+	// Run game
 	game.run();
 
 	// Indicate successful completion
