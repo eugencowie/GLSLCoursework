@@ -111,6 +111,14 @@ void Game::update(int elapsedTime)
 
 	// Update police car
 	m_policeCar.update(elapsedTime);
+
+	// Update timer
+	m_timer += elapsedTime;
+	if (m_timer > 2000)
+	{
+		nextShader();
+		m_timer = 0;
+	}
 }
 
 void Game::render(int elapsedTime)

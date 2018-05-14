@@ -50,4 +50,6 @@ private:
 	vector<DirectionalLight*> m_directionalLights;
 	vector<PointLight*> m_pointLights;
 	vector<SpotLight*> m_spotLights;
+
+	int m_timer;
 };
