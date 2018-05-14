@@ -17,10 +17,10 @@ Game::Game() :
 	}),
 	m_objects({
 		make_shared<InstancedGameObject>(make_shared<Model>(m_shaders[0], "res/models/buildings/building03.obj"), vector<Transform>{{{22.5f, 0, -9}}, {{22.5f, 0, -27}}}, m_viewport, m_camera),
-		make_shared<GameObject>(make_shared<Model>(m_shaders[0], "res/models/street/street.obj"), Transform{{}, {-0.5f, 0.5f, 0.5f}, {{270}}}, m_viewport, m_camera)
+		make_shared<GameObject>(make_shared<Model>(m_shaders[0], "res/models/street/street.obj"), Transform{{}, {-0.5f, 0.5f, 0.5f}, {{270}}}, m_viewport, m_camera),
+		make_shared<GameObject>(make_shared<Model>(m_shaders[0], "res/models/house/house.obj"), Transform{{3.25f, 0, -10}, vec3(0.05f), {{180}}}, m_viewport, m_camera)
 	}),
 	m_currentShader(m_shaders.size()), // Set initial shader number
-	m_house(make_shared<Model>(m_shaders[0], "res/models/house/house.obj"), {{3.25f, 0, -10}, vec3(0.05f), {{180}}}, m_viewport, m_camera),
 	m_building1(make_shared<Model>(m_shaders[0], "res/models/buildings/building12.obj"), {{-3.25f, 0, -11}}, m_viewport, m_camera),
 	m_building2(make_shared<Model>(m_shaders[0], "res/models/buildings/building07.obj"), {{-13.25f, 0, -13.25f}}, m_viewport, m_camera),
 	m_moonLight({0, -1, 0}, vec3(0), {0, 0, 0.2f}),
@@ -130,9 +130,6 @@ void Game::render(int elapsedTime)
 	// Clear the back buffer
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	// Draw the house model
-	m_house.draw(m_lights);
-
 	// Draw the police car model
 	m_policeCar.model->draw(m_policeCar.transform.model(), m_camera.view(), m_viewport.projection(), m_lights);
 
@@ -169,7 +166,6 @@ void Game::nextShader()
 
 void Game::applyShader(int shaderNbr)
 {
-	m_house.model->shader(m_shaders[shaderNbr]);
 	m_policeCar.model->shader(m_shaders[shaderNbr]);
 	m_building1.model->shader(m_shaders[shaderNbr]);
 	m_building2.model->shader(m_shaders[shaderNbr]);
@@ -187,9 +183,6 @@ void Game::mixShaders()
 		object->draw(m_lights);
 		setShader(m_currentShader + 1);
 	}
-	
-	m_house.model->shader(m_shaders[m_currentShader]);
-	setShader(m_currentShader + 1);
 	
 	for (Streetlight& light : m_streetlights)
 		light.model->shader(m_shaders[m_currentShader]);

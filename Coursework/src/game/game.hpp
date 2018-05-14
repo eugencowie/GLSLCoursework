@@ -35,7 +35,6 @@ private:
 	shared_ptr<Model> m_lampModel;
 	vector<Streetlight> m_streetlights;
 	Car m_policeCar;
-	GameObject m_house;
 	GameObject m_building1;
 	GameObject m_building2;
 
