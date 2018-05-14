@@ -34,7 +34,7 @@ Mesh::Mesh(shared_ptr<Program> shader, const vector<Vertex>& vertices, const vec
 	m_vertexArray.unbind();
 }
 
-void Mesh::draw(const mat4& model, const mat4& view, const mat4& projection, const vector<DirectionalLight*>& directionalLights, const vector<PointLight*>& pointLights, const vector<SpotLight*>& spotLights)
+void Mesh::draw(const mat4& model, const mat4& view, const mat4& projection, const vector<ILight*>& lights)
 {
 	// Use the associated shader program
 	m_shader->bind();
@@ -86,28 +86,24 @@ void Mesh::draw(const mat4& model, const mat4& view, const mat4& projection, con
 		m_shader->uniform(name + ".shininess", m_materials[i].shininess);
 	}
 
-	// Use the associated directional lights
-	for (unsigned int i = 0; i < directionalLights.size(); i++)
+	int directionalLights = 0, pointLights = 0, spotLights = 0;
+	for (ILight* light : lights)
 	{
-		string name = "directionalLights[" + to_string(i) + "]";
-		directionalLights[i]->apply(m_shader, name);
-		m_shader->uniform("numDirectionalLights", (int)(i + 1));
-	}
-
-	// Use the associated point lights
-	for (unsigned int i = 0; i < pointLights.size(); i++)
-	{
-		string name = "pointLights[" + to_string(i) + "]";
-		pointLights[i]->apply(m_shader, name);
-		m_shader->uniform("numPointLights", (int)(i + 1));
-	}
-
-	// Use the associated spot lights
-	for (unsigned int i = 0; i < spotLights.size(); i++)
-	{
-		string name = "spotLights[" + to_string(i) + "]";
-		spotLights[i]->apply(m_shader, name);
-		m_shader->uniform("numSpotLights", (int)(i + 1));
+		if (light->type() == LightType::DIRECTIONAL) {
+			string name = "directionalLights[" + to_string(directionalLights) + "]";
+			light->apply(m_shader, name);
+			m_shader->uniform("numDirectionalLights", (int)(directionalLights++));
+		}
+		else if (light->type() == LightType::POINT) {
+			string name = "pointLights[" + to_string(pointLights) + "]";
+			light->apply(m_shader, name);
+			m_shader->uniform("numPointLights", (int)(pointLights++));
+		}
+		else if (light->type() == LightType::SPOT) {
+			string name = "spotLights[" + to_string(spotLights) + "]";
+			light->apply(m_shader, name);
+			m_shader->uniform("numSpotLights", (int)(spotLights++));
+		}
 	}
 
 	// Bind vertex array

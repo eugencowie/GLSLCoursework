@@ -14,7 +14,7 @@ class Model
 {
 public:
 	Model(shared_ptr<Program> shader, const string& path, bool flipUVs = true);
-	void draw(const mat4& model = {}, const mat4& view = {}, const mat4& projection = {}, const vector<DirectionalLight*>& directionalLights = {}, const vector<PointLight*>& pointLights = {}, const vector<SpotLight*>& spotLights = {});
+	void draw(const mat4& model = {}, const mat4& view = {}, const mat4& projection = {}, const vector<ILight*>& lights = {});
 
 	void shader(shared_ptr<Program> shader)
 	{

@@ -25,7 +25,7 @@ class Mesh
 {
 public:
 	Mesh(shared_ptr<Program> shader, const vector<Vertex>& vertices, const vector<uvec3>& indices = {}, const vector<Material>& materials = {});
-	void draw(const mat4& model = {}, const mat4& view = {}, const mat4& projection = {}, const vector<DirectionalLight*>& directionalLights = {}, const vector<PointLight*>& pointLights = {}, const vector<SpotLight*>& spotLights = {});
+	void draw(const mat4& model = {}, const mat4& view = {}, const mat4& projection = {}, const vector<ILight*>& lights = {});
 
 	void shader(shared_ptr<Program> shader)
 	{

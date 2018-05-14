@@ -52,22 +52,22 @@ Game::Game() :
 	// Add street lights
 	for (Streetlight& light : m_streetlights)
 	{
-		m_pointLights.push_back(&light.pointLight);
-		m_spotLights.push_back(&light.spotLight);
+		m_lights.push_back(&light.pointLight);
+		m_lights.push_back(&light.spotLight);
 	}
 
 	// Add police car headlights
 	for (Headlight& light : m_policeCar.headlights)
 	{
-		m_pointLights.push_back(&light.pointLight);
-		m_spotLights.push_back(&light.spotLight);
+		m_lights.push_back(&light.pointLight);
+		m_lights.push_back(&light.spotLight);
 	}
 
 	// Add police car taillights
 	for (Taillight& light : m_policeCar.taillights)
 	{
-		m_pointLights.push_back(&light.pointLight);
-		m_spotLights.push_back(&light.spotLight);
+		m_lights.push_back(&light.pointLight);
+		m_lights.push_back(&light.spotLight);
 	}
 }
 
@@ -127,26 +127,26 @@ void Game::render(int elapsedTime)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	// Draw the house model
-	m_house.draw(m_directionalLights, m_pointLights, m_spotLights);
+	m_house.draw(m_lights);
 
 	// Draw the street model
-	m_street.draw(m_directionalLights, m_pointLights, m_spotLights);
+	m_street.draw(m_lights);
 
 	// Draw the police car model
-	m_policeCar.model->draw(m_policeCar.transform.model(), m_camera.view(), m_viewport.projection(), m_directionalLights, m_pointLights, m_spotLights);
+	m_policeCar.model->draw(m_policeCar.transform.model(), m_camera.view(), m_viewport.projection(), m_lights);
 
 	// Draw the building model 1
-	m_building1.draw(m_directionalLights, m_pointLights, m_spotLights);
+	m_building1.draw(m_lights);
 
 	// Draw the building model 2
-	m_building2.draw(m_directionalLights, m_pointLights, m_spotLights);
+	m_building2.draw(m_lights);
 
 	// Draw the building model 3
-	m_building3.draw(m_directionalLights, m_pointLights, m_spotLights);
+	m_building3.draw(m_lights);
 
 	// Draw the lamp model
 	for (Streetlight& light : m_streetlights)
-		light.model->draw(light.transform.model(), m_camera.view(), m_viewport.projection(), m_directionalLights, m_pointLights, m_spotLights);
+		light.model->draw(light.transform.model(), m_camera.view(), m_viewport.projection(), m_lights);
 
 	// Swap front and back buffers
 	m_window.swapBuffers();

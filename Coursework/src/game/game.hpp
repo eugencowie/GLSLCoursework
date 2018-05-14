@@ -47,9 +47,7 @@ private:
 
 	Car m_policeCar;
 
-	vector<DirectionalLight*> m_directionalLights;
-	vector<PointLight*> m_pointLights;
-	vector<SpotLight*> m_spotLights;
+	vector<ILight*> m_lights;
 
 	int m_timer;
 };
