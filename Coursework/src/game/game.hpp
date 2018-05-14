@@ -33,10 +33,7 @@ private:
 
 	shared_ptr<Model> m_lampModel;
 	vector<GameObjectPtr> m_objects;
-
 	vector<Streetlight> m_streetlights;
-	GameObject m_building1;
-	GameObject m_building2;
 
 	int m_currentShader;
 	int m_timer;
