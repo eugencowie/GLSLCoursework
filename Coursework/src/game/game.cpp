@@ -38,10 +38,16 @@ Game::Game() :
 	// Set up OpenGL
 	glEnable(GL_DEPTH_TEST);
 
-	// Set up shader
-	m_shaders[m_currentShader]->bind();
-	m_shaders[m_currentShader]->uniform("ambientLight", {0.25f, 0.25f, 0.35f});
-	m_shaders[m_currentShader]->unbind();
+	// Set up shaders
+	for (shared_ptr<Program> shader : m_shaders)
+	{
+		shader->bind();
+		shader->uniform("ambientLight", {0.25f, 0.25f, 0.35f});
+		shader->unbind();
+	}
+
+	// Set initial shader mix
+	mixShaders(5);
 
 	// Add street lights
 	for (Streetlight& light : m_streetlights)
