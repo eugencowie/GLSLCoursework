@@ -6,7 +6,6 @@
 #include "../engine/camera.inl"
 #include "../engine/program.inl"
 #include "../engine/light.inl"
-#include "../engine/model.hpp"
 #include "game_objects.hpp"
 
 class Game
@@ -30,8 +29,6 @@ private:
 
 	vector<ProgramPtr> m_shaders;
 	vector<ILightPtr> m_lights;
-
-	shared_ptr<Model> m_lampModel;
 	vector<GameObjectPtr> m_objects;
 
 	int m_currentShader;

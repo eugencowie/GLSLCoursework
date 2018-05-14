@@ -22,17 +22,16 @@ Game::Game() :
 		make_shared<InstancedGameObject>(make_shared<Model>(m_shaders[0], "res/models/buildings/building03.obj"), vector<Transform>{{{22.5f, 0, -9}}, {{22.5f, 0, -27}}}, m_viewport, m_camera),
 		make_shared<GameObject>(make_shared<Model>(m_shaders[0], "res/models/street/street.obj"), Transform{{}, {-0.5f, 0.5f, 0.5f}, {{270}}}, m_viewport, m_camera),
 		make_shared<GameObject>(make_shared<Model>(m_shaders[0], "res/models/house/house.obj"), Transform{{3.25f, 0, -10}, vec3(0.05f), {{180}}}, m_viewport, m_camera),
-		make_shared<Streetlight>(m_lampModel, Transform{{ 4.5f, 0, -4.25f}, {1, 2, 1}, {{90}}}, m_viewport, m_camera),
+		make_shared<Streetlight>(make_shared<Model>(m_shaders[0], "res/models/lamp/lamp.obj"), Transform{{ 4.5f, 0, -4.25f}, {1, 2, 1}, {{90}}}, m_viewport, m_camera),
 		make_shared<Car>(make_shared<Model>(m_shaders[0], "res/models/policecar/policecar.obj"), Transform{{-20.f, 0.05f, -2}, vec3(0.0015f)}, m_viewport, m_camera),
 		make_shared<GameObject>(make_shared<Model>(m_shaders[0], "res/models/buildings/building12.obj"), Transform{{-3.25f, 0, -11}}, m_viewport, m_camera),
 		make_shared<GameObject>(make_shared<Model>(m_shaders[0], "res/models/buildings/building07.obj"), Transform{{-13.25f, 0, -13.25f}}, m_viewport, m_camera),
-		make_shared<Streetlight>(m_lampModel, Transform{{-1.5f, 0, -4.25f}, {1, 2, 1}, {{90}}}, m_viewport, m_camera),
-		make_shared<Streetlight>(m_lampModel, Transform{{-7.5f, 0, -4.25f}, {1, 2, 1}, {{90}}}, m_viewport, m_camera),
-		make_shared<Streetlight>(m_lampModel, Transform{{-13.f, 0, -4.25f}, {1, 2, 1}, {{90}}}, m_viewport, m_camera),
-		make_shared<Streetlight>(m_lampModel, Transform{{ 10.f, 0, -6.25f}, {1, 2, 1}, {{180}}}, m_viewport, m_camera, vec3{0.05f, 5.75f, 0})
+		make_shared<Streetlight>(make_shared<Model>(m_shaders[0], "res/models/lamp/lamp.obj"), Transform{{-1.5f, 0, -4.25f}, {1, 2, 1}, {{90}}}, m_viewport, m_camera),
+		make_shared<Streetlight>(make_shared<Model>(m_shaders[0], "res/models/lamp/lamp.obj"), Transform{{-7.5f, 0, -4.25f}, {1, 2, 1}, {{90}}}, m_viewport, m_camera),
+		make_shared<Streetlight>(make_shared<Model>(m_shaders[0], "res/models/lamp/lamp.obj"), Transform{{-13.f, 0, -4.25f}, {1, 2, 1}, {{90}}}, m_viewport, m_camera),
+		make_shared<Streetlight>(make_shared<Model>(m_shaders[0], "res/models/lamp/lamp.obj"), Transform{{ 10.f, 0, -6.25f}, {1, 2, 1}, {{180}}}, m_viewport, m_camera, vec3{0.05f, 5.75f, 0})
 	}),
-	m_currentShader((int)m_shaders.size()), // Set initial shader number
-	m_lampModel(make_shared<Model>(m_shaders[0], "res/models/lamp/lamp.obj"))
+	m_currentShader((int)m_shaders.size()) // Set initial shader number
 {
 	// Enable vertical synchronisation
 	m_window.verticalSync(true);
