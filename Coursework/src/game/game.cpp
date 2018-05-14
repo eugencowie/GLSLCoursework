@@ -7,15 +7,15 @@ Game::Game() :
 	m_viewport(m_window.size()),              // Create viewport
 	m_camera({-15, 3, 5}, {-5, 3, -5}),       // Create camera
 	m_shaders({
-		make_shared<Program>("res/shaders/colored"),
-		make_shared<Program>("res/shaders/compound/colored-textured"),
-		make_shared<Program>("res/shaders/textured"),
-		make_shared<Program>("res/shaders/compound/textured-lit"),
-		make_shared<Program>("res/shaders/lit"),
-		make_shared<Program>("res/shaders/toon"),
-		make_shared<Program>("res/shaders/compound/textured-toon")
+		make_shared<Program>("res/shaders/colored"),                   // Load colored shader
+		make_shared<Program>("res/shaders/compound/colored+textured"), // Load colored+textured shader
+		make_shared<Program>("res/shaders/textured"),                  // Load textured shader
+		make_shared<Program>("res/shaders/compound/textured+lit"),     // Load textured+lit shader
+		make_shared<Program>("res/shaders/lit"),                       // Load lit shader
+		make_shared<Program>("res/shaders/toon"),                      // Load toon shader
+		make_shared<Program>("res/shaders/compound/textured+toon")     // Load textured+toon shader
 	}),
-	m_currentShader(3),
+	m_currentShader(3), // Set initial shader
 	m_house(make_shared<Model>(m_shaders[3], "res/models/house/house.obj"), {{3.25f, 0, -10}, vec3(0.05f), {{180}}}, m_viewport, m_camera),
 	m_street(make_shared<Model>(m_shaders[3], "res/models/street/street.obj"), {{}, {-0.5f, 0.5f, 0.5f}, {{270}}}, m_viewport, m_camera),
 	m_building1(make_shared<Model>(m_shaders[3], "res/models/buildings/building12.obj"), {{-3.25f, 0, -11}}, m_viewport, m_camera),
