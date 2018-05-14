@@ -7,22 +7,22 @@ Game::Game() :
 	m_viewport(m_window.size()),              // Create viewport
 	m_camera({-15, 3, 5}, {-5, 3, -5}),       // Create camera
 	m_shaders({
-		make_shared<Program>("res/shaders/colored"),                   // Load colored shader
-		make_shared<Program>("res/shaders/compound/colored+textured"), // Load colored+textured shader
-		make_shared<Program>("res/shaders/textured"),                  // Load textured shader
-		make_shared<Program>("res/shaders/compound/textured+lit"),     // Load textured+lit shader
-		make_shared<Program>("res/shaders/lit"),                       // Load lit shader
-		make_shared<Program>("res/shaders/toon"),                      // Load toon shader
-		make_shared<Program>("res/shaders/compound/textured+toon")     // Load textured+toon shader
+		make_shared<Program>("res/shaders/compound/textured+lit"),     // Load textured+lit shader 0-3
+		make_shared<Program>("res/shaders/compound/textured+toon"),    // Load textured+toon shader 1-6
+		make_shared<Program>("res/shaders/toon"),                      // Load toon shader 2-5
+		make_shared<Program>("res/shaders/lit"),                       // Load lit shader 3-4
+		make_shared<Program>("res/shaders/colored"),                   // Load colored shader 4-0
+		make_shared<Program>("res/shaders/compound/colored+textured"), // Load colored+textured shader 5-1
+		make_shared<Program>("res/shaders/textured")                   // Load textured shader 6-2
 	}),
-	m_currentShader(3), // Set initial shader
-	m_house(make_shared<Model>(m_shaders[3], "res/models/house/house.obj"), {{3.25f, 0, -10}, vec3(0.05f), {{180}}}, m_viewport, m_camera),
-	m_street(make_shared<Model>(m_shaders[3], "res/models/street/street.obj"), {{}, {-0.5f, 0.5f, 0.5f}, {{270}}}, m_viewport, m_camera),
-	m_building1(make_shared<Model>(m_shaders[3], "res/models/buildings/building12.obj"), {{-3.25f, 0, -11}}, m_viewport, m_camera),
-	m_building2(make_shared<Model>(m_shaders[3], "res/models/buildings/building07.obj"), {{-13.25f, 0, -13.25f}}, m_viewport, m_camera),
-	m_building3(make_shared<Model>(m_shaders[3], "res/models/buildings/building03.obj"), {{{22.5f, 0, -9}}, {{22.5f, 0, -27}}}, m_viewport, m_camera),
+	m_currentShader(m_shaders.size()), // Set initial shader number
+	m_house(make_shared<Model>(m_shaders[0], "res/models/house/house.obj"), {{3.25f, 0, -10}, vec3(0.05f), {{180}}}, m_viewport, m_camera),
+	m_street(make_shared<Model>(m_shaders[0], "res/models/street/street.obj"), {{}, {-0.5f, 0.5f, 0.5f}, {{270}}}, m_viewport, m_camera),
+	m_building1(make_shared<Model>(m_shaders[0], "res/models/buildings/building12.obj"), {{-3.25f, 0, -11}}, m_viewport, m_camera),
+	m_building2(make_shared<Model>(m_shaders[0], "res/models/buildings/building07.obj"), {{-13.25f, 0, -13.25f}}, m_viewport, m_camera),
+	m_building3(make_shared<Model>(m_shaders[0], "res/models/buildings/building03.obj"), {{{22.5f, 0, -9}}, {{22.5f, 0, -27}}}, m_viewport, m_camera),
 	m_moonLight({0, -1, 0}, vec3(0), {0, 0, 0.2f}),
-	m_lampModel(make_shared<Model>(m_shaders[3], "res/models/lamp/lamp.obj")),
+	m_lampModel(make_shared<Model>(m_shaders[0], "res/models/lamp/lamp.obj")),
 	m_streetlights({
 		{m_lampModel, {{ 4.5f, 0, -4.25f}, {1, 2, 1}, {{90}}}, m_viewport, m_camera},
 		{m_lampModel, {{-1.5f, 0, -4.25f}, {1, 2, 1}, {{90}}}, m_viewport, m_camera},
@@ -30,7 +30,7 @@ Game::Game() :
 		{m_lampModel, {{-13.f, 0, -4.25f}, {1, 2, 1}, {{90}}}, m_viewport, m_camera},
 		{m_lampModel, {{ 10.f, 0, -6.25f}, {1, 2, 1}, {{180}}}, m_viewport, m_camera, {0.05f, 5.75f, 0}}
 	}),
-	m_policeCar(make_shared<Model>(m_shaders[3], "res/models/policecar/policecar.obj"), {{-20.f, 0.05f, -2}, vec3(0.0015f)}, m_viewport, m_camera)
+	m_policeCar(make_shared<Model>(m_shaders[0], "res/models/policecar/policecar.obj"), {{-20.f, 0.05f, -2}, vec3(0.0015f)}, m_viewport, m_camera)
 {
 	// Enable vertical synchronisation
 	m_window.verticalSync(true);
@@ -47,7 +47,7 @@ Game::Game() :
 	}
 
 	// Set initial shader mix
-	mixShaders(5);
+	mixShaders();
 
 	// Add street lights
 	for (Streetlight& light : m_streetlights)
@@ -106,18 +106,8 @@ void Game::update(int elapsedTime)
 	if (m_input.keyJustReleased(SDLK_SPACE) ||
 		m_input.keyJustReleased(SDLK_RETURN))
 	{
-		applyShader(m_currentShader + 1);
+		nextShader();
 	}
-
-	if (m_input.keyJustReleased(SDLK_1)) mixShaders(5);
-
-	if (m_input.keyJustReleased(SDLK_2)) applyShader(0);
-	if (m_input.keyJustReleased(SDLK_3)) applyShader(1);
-	if (m_input.keyJustReleased(SDLK_4)) applyShader(2);
-	if (m_input.keyJustReleased(SDLK_5)) applyShader(3);
-	if (m_input.keyJustReleased(SDLK_6)) applyShader(4);
-	if (m_input.keyJustReleased(SDLK_7)) applyShader(5);
-	if (m_input.keyJustReleased(SDLK_8)) applyShader(6);
 
 	// Update police car
 	m_policeCar.update(elapsedTime);
@@ -154,51 +144,60 @@ void Game::render(int elapsedTime)
 	m_window.swapBuffers();
 }
 
-void Game::setShader(int shaderNbr)
+void Game::nextShader()
 {
-	m_currentShader = shaderNbr;
+	// Increase current shader number
+	m_currentShader += 1;
 
-	while (m_currentShader >= m_shaders.size())
-		m_currentShader -= (int)m_shaders.size();
+	// Mix shaders if we have reached the end of the list
+	// Return to beginning of list if we have gone past the end
+	// Otherwise just apply the new shader
+	if      (m_currentShader == m_shaders.size()) mixShaders();
+	else if (m_currentShader >= m_shaders.size()) applyShader(m_currentShader = 0);
+	else                                          applyShader(m_currentShader);
 }
 
 void Game::applyShader(int shaderNbr)
 {
-	setShader(shaderNbr);
-
-	m_house.model->shader(m_shaders[m_currentShader]);
-	m_street.model->shader(m_shaders[m_currentShader]);
-	m_policeCar.model->shader(m_shaders[m_currentShader]);
-	m_building1.model->shader(m_shaders[m_currentShader]);
-	m_building2.model->shader(m_shaders[m_currentShader]);
-	m_building3.model->shader(m_shaders[m_currentShader]);
-
+	m_house.model->shader(m_shaders[shaderNbr]);
+	m_street.model->shader(m_shaders[shaderNbr]);
+	m_policeCar.model->shader(m_shaders[shaderNbr]);
+	m_building1.model->shader(m_shaders[shaderNbr]);
+	m_building2.model->shader(m_shaders[shaderNbr]);
+	m_building3.model->shader(m_shaders[shaderNbr]);
 	for (Streetlight& light : m_streetlights)
-		light.model->shader(m_shaders[m_currentShader]);
+		light.model->shader(m_shaders[shaderNbr]);
 }
 
-void Game::mixShaders(int startNbr)
+void Game::mixShaders()
 {
-	setShader(startNbr);
-
-	m_house.model->shader(m_shaders[m_currentShader]);
-	setShader(m_currentShader + 1);
-
-	m_street.model->shader(m_shaders[m_currentShader]);
-	setShader(m_currentShader + 1);
-
-	m_policeCar.model->shader(m_shaders[m_currentShader]);
-	setShader(m_currentShader + 1);
-
-	m_building1.model->shader(m_shaders[m_currentShader]);
-	setShader(m_currentShader + 1);
-
-	m_building2.model->shader(m_shaders[m_currentShader]);
-	setShader(m_currentShader + 1);
-
+	setShader(0);
 	m_building3.model->shader(m_shaders[m_currentShader]);
-	setShader(m_currentShader + 1);
 
+	setShader(m_currentShader + 1);
+	m_street.model->shader(m_shaders[m_currentShader]);
+
+	setShader(m_currentShader + 1);
+	m_house.model->shader(m_shaders[m_currentShader]);
+
+	setShader(m_currentShader + 1);
 	for (Streetlight& light : m_streetlights)
 		light.model->shader(m_shaders[m_currentShader]);
+
+	setShader(m_currentShader + 1);
+	m_policeCar.model->shader(m_shaders[m_currentShader]);
+
+	setShader(m_currentShader + 1);
+	m_building1.model->shader(m_shaders[m_currentShader]);
+
+	setShader(m_currentShader + 1);
+	m_building2.model->shader(m_shaders[m_currentShader]);
+
+	m_currentShader = m_shaders.size();
+}
+
+void Game::setShader(int shaderNbr)
+{
+	m_currentShader = shaderNbr;
+	if (m_currentShader >= m_shaders.size()) m_currentShader = 0;
 }
