@@ -23,6 +23,8 @@ struct GameObject
 	{
 	}
 
+	virtual void update(int elapsedTime) { }
+
 	virtual void draw(const vector<ILight*>& lights)
 	{
 		model->draw(transform.model(), camera.view(), viewport.projection(), lights);
@@ -120,7 +122,7 @@ struct Car : public GameObject
 	{
 	}
 
-	void update(int elapsedTime)
+	virtual void update(int elapsedTime) override
 	{
 		if (turned)
 			transform.move({ 0, 0, -0.005f * elapsedTime });

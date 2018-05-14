@@ -19,7 +19,8 @@ Game::Game() :
 		make_shared<InstancedGameObject>(make_shared<Model>(m_shaders[0], "res/models/buildings/building03.obj"), vector<Transform>{{{22.5f, 0, -9}}, {{22.5f, 0, -27}}}, m_viewport, m_camera),
 		make_shared<GameObject>(make_shared<Model>(m_shaders[0], "res/models/street/street.obj"), Transform{{}, {-0.5f, 0.5f, 0.5f}, {{270}}}, m_viewport, m_camera),
 		make_shared<GameObject>(make_shared<Model>(m_shaders[0], "res/models/house/house.obj"), Transform{{3.25f, 0, -10}, vec3(0.05f), {{180}}}, m_viewport, m_camera),
-		make_shared<Streetlight>(m_lampModel, Transform{{ 4.5f, 0, -4.25f}, {1, 2, 1}, {{90}}}, m_viewport, m_camera)
+		make_shared<Streetlight>(m_lampModel, Transform{{ 4.5f, 0, -4.25f}, {1, 2, 1}, {{90}}}, m_viewport, m_camera),
+		make_shared<Car>(make_shared<Model>(m_shaders[0], "res/models/policecar/policecar.obj"), Transform{{-20.f, 0.05f, -2}, vec3(0.0015f)}, m_viewport, m_camera)
 	}),
 	m_currentShader(m_shaders.size()), // Set initial shader number
 	m_building1(make_shared<Model>(m_shaders[0], "res/models/buildings/building12.obj"), {{-3.25f, 0, -11}}, m_viewport, m_camera),
@@ -31,8 +32,7 @@ Game::Game() :
 		{m_lampModel, {{-7.5f, 0, -4.25f}, {1, 2, 1}, {{90}}}, m_viewport, m_camera},
 		{m_lampModel, {{-13.f, 0, -4.25f}, {1, 2, 1}, {{90}}}, m_viewport, m_camera},
 		{m_lampModel, {{ 10.f, 0, -6.25f}, {1, 2, 1}, {{180}}}, m_viewport, m_camera, {0.05f, 5.75f, 0}}
-	}),
-	m_policeCar(make_shared<Model>(m_shaders[0], "res/models/policecar/policecar.obj"), {{-20.f, 0.05f, -2}, vec3(0.0015f)}, m_viewport, m_camera)
+	})
 {
 	// Enable vertical synchronisation
 	m_window.verticalSync(true);
@@ -63,18 +63,23 @@ Game::Game() :
 		}
 	}
 
-	// Add police car headlights
-	for (Headlight& light : m_policeCar.headlights)
+	// Add car headlights and taillights
+	for (GameObjectPtr object : m_objects)
 	{
-		m_lights.push_back(&light.pointLight);
-		m_lights.push_back(&light.spotLight);
-	}
+		if (auto car = dynamic_pointer_cast<Car>(object))
+		{
+			for (Headlight& light : car->headlights)
+			{
+				m_lights.push_back(&light.pointLight);
+				m_lights.push_back(&light.spotLight);
+			}
 
-	// Add police car taillights
-	for (Taillight& light : m_policeCar.taillights)
-	{
-		m_lights.push_back(&light.pointLight);
-		m_lights.push_back(&light.spotLight);
+			for (Taillight& light : car->taillights)
+			{
+				m_lights.push_back(&light.pointLight);
+				m_lights.push_back(&light.spotLight);
+			}
+		}
 	}
 
 	m_lights.push_back(&m_moonLight);
@@ -121,8 +126,9 @@ void Game::update(int elapsedTime)
 		m_paused = !m_paused;
 	}
 
-	// Update police car
-	m_policeCar.update(elapsedTime);
+	// Update game objects
+	for (GameObjectPtr object : m_objects)
+		object->update(elapsedTime);
 
 	// Update timer
 	m_timer += elapsedTime;
@@ -137,9 +143,6 @@ void Game::render(int elapsedTime)
 {
 	// Clear the back buffer
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-	// Draw the police car model
-	m_policeCar.model->draw(m_policeCar.transform.model(), m_camera.view(), m_viewport.projection(), m_lights);
 
 	// Draw the building model 1
 	m_building1.draw(m_lights);
@@ -174,7 +177,6 @@ void Game::nextShader()
 
 void Game::applyShader(int shaderNbr)
 {
-	m_policeCar.model->shader(m_shaders[shaderNbr]);
 	m_building1.model->shader(m_shaders[shaderNbr]);
 	m_building2.model->shader(m_shaders[shaderNbr]);
 	for (GameObjectPtr object : m_objects)
@@ -191,9 +193,6 @@ void Game::mixShaders()
 		object->model->shader(m_shaders[m_currentShader]);
 		setShader(m_currentShader + 1);
 	}
-	
-	m_policeCar.model->shader(m_shaders[m_currentShader]);
-	setShader(m_currentShader + 1);
 	
 	m_building1.model->shader(m_shaders[m_currentShader]);
 	setShader(m_currentShader + 1);
