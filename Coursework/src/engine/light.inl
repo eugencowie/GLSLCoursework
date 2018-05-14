@@ -1,10 +1,22 @@
 #pragma once
 
+#include "program.inl"
 #include <glm/glm.hpp>
+#include <string>
 
+using namespace std;
 using namespace glm;
 
-struct DirectionalLight
+enum class LightType { DIRECTIONAL, POINT, SPOT };
+
+struct ILight
+{
+	virtual ~ILight() { }
+	virtual LightType type() = 0;
+	virtual void apply(shared_ptr<Program> shader, string name) = 0;
+};
+
+struct DirectionalLight : public ILight
 {
 	vec3 direction;
 	vec3 ambient;
@@ -23,9 +35,22 @@ struct DirectionalLight
 		specular(specular)
 	{
 	}
+
+	virtual LightType type() override
+	{
+		return LightType::DIRECTIONAL;
+	}
+
+	virtual void apply(shared_ptr<Program> shader, string name) override
+	{
+		shader->uniform(name + ".direction", direction);
+		shader->uniform(name + ".ambient",   ambient);
+		shader->uniform(name + ".diffuse",   diffuse);
+		shader->uniform(name + ".specular",  specular);
+	}
 };
 
-struct PointLight
+struct PointLight : public ILight
 {
 	vec3 position;
 	float linear;
@@ -53,9 +78,25 @@ struct PointLight
 		specular(specular)
 	{
 	}
+
+	virtual LightType type() override
+	{
+		return LightType::POINT;
+	}
+
+	virtual void apply(shared_ptr<Program> shader, string name) override
+	{
+		shader->uniform(name + ".position",  position);
+		shader->uniform(name + ".constant",  constant);
+		shader->uniform(name + ".linear",    linear);
+		shader->uniform(name + ".quadratic", quadratic);
+		shader->uniform(name + ".ambient",   ambient);
+		shader->uniform(name + ".diffuse",   diffuse);
+		shader->uniform(name + ".specular",  specular);
+	}
 };
 
-struct SpotLight
+struct SpotLight : public ILight
 {
 	vec3 position;
 	vec3 direction;
@@ -91,5 +132,24 @@ struct SpotLight
 		diffuse(diffuse),
 		specular(specular)
 	{
+	}
+
+	virtual LightType type() override
+	{
+		return LightType::SPOT;
+	}
+
+	virtual void apply(shared_ptr<Program> shader, string name) override
+	{
+		shader->uniform(name + ".position",    position);
+		shader->uniform(name + ".direction",   direction);
+		shader->uniform(name + ".cutOff",      cutOff);
+		shader->uniform(name + ".outerCutOff", outerCutOff);
+		shader->uniform(name + ".constant",    constant);
+		shader->uniform(name + ".linear",      linear);
+		shader->uniform(name + ".quadratic",   quadratic);
+		shader->uniform(name + ".ambient",     ambient);
+		shader->uniform(name + ".diffuse",     diffuse);
+		shader->uniform(name + ".specular",    specular);
 	}
 };
