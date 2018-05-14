@@ -5,9 +5,12 @@
 #include <glad/glad.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <memory>
 
 using namespace std;
 using namespace glm;
+
+typedef shared_ptr<class Program> ProgramPtr;
 
 class Program
 {

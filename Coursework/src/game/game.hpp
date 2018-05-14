@@ -5,10 +5,8 @@
 #include "../engine/viewport.inl"
 #include "../engine/camera.inl"
 #include "../engine/program.inl"
-#include "../engine/model.hpp"
-#include "../engine/transform.inl"
 #include "../engine/light.inl"
-
+#include "../engine/model.hpp"
 #include "game_objects.hpp"
 
 class Game
@@ -20,7 +18,6 @@ public:
 private:
 	void update(int elapsedTime);
 	void render(int elapsedTime);
-
 	void nextShader();
 	void applyShader(int shaderNbr);
 	void mixShaders();
@@ -28,26 +25,24 @@ private:
 
 	Window m_window;
 	Input m_input;
-
 	Viewport m_viewport;
 	Camera m_camera;
 
-	vector<shared_ptr<Program>> m_shaders;
-	int m_currentShader;
+	vector<ProgramPtr> m_shaders;
+	vector<ILight*> m_lights;
 
+	vector<Streetlight> m_streetlights;
+	Car m_policeCar;
 	GameObject m_house;
 	GameObject m_street;
 	GameObject m_building1;
 	GameObject m_building2;
 	InstancedGameObject m_building3;
 
+	int m_currentShader;
+	int m_timer;
+	bool m_paused;
+
 	DirectionalLight m_moonLight;
 	shared_ptr<Model> m_lampModel;
-	vector<Streetlight> m_streetlights;
-
-	Car m_policeCar;
-
-	vector<ILight*> m_lights;
-
-	int m_timer;
 };

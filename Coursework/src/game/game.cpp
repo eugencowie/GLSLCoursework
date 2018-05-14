@@ -7,13 +7,13 @@ Game::Game() :
 	m_viewport(m_window.size()),              // Create viewport
 	m_camera({-15, 3, 5}, {-5, 3, -5}),       // Create camera
 	m_shaders({
-		make_shared<Program>("res/shaders/compound/textured+lit"),     // Load textured+lit shader 0-3
-		make_shared<Program>("res/shaders/compound/textured+toon"),    // Load textured+toon shader 1-6
-		make_shared<Program>("res/shaders/toon"),                      // Load toon shader 2-5
-		make_shared<Program>("res/shaders/lit"),                       // Load lit shader 3-4
-		make_shared<Program>("res/shaders/colored"),                   // Load colored shader 4-0
-		make_shared<Program>("res/shaders/compound/colored+textured"), // Load colored+textured shader 5-1
-		make_shared<Program>("res/shaders/textured")                   // Load textured shader 6-2
+		make_shared<Program>("res/shaders/compound/textured+lit"),     // Load textured+lit shader
+		make_shared<Program>("res/shaders/compound/textured+toon"),    // Load textured+toon shader
+		make_shared<Program>("res/shaders/toon"),                      // Load toon shader
+		make_shared<Program>("res/shaders/lit"),                       // Load lit shader
+		make_shared<Program>("res/shaders/colored"),                   // Load colored shader
+		make_shared<Program>("res/shaders/compound/colored+textured"), // Load colored+textured shader
+		make_shared<Program>("res/shaders/textured")                   // Load textured shader
 	}),
 	m_currentShader(m_shaders.size()), // Set initial shader number
 	m_house(make_shared<Model>(m_shaders[0], "res/models/house/house.obj"), {{3.25f, 0, -10}, vec3(0.05f), {{180}}}, m_viewport, m_camera),
@@ -69,6 +69,8 @@ Game::Game() :
 		m_lights.push_back(&light.pointLight);
 		m_lights.push_back(&light.spotLight);
 	}
+
+	m_lights.push_back(&m_moonLight);
 }
 
 void Game::run()
