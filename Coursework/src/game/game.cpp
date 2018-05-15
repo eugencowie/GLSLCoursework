@@ -62,13 +62,7 @@ Game::Game() :
 	{
 		if (auto car = dynamic_pointer_cast<Car>(object))
 		{
-			for (Headlight& light : car->headlights)
-			{
-				m_lights.push_back(light.pointLight);
-				m_lights.push_back(light.spotLight);
-			}
-
-			for (Taillight& light : car->taillights)
+			for (Carlight& light : car->lights)
 			{
 				m_lights.push_back(light.pointLight);
 				m_lights.push_back(light.spotLight);

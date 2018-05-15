@@ -8,18 +8,18 @@ using namespace glm;
 class Viewport
 {
 public:
-	Viewport(float aspect = 16 / 9.f, float fov = 45, float near = 0.1f, float far = 1000)
-		: m_fov(fov), m_aspect(aspect), m_near(near), m_far(far)
+	Viewport(float aspect = 16 / 9.f, float fov = 45, float nearPlane = 0.1f, float farPlane = 1000)
+		: m_fov(fov), m_aspect(aspect), m_near(nearPlane), m_far(farPlane)
 	{
 	}
 
-	Viewport(int width, int height, float fov = 45, float near = 0.1f, float far = 1000)
-		: Viewport((float)width / height, fov, near, far)
+	Viewport(int width, int height, float fov = 45, float nearPlane = 0.1f, float farPlane = 1000)
+		: Viewport((float)width / height, fov, nearPlane, farPlane)
 	{
 	}
 
-	Viewport(const ivec2& size, float fov = 45, float near = 0.1f, float far = 1000)
-		: Viewport(size.x, size.y, fov, near, far)
+	Viewport(const ivec2& size, float fov = 45, float nearPlane = 0.1f, float farPlane = 1000)
+		: Viewport(size.x, size.y, fov, nearPlane, farPlane)
 	{
 	}
 

@@ -187,6 +187,7 @@
     <ClCompile Include="src\engine\model.cpp" />
     <ClCompile Include="src\engine\window.cpp" />
     <ClCompile Include="src\game\game.cpp" />
+    <ClCompile Include="src\game\game_objects.cpp" />
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
