@@ -89,6 +89,7 @@ struct Carlight
 
 	void update()
 	{
+		// Update the light positions relative to their parent positions
 		pointLight->position = parent->transform.position() + pointLightOffset;
 		spotLight->position = parent->transform.position() + spotLightOffset;
 	}
