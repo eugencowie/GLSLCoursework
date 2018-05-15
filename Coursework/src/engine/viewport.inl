@@ -25,7 +25,7 @@ public:
 
 	mat4 projection() const
 	{
-		// Create projeciton matrix
+		// Create projection matrix
 		return perspective(radians(m_fov), m_aspect, m_near, m_far);
 	}
 

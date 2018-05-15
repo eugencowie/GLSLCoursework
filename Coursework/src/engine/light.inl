@@ -43,11 +43,13 @@ struct DirectionalLight : public ILight
 
 	virtual LightType type() override
 	{
+		// Return light type
 		return LightType::DIRECTIONAL;
 	}
 
 	virtual void apply(ProgramPtr shader, string name) override
 	{
+		// Set the light-specific uniforms in the shader
 		shader->uniform(name + ".direction", direction);
 		shader->uniform(name + ".ambient",   ambient);
 		shader->uniform(name + ".diffuse",   diffuse);
@@ -88,11 +90,13 @@ struct PointLight : public ILight
 
 	virtual LightType type() override
 	{
+		// Return light type
 		return LightType::POINT;
 	}
 
 	virtual void apply(ProgramPtr shader, string name) override
 	{
+		// Set the light-specific uniforms in the shader
 		shader->uniform(name + ".position",  position);
 		shader->uniform(name + ".constant",  constant);
 		shader->uniform(name + ".linear",    linear);
@@ -145,11 +149,13 @@ struct SpotLight : public ILight
 
 	virtual LightType type() override
 	{
+		// Return light type
 		return LightType::SPOT;
 	}
 
 	virtual void apply(ProgramPtr shader, string name) override
 	{
+		// Set the light-specific uniforms in the shader
 		shader->uniform(name + ".position",    position);
 		shader->uniform(name + ".direction",   direction);
 		shader->uniform(name + ".cutOff",      cutOff);

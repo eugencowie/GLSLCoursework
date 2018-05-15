@@ -24,41 +24,49 @@ public:
 
 	mat4 model() const
 	{
+		// Create model matrix
 		mat4 model = {};
 
+		// Apply translation to model matrix
 		model = translate(model, m_position);
 
+		// Apply all rotations to model matrix
 		for (Rotation rot : m_rotations)
 			model = rotate(model, radians(rot.angle), rot.axis);
 
+		// Apply scaling to model matrix
 		model = scale(model, m_scale);
 
+		// Return model matrix
 		return model;
 	}
 
 	vec3 position() const
 	{
+		// Return position
 		return m_position;
 	}
 
 	void position(vec3 newPosition)
 	{
+		// Set position
 		m_position = newPosition;
 	}
 
 	void move(vec3 offset)
 	{
+		// Update position
 		m_position += offset;
 	}
 
 	void rotations(const vector<Rotation>& rotations)
 	{
+		// Set list of rotations
 		m_rotations = rotations;
 	}
 
 private:
 	vec3 m_position;
-	vec3 m_scale;
-
 	vector<Rotation> m_rotations;
+	vec3 m_scale;
 };

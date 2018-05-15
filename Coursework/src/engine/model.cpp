@@ -5,24 +5,34 @@
 
 Model::Model(ProgramPtr shader, const string& path, bool flipUVs)
 {
+	// Get base directory from file path
 	string baseDir = path.substr(0, path.find_last_of('/')) + '/';
 
+	// Create variables to store result of LoadObj
 	attrib_t attrib;
 	vector<shape_t> shapes;
 	vector<material_t> materials;
 	string err;
 
+	// Attempt to load the OBJ model
 	bool obj = LoadObj(&attrib, &shapes, &materials, &err, path.c_str(), baseDir.c_str());
 	if (!obj) util::panic("Failed to load model: " + path, err);
 
 	for (const shape_t& shape : shapes)
 	{
+		// Create vector to store raw OBJ indices
 		vector<size_t> indexArray;
 
+		// Extract vertices and raw OBJ indices
 		vector<Vertex> vertices = extractVertices(attrib, shape.mesh.indices, &indexArray);
+
+		// Transform raw OBJ indices to OpenGL indices
 		vector<uvec3> indices = transformIndices(indexArray);
+
+		// Extract material information
 		vector<Material> mats = extractMaterials(materials, shape.mesh.material_ids, baseDir, flipUVs);
 
+		// Add mesh
 		m_meshes.push_back(make_shared<Mesh>(shader, vertices, indices, mats));
 	}
 }
@@ -31,7 +41,9 @@ void Model::draw(const mat4& model, const mat4& view, const mat4& projection, co
 {
 	// Draw all meshes
 	for (shared_ptr<Mesh>& mesh : m_meshes)
+	{
 		mesh->draw(model, view, projection, lights);
+	}
 }
 
 vector<Vertex> Model::extractVertices(const attrib_t& attrib, const vector<index_t>& attribIds, vector<size_t>* indices)

@@ -58,11 +58,13 @@ void Mesh::draw(const mat4& model, const mat4& view, const mat4& projection, con
 	// Use the associated materials
 	for (unsigned int i = 0; i < m_materials.size(); i++)
 	{
+		// Generate material name
 		string name = "material";
 		if (i > 0) name += to_string(i);
 
 		if (m_materials[i].diffuse != nullptr)
 		{
+			// Activate and bind diffuse texture
 			glActiveTexture(GL_TEXTURE0 + textureCount);
 			m_materials[i].diffuse->bind(GL_TEXTURE_2D);
 			m_shader->uniform(name + ".diffuse", textureCount);
@@ -74,6 +76,7 @@ void Mesh::draw(const mat4& model, const mat4& view, const mat4& projection, con
 
 		if (m_materials[i].specular != nullptr)
 		{
+			// Activate and bind specular texture
 			glActiveTexture(GL_TEXTURE0 + textureCount);
 			m_materials[i].diffuse->bind(GL_TEXTURE_2D);
 			m_shader->uniform(name + ".specular", textureCount);
@@ -83,9 +86,11 @@ void Mesh::draw(const mat4& model, const mat4& view, const mat4& projection, con
 #endif
 		}
 
+		// Pass material shininess parameter
 		m_shader->uniform(name + ".shininess", m_materials[i].shininess);
 	}
 
+	// Apply the specified lights
 	int directionalLights = 0, pointLights = 0, spotLights = 0;
 	for (ILightPtr light : lights)
 	{

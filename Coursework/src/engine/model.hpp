@@ -20,6 +20,7 @@ public:
 
 	void shader(ProgramPtr shader)
 	{
+		// Set all mesh shaders
 		for (auto& mesh : m_meshes)
 			mesh->shader(shader);
 	}

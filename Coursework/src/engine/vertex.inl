@@ -16,6 +16,7 @@ struct Vertex
 
 	bool operator==(const Vertex& other) const
 	{
+		// Check if all properties are equal
 		return position == other.position
 			&& normal == other.normal
 			&& color == other.color
@@ -23,7 +24,8 @@ struct Vertex
 	}
 };
 
-// https://stackoverflow.com/a/2595226
+// Implement boost::hash_combine in order implement std::hash<Vertex>
+// Based on https://stackoverflow.com/a/2595226
 namespace boost
 {
 	template <class T>
@@ -34,7 +36,8 @@ namespace boost
 	}
 }
 
-// https://vulkan-tutorial.com/Loading_models
+// Implement std::hash<Vertex> in order to use std::unordered_map
+// Based on https://vulkan-tutorial.com/Loading_models
 namespace std
 {
 	template<> struct hash<Vertex>

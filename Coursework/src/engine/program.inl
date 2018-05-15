@@ -59,14 +59,20 @@ public:
 	template <typename... Args>
 	void attach(const Shader& first, const Args&... args)
 	{
+		// Attach first shader
 		attach(first);
+
+		// Recursively attach remaining shaders
 		attach(args...);
 	}
 
 	template <typename... Args>
 	void detach(const Shader& first, const Args&... args)
 	{
+		// Detach first shader
 		detach(first);
+
+		// Recursively detach remaining shaders
 		detach(args...);
 	}
 

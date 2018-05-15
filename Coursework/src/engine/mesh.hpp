@@ -29,6 +29,7 @@ public:
 
 	void shader(ProgramPtr shader)
 	{
+		// Set mesh shader
 		m_shader = shader;
 	}
 
