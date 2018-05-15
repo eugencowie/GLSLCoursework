@@ -220,7 +220,7 @@ void Game::prevShader()
 	// Otherwise apply the shader
 	else
 	{
-		applyShader(m_currentShader - 1);
+		applyShader(m_currentShader);
 	}
 }
 
